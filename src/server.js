@@ -13,10 +13,27 @@ const PORT = 5000
 httpServer.listen(PORT)
 
 let count = 0
+let pop = 0
+
+io.on("disconnection", socket => {
+    console.log(`socket id ${socket.id} disconnected`)
+})
 
 io.on("connection", socket => {
 
     console.log(`user connected with id: ${socket.id}`)
+
+    pop += 1
+    io.sockets.emit("newPop", {
+        newPop: pop
+    })
+
+    socket.once("disconnect", () => {
+        pop -= 1
+        io.sockets.emit("newPop", {
+            newPop: pop
+        })
+    })
 
     socket.on("requestCount", () => {
         console.log(`socket id: ${socket.id} requested count`)
@@ -25,10 +42,17 @@ io.on("connection", socket => {
         })
     })
 
+    socket.on("changePop", (data) => {
+        pop += data.change
+        io.sockets.emit("newPop", {
+            newPop: pop
+        })
+    })
+
     socket.on("increaseCount", () => {
         console.log(`socket id: ${socket.id} requested the count be increased`)
         count += 1
-        io.fetchSockets.emit("newCount", {
+        io.sockets.emit("newCount", {
             newCount: count
         })
     })
