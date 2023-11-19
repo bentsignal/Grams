@@ -2,6 +2,8 @@ const express = require("express")
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 
+const { game, addPlayer } = require("./game")
+
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
