@@ -1,0 +1,12 @@
+{
+    "name": "grams-server",
+    "version": "1.0.0",
+    "private": "true",
+    "dependencies": {
+        "socket.io": "^4.7.2"
+    },
+    "scripts": {
+        "start": "node server.js"
+    },
+    "author": "Shawn Rodgers"
+}
