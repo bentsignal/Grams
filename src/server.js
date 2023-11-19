@@ -12,13 +12,34 @@ const PORT = 5000
 
 httpServer.listen(PORT)
 
+let count = 0
+
 io.on("connection", socket => {
-    console.log(socket.id)
+
+    console.log(`user connected with id: ${socket.id}`)
+
+    socket.on("requestCount", () => {
+        console.log(`socket id: ${socket.id} requested count`)
+        socket.emit("returnCount", {
+            count: count
+        })
+    })
+
+    socket.on("increaseCount", () => {
+        console.log(`socket id: ${socket.id} requested the count be increased`)
+        count += 1
+        io.fetchSockets.emit("newCount", {
+            newCount: count
+        })
+    })
+
+    socket.on("resetCount", () => {
+        console.log(`socket id: ${socket.id} requested the count be reset`)
+        count = 0
+        io.sockets.emit("newCount", {
+            newCount: count
+        })
+    })
+
 })
 
-io.on("press", (message) => {
-    console.log(`New message from client: ${message}`)
-    socket.emit("press_received", {
-        message: "This is the server, your button press was received"
-    })
-})
