@@ -47,7 +47,7 @@ socket.on("connect", () => {
 
 socket.on("playersSent", (data) => {
     const players = data.game.players
-    print(players)
+    console.log(players)
     players.forEach((player) => {
         playerList.innerHTML += `
         <div id="player-${player.name}" class="player">

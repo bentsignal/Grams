@@ -82,7 +82,21 @@ main {
     padding: 20px;
 }
 
-#name-input {
+#name-input, #chat-input {
     width: 300px;
     height: 30px;
+}
+
+#chat-container {
+    background-color: purple;
+    padding: 10px;
+    margin: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 100px;
+}
+
+#chat-wrapper {
+    height: 300px;
+    overflow-y: scroll;
 }
