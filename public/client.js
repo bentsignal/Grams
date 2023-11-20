@@ -19,7 +19,9 @@ join.addEventListener("click", () => {
 })
 
 leave.addEventListener("click", () => {
-    socket.emit("leave")
+    socket.emit("leave", {
+        name: nameField.value
+    })
     join.disabled = false
     leave.disabled = true
 })
@@ -54,12 +56,22 @@ sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     const sender = data.sender
     const message = data.message
-    chat.innerHTML += `
-        <p>
-            <span class="chat">${sender}: </span>
-            <span class="chat-message">${message}</span>
-        </p>
-    `
+    if (sender == "Server") {
+        chat.innerHTML += `
+            <p>
+                <span class="server-message ${data.type}">${message}</span>
+            </p>
+        `
+    }
+    else {
+        chat.innerHTML += `
+            <p>
+                <span class="chat">${sender}: </span>
+                <span class="chat-message">${message}</span>
+            </p>
+        `
+    }
+
 })
 
 socket.on("newPlayer", (data) => {

@@ -51,6 +51,11 @@ io.on("connection", socket => {
         io.sockets.emit("newPlayer", {
             newPlayer: newPlayer
         })
+        io.sockets.emit("newMessage", {
+            sender: "Server",
+            type: "join",
+            message: `${data.name} has joined the game.`
+        })
         console.log(`accepted user ${data.name} with socket id: ${socket.id}`)
     })
 
@@ -67,7 +72,7 @@ io.on("connection", socket => {
         })
     })
 
-    socket.on("leave", () => {
+    socket.on("leave", (data) => {
         let updatedPlayers = []
         game.players.forEach((player) => {
             if (player.id != socket.id) {
@@ -77,6 +82,11 @@ io.on("connection", socket => {
         game.players = updatedPlayers
         socket.emit("playersSent", {
             game: game
+        })
+        io.sockets.emit("newMessage", {
+            sender: "Server",
+            type: "leave",
+            message: `${data.name} has left the game.`
         })
     })
 

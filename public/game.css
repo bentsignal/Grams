@@ -102,3 +102,11 @@ main {
     overflow-y: scroll;
     overflow-x:visible;
 }
+
+.leave {
+    color: red;
+}
+
+.join {
+    color: green;
+}
