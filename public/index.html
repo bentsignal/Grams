@@ -6,13 +6,59 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="game.css">
     <title>Grams</title>
 </head>
 <body>
-    <button id="increase">Increase Count</button>
-    <button id="reset">Reset Count</button>
-    <p>Count: <span id="count">0</span></p>
-    <p id="pop-label">Population: <span id="pop">1</span></p>
+    <main>
+        <div id="user-game-info-container">
+            <div id="user-game-info-wrapper">
+                <div id="pfp">
+                    pfp
+                </div>
+                <div id="game-info">
+                    <p>Words: 0</p>
+                    <p>Score: 0</p>
+                </div>
+            </div>
+        </div>
+        <div id="word-list-container">
+            <div id="word-list-wrapper">
+                <ul id="word-list">
+                    <li class="submitted-word">Hello</li>
+                    <li class="submitted-word">Botch</li>
+                </ul>
+            </div>
+        </div>
+        <div id="letters-used-container">
+            <div id="letters-used-wrapper">
+                <div id="letter-used-1" class="letter-used">f</div>
+                <div id="letter-used-2" class="letter-used">a</div>
+                <div id="letter-used-3" class="letter-used">r</div>
+                <div id="letter-used-4" class="letter-used">t</div>
+                <div id="letter-used-5" class="letter-used">e</div>
+                <div id="letter-used-6" class="letter-used">r</div>
+            </div>
+        </div>
+        <div id="letters-available-container">
+            <div id="letters-available-wrapper">
+                <div id="letters-available-1" class="letters-available">a</div>
+                <div id="letters-available-2" class="letters-available">r</div>
+                <div id="letters-available-3" class="letters-available">f</div>
+                <div id="letters-available-4" class="letters-available">t</div>
+                <div id="letters-available-5" class="letters-available">r</div>
+                <div id="letters-available-6" class="letters-available">e</div>
+            </div>
+        </div>
+    </main>
+    <div id="player-list-container">
+        <div id="player-list-wrapper">
+            <ul id="player-list">
+                 
+            </ul>
+        </div>
+    </div>
     <script type= "module" src="/client.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </body>
