@@ -2,6 +2,9 @@ const join = document.getElementById("join")
 const leave = document.getElementById("leave")
 const nameField = document.getElementById("name-input")
 const playerList = document.getElementById("player-list-wrapper")
+const chatInput = document.getElementById("chat-input")
+const sendChat = document.getElementById("send-chat")
+const chat = document.getElementById("chat")
 
 let socket = io("http://localhost:5000")
 
@@ -15,6 +18,30 @@ leave.addEventListener("click", () => {
     socket.emit("leave")
     join.disabled = false
     leave.disabled = true
+})
+
+sendChat.addEventListener("click", () => {
+    socket.emit("chatSent", {
+        sender: nameField.value,
+        message: chatInput.value
+    })
+    chat.innerHTML += `
+        <p>
+            <span class="my-message">${nameField.value}: </span>
+            <span class="chat-message">${chatInput.value}</span>
+        </p>
+    `
+})
+
+socket.on("newMessage", (data) => {
+    const sender = data.sender
+    const message = data.message
+    chat.innerHTML += `
+        <p>
+            <span class="chat">${sender}: </span>
+            <span class="chat-message">${message}</span>
+        </p>
+    `
 })
 
 socket.on("newPlayer", (data) => {
@@ -47,8 +74,8 @@ socket.on("connect", () => {
 
 socket.on("playersSent", (data) => {
     const players = data.game.players
-    console.log(players)
     players.forEach((player) => {
+        playerList.innerHTML = ""
         playerList.innerHTML += `
         <div id="player-${player.name}" class="player">
             <div class="player-pfp">

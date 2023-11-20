@@ -41,7 +41,7 @@ io.on("connection", socket => {
         let newPlayer = {
             name: data.name,
             id: data.id,
-            score: 0,
+            score: 100,
             wins: 0,
             losses: 0,
             words: {}
@@ -55,6 +55,26 @@ io.on("connection", socket => {
     })
 
     socket.on("requestPlayers", () => {
+        socket.emit("playersSent", {
+            game: game
+        })
+    })
+
+    socket.on("chatSent", (data) => {
+        socket.broadcast.emit("newMessage", {
+            sender: data.sender,
+            message: data.message
+        })
+    })
+
+    socket.on("leave", () => {
+        let updatedPlayers = []
+        game.players.forEach((player) => {
+            if (player.id != socket.id) {
+                updatedPlayers.push(player)
+            }
+        })
+        game.players = updatedPlayers
         socket.emit("playersSent", {
             game: game
         })
