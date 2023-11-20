@@ -33,3 +33,56 @@ main {
 #letters-available-container {
     background-color: purple;
 }
+
+#player-list-container {
+    background-color: green;
+    width: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.player {
+    background-color: blue;
+    padding: 10px;
+    margin: 5px;
+}
+
+#shuffle-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+#shuffle-wrapper {
+    padding: 20px;
+}
+
+#shuffle-button {
+    padding: 10px;
+    background-color: green;
+}
+
+#keybinds-container {
+    position: fixed; 
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
+
+#keybinds-wrapper {
+    background-color: green;
+    padding: 5px;
+}
+
+#connection-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+}
+
+#name-input {
+    width: 300px;
+    height: 30px;
+}
