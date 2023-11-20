@@ -8,10 +8,14 @@ const chat = document.getElementById("chat")
 
 let socket = io("http://localhost:5000")
 
-join.addEventListener("click", () => {
+const joinGame = () => {
     socket.emit("requestJoin", {
         name: nameField.value
     })
+}
+
+join.addEventListener("click", () => {
+    joinGame()
 })
 
 leave.addEventListener("click", () => {
@@ -20,7 +24,7 @@ leave.addEventListener("click", () => {
     leave.disabled = true
 })
 
-sendChat.addEventListener("click", () => {
+const sendMessage = () => {
     socket.emit("chatSent", {
         sender: nameField.value,
         message: chatInput.value
@@ -31,7 +35,21 @@ sendChat.addEventListener("click", () => {
             <span class="chat-message">${chatInput.value}</span>
         </p>
     `
+    chatInput.value = ""
+}
+
+document.addEventListener("keydown", (evt) => {
+    if (evt.keyCode == 13) {
+        if (chatInput == document.activeElement) {
+            sendMessage()
+        }
+        else if (nameField == document.activeElement) {
+            joinGame()
+        }
+    }
 })
+
+sendChat.addEventListener("click", sendMessage)
 
 socket.on("newMessage", (data) => {
     const sender = data.sender
