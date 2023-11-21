@@ -40,7 +40,7 @@ io.on("connection", socket => {
     socket.on("requestJoin", (data) => {
         let newPlayer = {
             name: data.name,
-            id: data.id,
+            id: socket.id,
             score: 100,
             wins: 0,
             losses: 0,
@@ -48,8 +48,8 @@ io.on("connection", socket => {
         }
         game.players.push(newPlayer)
         socket.emit("joinAccepted")
-        io.sockets.emit("newPlayer", {
-            newPlayer: newPlayer
+        io.sockets.emit("updatePlayers", {
+            game: game
         })
         io.sockets.emit("newMessage", {
             sender: "Server",
@@ -60,7 +60,7 @@ io.on("connection", socket => {
     })
 
     socket.on("requestPlayers", () => {
-        socket.emit("playersSent", {
+        socket.emit("updatePlayers", {
             game: game
         })
     })
@@ -80,7 +80,7 @@ io.on("connection", socket => {
             }
         })
         game.players = updatedPlayers
-        io.sockets.emit("playersSent", {
+        io.sockets.emit("updatePlayers", {
             game: game
         })
         io.sockets.emit("newMessage", {
@@ -91,7 +91,11 @@ io.on("connection", socket => {
     }
 
     socket.on("disconnect", () => {
-        playerLeft("DISCONNECT")
+        game.players.forEach((player) => {
+            if (player.id == socket.id) {
+                playerLeft(player.name)
+            }
+        })
     })
 
     socket.on("leave", (data) => {

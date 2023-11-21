@@ -94,6 +94,7 @@ socket.on("newMessage", (data) => {
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
+/*
 socket.on("newPlayer", (data) => {
     console.log(`new player joined with name: ${data.newPlayer.name}`)
     playerList.innerHTML += `
@@ -110,6 +111,7 @@ socket.on("newPlayer", (data) => {
     </div>
     `
 })
+*/
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
@@ -123,10 +125,10 @@ socket.on("connect", () => {
     socket.emit("requestPlayers")
 })
 
-socket.on("playersSent", (data) => {
+socket.on("updatePlayers", (data) => {
     const players = data.game.players
+    playerList.innerHTML = ""
     players.forEach((player) => {
-        playerList.innerHTML = ""
         playerList.innerHTML += `
         <div id="player-${player.name}" class="player">
             <div class="player-pfp">
