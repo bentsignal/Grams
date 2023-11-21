@@ -41,7 +41,7 @@ io.on("connection", socket => {
         let newPlayer = {
             name: data.name,
             id: socket.id,
-            score: 100,
+            score: 0,
             wins: 0,
             losses: 0,
             words: {}

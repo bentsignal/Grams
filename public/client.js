@@ -10,7 +10,6 @@ const chatWrapper = document.getElementById("chat-wrapper")
 let socket = io("http://localhost:5000")
 
 let inGame = false
-
 let messageCount = 0
 
 let isAlphanumeric = (str) => {
