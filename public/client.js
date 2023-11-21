@@ -36,6 +36,7 @@ leave.addEventListener("click", () => {
     })
     join.disabled = false
     leave.disabled = true
+    inGame = false
 })
 
 const sendMessage = () => {
