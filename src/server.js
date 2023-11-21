@@ -72,7 +72,7 @@ io.on("connection", socket => {
         })
     })
 
-    socket.on("leave", (data) => {
+    let playerLeft = (name) => {
         let updatedPlayers = []
         game.players.forEach((player) => {
             if (player.id != socket.id) {
@@ -80,14 +80,23 @@ io.on("connection", socket => {
             }
         })
         game.players = updatedPlayers
-        socket.emit("playersSent", {
+        io.sockets.emit("playersSent", {
             game: game
         })
         io.sockets.emit("newMessage", {
             sender: "Server",
             type: "leave",
-            message: `${data.name} has left the game.`
+            message: `${name} has left the game.`
         })
+    }
+
+    socket.on("disconnect", () => {
+        playerLeft("DISCONNECT")
+    })
+
+    socket.on("leave", (data) => {
+        playerLeft(data.name)
+        
     })
 
 })
