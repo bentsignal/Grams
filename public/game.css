@@ -97,6 +97,10 @@ main {
 }
 
 #chat-wrapper {
+    
+}
+
+#chat {
     height: 300px;
     width: 400px;
     overflow-y: scroll;

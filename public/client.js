@@ -5,10 +5,13 @@ const playerList = document.getElementById("player-list-wrapper")
 const chatInput = document.getElementById("chat-input")
 const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
+const chatWrapper = document.getElementById("chat-wrapper")
 
 let socket = io("http://localhost:5000")
 
 let inGame = false
+
+let messageCount = 0
 
 let isAlphanumeric = (str) => {
     return /^[a-zA-Z0-9]+$/.test(str)
@@ -38,18 +41,20 @@ leave.addEventListener("click", () => {
 const sendMessage = () => {
     const name = nameField.value
     const message = chatInput.value
+    messageCount += 1
     if (message.length > 0) {
         socket.emit("chatSent", {
             sender: name,
             message: message
         })
         chat.innerHTML += `
-            <p>
+            <p id="message-${messageCount}">
                 <span class="my-message">${name}: </span>
                 <span class="chat-message">${message}</span>
             </p>
         `
         chatInput.value = ""
+        document.getElementById(`message-${messageCount}`).scrollIntoView()
     } 
 }
 
@@ -69,22 +74,23 @@ sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     const sender = data.sender
     const message = data.message
+    messageCount += 1
     if (sender == "Server") {
         chat.innerHTML += `
-            <p>
+            <p id="message-${messageCount}">
                 <span class="server-message ${data.type}">${message}</span>
             </p>
         `
     }
     else {
         chat.innerHTML += `
-            <p>
+            <p id="message-${messageCount}">
                 <span class="chat">${sender}: </span>
                 <span class="chat-message">${message}</span>
             </p>
         `
     }
-
+    document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
 socket.on("newPlayer", (data) => {
