@@ -8,10 +8,19 @@ const chat = document.getElementById("chat")
 
 let socket = io("http://localhost:5000")
 
+let inGame = false
+
+let isAlphanumeric = (str) => {
+    return /^[a-zA-Z0-9]+$/.test(str)
+}
+
 const joinGame = () => {
-    socket.emit("requestJoin", {
-        name: nameField.value
-    })
+    const name = nameField.value
+    if (name.length > 0 && isAlphanumeric(name) && !inGame) {
+        socket.emit("requestJoin", {
+            name: nameField.value
+        })
+    }
 }
 
 join.addEventListener("click", () => {
@@ -27,17 +36,21 @@ leave.addEventListener("click", () => {
 })
 
 const sendMessage = () => {
-    socket.emit("chatSent", {
-        sender: nameField.value,
-        message: chatInput.value
-    })
-    chat.innerHTML += `
-        <p>
-            <span class="my-message">${nameField.value}: </span>
-            <span class="chat-message">${chatInput.value}</span>
-        </p>
-    `
-    chatInput.value = ""
+    const name = nameField.value
+    const message = chatInput.value
+    if (message.length > 0) {
+        socket.emit("chatSent", {
+            sender: name,
+            message: message
+        })
+        chat.innerHTML += `
+            <p>
+                <span class="my-message">${name}: </span>
+                <span class="chat-message">${message}</span>
+            </p>
+        `
+        chatInput.value = ""
+    } 
 }
 
 document.addEventListener("keydown", (evt) => {
@@ -93,6 +106,7 @@ socket.on("newPlayer", (data) => {
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
+    inGame = true
     join.disabled = true
     leave.disabled = false
 })

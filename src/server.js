@@ -96,7 +96,6 @@ io.on("connection", socket => {
 
     socket.on("leave", (data) => {
         playerLeft(data.name)
-        
     })
 
 })
