@@ -36,6 +36,7 @@ leave.addEventListener("click", () => {
     })
     join.disabled = false
     leave.disabled = true
+    nameField.disabled = false
     inGame = false
 })
 
@@ -94,30 +95,12 @@ socket.on("newMessage", (data) => {
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
-/*
-socket.on("newPlayer", (data) => {
-    console.log(`new player joined with name: ${data.newPlayer.name}`)
-    playerList.innerHTML += `
-    <div id="player-${data.name}" class="player">
-        <div class="player-pfp">
-            pfp
-        </div>
-        <div class="player-name">
-            ${data.newPlayer.name}
-        </div>
-        <div class="player-score">
-            ${data.newPlayer.score}
-        </div>
-    </div>
-    `
-})
-*/
-
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
     inGame = true
     join.disabled = true
     leave.disabled = false
+    nameField.disabled = true
 })
 
 socket.on("connect", () => {
