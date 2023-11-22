@@ -102,6 +102,11 @@ socket.on("joinAccepted", () => {
     nameField.disabled = true
 })
 
+socket.on ("joinDeclined", (data) => {
+    const message = data.message
+    alert(message)
+})
+
 socket.on("connect", () => {
     console.log(`connected with id: ${socket.id}`)
     socket.emit("requestPlayers")
