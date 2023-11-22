@@ -3,7 +3,9 @@
 
 
 body {
-    background-color: rgb(103, 152, 242);
+    background: linear-gradient(-45deg, rgb(127, 136, 235), rgb(66, 57, 235), #23a6d5, #9361ef);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
     color: white;
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -13,25 +15,88 @@ body {
     width: 100vw;
 }
 
-main {
-    width: 60%;
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-wrapper {
+    width: 50vw;
     margin: auto;
 }
 
-#user-game-info-container {
+#grams {
+    text-align: center;
+}
+
+#user-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#user-info-wrapper {
     background-color: red;
+    width: 60%;
 }
 
 #word-list-container {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#word-list-wrapper {
+    height: 90%;
+    width: 40%;
     background-color: green;
 }
 
-#letters-used-container {
-    background-color: orange;
+#word-list-header {
+    text-align: center;
 }
 
-#letters-available-container {
-    background-color: purple;
+#letters-used-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.letter-used {
+    width: 3vw;
+    height: 3vw;
+    background-color: blueviolet;
+    margin: 10px;
+}
+
+#letters-available-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.letter-available {
+    width: 3.5vw;
+    height: 3.5vw;
+    background-color: rgb(8, 36, 87);
+    margin: 15px;
 }
 
 #player-list-container {
