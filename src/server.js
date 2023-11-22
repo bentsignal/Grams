@@ -48,7 +48,7 @@ io.on("connection", socket => {
                     message: "ERROR: Username taken."
                 })
             }
-            else if (player.id == id) {
+            else if (player.id == socket.id) {
                 allowJoin = false
                 socket.emit("joinDeclined", {
                     message: "ERROR: Already connected to game, refresh page if error persists."

@@ -8,6 +8,7 @@ const chat = document.getElementById("chat")
 const chatWrapper = document.getElementById("chat-wrapper")
 
 let socket = io("http://localhost:5000")
+//let socket = io("http://grams.ddns.net")
 
 let inGame = false
 let messageCount = 0
