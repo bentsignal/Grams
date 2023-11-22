@@ -95,7 +95,7 @@ io.on("connection", socket => {
         const message = data.message
         let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100)
         message.split(" ").forEach((word) => {
-            if (word.length > 16) {
+            if (word.length > 25) {
                 allowMessage = false
             } 
         })

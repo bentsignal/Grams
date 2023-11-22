@@ -17,6 +17,15 @@ let isAlphanumeric = (str) => {
     return /^[a-zA-Z0-9]+$/.test(str)
 }
 
+socket.on("connect", () => {
+    console.log(`connected with id: ${socket.id}`)
+    socket.emit("requestPlayers")
+})
+
+join.addEventListener("click", () => {
+    joinGame()
+})
+
 const joinGame = () => {
     const name = nameField.value
     if (name.length > 0 && isAlphanumeric(name) && !inGame) {
@@ -26,8 +35,19 @@ const joinGame = () => {
     }
 }
 
-join.addEventListener("click", () => {
-    joinGame()
+socket.on("joinAccepted", () => {
+    console.log("successfully joined the game")
+    inGame = true
+    join.disabled = true
+    leave.disabled = false
+    nameField.disabled = true
+    chatInput.disabled = false
+    sendChat.disabled = false
+})
+
+socket.on ("joinDeclined", (data) => {
+    const message = data.message
+    alert(message)
 })
 
 leave.addEventListener("click", () => {
@@ -40,6 +60,26 @@ leave.addEventListener("click", () => {
     chatInput.disabled = true
     sendChat.disabled = true
     inGame = false
+})
+
+socket.on("updatePlayers", (data) => {
+    const players = data.game.players
+    playerList.innerHTML = ""
+    players.forEach((player) => {
+        playerList.innerHTML += `
+        <div id="player-${player.name}" class="player">
+            <div class="player-pfp">
+                pfp
+            </div>
+            <div class="player-name">
+                ${player.name}
+            </div>
+            <div class="player-score">
+                ${player.score}
+            </div>
+        </div>
+        `
+    })
 })
 
 document.addEventListener("keydown", (evt) => {
@@ -70,7 +110,7 @@ const sendMessage = () => {
             allowMessage = false
         } 
     })
-    
+
     */
     if (allowMessage) {
         socket.emit("chatSent", {
@@ -114,42 +154,3 @@ socket.on("newMessage", (data) => {
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
-socket.on("joinAccepted", () => {
-    console.log("successfully joined the game")
-    inGame = true
-    join.disabled = true
-    leave.disabled = false
-    nameField.disabled = true
-    chatInput.disabled = false
-    sendChat.disabled = false
-})
-
-socket.on ("joinDeclined", (data) => {
-    const message = data.message
-    alert(message)
-})
-
-socket.on("connect", () => {
-    console.log(`connected with id: ${socket.id}`)
-    socket.emit("requestPlayers")
-})
-
-socket.on("updatePlayers", (data) => {
-    const players = data.game.players
-    playerList.innerHTML = ""
-    players.forEach((player) => {
-        playerList.innerHTML += `
-        <div id="player-${player.name}" class="player">
-            <div class="player-pfp">
-                pfp
-            </div>
-            <div class="player-name">
-                ${player.name}
-            </div>
-            <div class="player-score">
-                ${player.score}
-            </div>
-        </div>
-        `
-    })
-})
