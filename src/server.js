@@ -77,7 +77,7 @@ io.on("connection", socket => {
             })
             io.sockets.emit("newMessage", {
                 sender: "Server",
-                type: "join",
+                type: "good",
                 message: `${data.name} has joined the game.`
             })
             console.log(`accepted user ${data.name} with socket id: ${socket.id}`)
@@ -91,10 +91,27 @@ io.on("connection", socket => {
     })
 
     socket.on("chatSent", (data) => {
-        socket.broadcast.emit("newMessage", {
-            sender: data.sender,
-            message: data.message
+        const sender = data.sender
+        const message = data.message
+        let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100)
+        message.split(" ").forEach((word) => {
+            if (word.length > 16) {
+                allowMessage = false
+            } 
         })
+        if (allowMessage) {
+            io.sockets.emit("newMessage", {
+                sender: sender,
+                message: message
+            })
+        }
+        else {
+            socket.emit("newMessage", {
+                sender: "Server",
+                type: "bad", 
+                message: "Your message could not be sent."
+            })
+        }
     })
 
     let playerLeft = (name) => {
@@ -110,7 +127,7 @@ io.on("connection", socket => {
         })
         io.sockets.emit("newMessage", {
             sender: "Server",
-            type: "leave",
+            type: "bad",
             message: `${name} has left the game.`
         })
     }

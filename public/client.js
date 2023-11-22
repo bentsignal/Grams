@@ -37,6 +37,8 @@ leave.addEventListener("click", () => {
     join.disabled = false
     leave.disabled = true
     nameField.disabled = false
+    chatInput.disabled = true
+    sendChat.disabled = true
     inGame = false
 })
 
@@ -55,19 +57,27 @@ const sendMessage = () => {
     const name = nameField.value
     const message = chatInput.value
     messageCount += 1
-    if (message.length > 0) {
+    let allowMessage = true
+    /*
+
+    This is good, but should be checked on character input 
+    and then should toggle the send button on and off, with 
+    an alert if a message is sent that doesnt meet the requirements
+
+    let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100 && inGame)
+    message.split(" ").forEach((word) => {
+        if (word.length > 16) {
+            allowMessage = false
+        } 
+    })
+    
+    */
+    if (allowMessage) {
         socket.emit("chatSent", {
             sender: name,
             message: message
         })
-        chat.innerHTML += `
-            <p id="message-${messageCount}">
-                <span class="my-message">${name}: </span>
-                <span class="chat-message">${message}</span>
-            </p>
-        `
         chatInput.value = ""
-        document.getElementById(`message-${messageCount}`).scrollIntoView()
     } 
 }
 
@@ -76,11 +86,20 @@ sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     const sender = data.sender
     const message = data.message
+    const me = nameField.value
     messageCount += 1
     if (sender == "Server") {
         chat.innerHTML += `
             <p id="message-${messageCount}">
                 <span class="server-message ${data.type}">${message}</span>
+            </p>
+        `
+    }
+    else if (sender == me) {
+        chat.innerHTML += `
+            <p id="message-${messageCount}">
+                <span class="my-message">${me}: </span>
+                <span class="chat-message">${message}</span>
             </p>
         `
     }
@@ -101,6 +120,8 @@ socket.on("joinAccepted", () => {
     join.disabled = true
     leave.disabled = false
     nameField.disabled = true
+    chatInput.disabled = false
+    sendChat.disabled = false
 })
 
 socket.on ("joinDeclined", (data) => {
