@@ -40,6 +40,17 @@ leave.addEventListener("click", () => {
     inGame = false
 })
 
+document.addEventListener("keydown", (evt) => {
+    if (evt.keyCode == 13) {
+        if (chatInput == document.activeElement) {
+            sendMessage()
+        }
+        else if (nameField == document.activeElement) {
+            joinGame()
+        }
+    }
+})
+
 const sendMessage = () => {
     const name = nameField.value
     const message = chatInput.value
@@ -59,17 +70,6 @@ const sendMessage = () => {
         document.getElementById(`message-${messageCount}`).scrollIntoView()
     } 
 }
-
-document.addEventListener("keydown", (evt) => {
-    if (evt.keyCode == 13) {
-        if (chatInput == document.activeElement) {
-            sendMessage()
-        }
-        else if (nameField == document.activeElement) {
-            joinGame()
-        }
-    }
-})
 
 sendChat.addEventListener("click", sendMessage)
 

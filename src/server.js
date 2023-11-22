@@ -54,6 +54,12 @@ io.on("connection", socket => {
                     message: "ERROR: Already connected to game, refresh page if error persists."
                 })
             }
+            else if (name.length > 15) {
+                allowJoin = false
+                socket.emit("joinDeclined", {
+                    message: "ERROR: Username must not exceed 15 characters."
+                })
+            }
         })
         if (allowJoin) {
             let newPlayer = {
