@@ -6,6 +6,7 @@ const chatInput = document.getElementById("chat-input")
 const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
 const chatWrapper = document.getElementById("chat-wrapper")
+const joinErrors = document.getElementById("join-errors")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
@@ -23,6 +24,7 @@ socket.on("connect", () => {
 })
 
 join.addEventListener("click", () => {
+    joinErrors.innerHTML = ""
     joinGame()
 })
 
@@ -45,9 +47,11 @@ socket.on("joinAccepted", () => {
     sendChat.disabled = false
 })
 
-socket.on ("joinDeclined", (data) => {
+socket.on("joinDeclined", (data) => {
     const message = data.message
-    alert(message)
+    joinErrors.innerHTML += `
+        <p class="bad">${message}</p>
+    `
 })
 
 leave.addEventListener("click", () => {
@@ -88,6 +92,7 @@ document.addEventListener("keydown", (evt) => {
             sendMessage()
         }
         else if (nameField == document.activeElement) {
+            joinErrors.innerHTML = ""
             joinGame()
         }
     }

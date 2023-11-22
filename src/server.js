@@ -41,6 +41,7 @@ io.on("connection", socket => {
     socket.on("requestJoin", (data) => {
         const name = data.name
         let allowJoin = true
+        console.log9
         game.players.forEach((player) => {
             if (player.name == name) {
                 allowJoin = false
@@ -54,13 +55,13 @@ io.on("connection", socket => {
                     message: "ERROR: Already connected to game, refresh page if error persists."
                 })
             }
-            else if (name.length > 15) {
-                allowJoin = false
-                socket.emit("joinDeclined", {
-                    message: "ERROR: Username must not exceed 15 characters."
-                })
-            }
         })
+        if (name.length > 15) {
+            allowJoin = false
+            socket.emit("joinDeclined", {
+                message: "ERROR: Username must not exceed 15 characters."
+            })
+        }
         if (allowJoin) {
             let newPlayer = {
                 name: data.name,
