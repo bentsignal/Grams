@@ -273,7 +273,7 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 }
 
 #chat-container {
-    background-color: yellow;
+    background-color: black;
     opacity: 50%;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
