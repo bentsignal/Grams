@@ -3,13 +3,27 @@
 
 
 body {
-    background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65);
-    /* orange 1 background: linear-gradient(-45deg, #F0A35D, #F0CB5D, #F0BA5D,#F09068, #F0DE65); */
-    /* navy background: linear-gradient(-45deg, rgb(8, 36, 87), rgb(5, 30, 76), rgb(9, 43, 106),rgb(8, 31, 73)); */
-    /* slate background: linear-gradient(-45deg, rgb(58, 58, 59), rgb(27, 27, 28), #141415, #313131);*/
-    /* original red/blue background: linear-gradient(-45deg, rgb(127, 136, 235), rgb(66, 57, 235), #23a6d5, #9361ef);*/
-    background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+    background-color: #e493d0;
+    background-image: 
+        radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
+        radial-gradient(closest-side, rgb(152, 133, 245), rgba(243, 11, 164, 0)),
+        radial-gradient(closest-side, rgba(254, 234, 131, 1), rgba(254, 234, 131, 0)),
+        radial-gradient(closest-side, rgba(170, 142, 245, 1), rgba(170, 142, 245, 0)),
+        radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
+    background-size: 
+        130vmax 130vmax,
+        80vmax 80vmax,
+        90vmax 90vmax,
+        110vmax 110vmax,
+        90vmax 90vmax;
+    background-position:
+        -80vmax -80vmax,
+        60vmax -30vmax,
+        10vmax 10vmax,
+        -30vmax -10vmax,
+        50vmax 50vmax;
+    background-repeat: no-repeat;
+    animation: 10s movement linear infinite;
     color: white;
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -18,6 +32,78 @@ body {
     height: 100vh;
     width: 100vw;
 }
+
+body::after {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes movement {
+    0%, 100% {
+      background-size: 
+        130vmax 130vmax,
+        80vmax 80vmax,
+        90vmax 90vmax,
+        110vmax 110vmax,
+        90vmax 90vmax;
+      background-position:
+        -80vmax -80vmax,
+        60vmax -30vmax,
+        10vmax 10vmax,
+        -30vmax -10vmax,
+        50vmax 50vmax;
+    }
+    25% {
+      background-size: 
+        100vmax 100vmax,
+        90vmax 90vmax,
+        100vmax 100vmax,
+        90vmax 90vmax,
+        60vmax 60vmax;
+      background-position:
+        -60vmax -90vmax,
+        50vmax -40vmax,
+        0vmax -20vmax,
+        -40vmax -20vmax,
+        40vmax 60vmax;
+    }
+    50% {
+      background-size: 
+        80vmax 80vmax,
+        110vmax 110vmax,
+        80vmax 80vmax,
+        60vmax 60vmax,
+        80vmax 80vmax;
+      background-position:
+        -50vmax -70vmax,
+        40vmax -30vmax,
+        10vmax 0vmax,
+        20vmax 10vmax,
+        30vmax 70vmax;
+    }
+    75% {
+      background-size: 
+        90vmax 90vmax,
+        90vmax 90vmax,
+        100vmax 100vmax,
+        90vmax 90vmax,
+        70vmax 70vmax;
+      background-position:
+        -50vmax -40vmax,
+        50vmax -30vmax,
+        20vmax 0vmax,
+        -10vmax 10vmax,
+        40vmax 60vmax;
+    }
+  }
+
+/*
+
+background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65);
+     orange 1 background: linear-gradient(-45deg, #F0A35D, #F0CB5D, #F0BA5D,#F09068, #F0DE65); 
+     navy background: linear-gradient(-45deg, rgb(8, 36, 87), rgb(5, 30, 76), rgb(9, 43, 106),rgb(8, 31, 73)); 
+     slate background: linear-gradient(-45deg, rgb(58, 58, 59), rgb(27, 27, 28), #141415, #313131);
+     original red/blue background: linear-gradient(-45deg, rgb(127, 136, 235), rgb(66, 57, 235), #23a6d5, #9361ef);
 
 @keyframes gradient {
 	0% {
@@ -30,6 +116,7 @@ body {
 		background-position: 0% 50%;
 	}
 }
+*/
 
 
 #game-container {
@@ -186,13 +273,18 @@ body {
 }
 
 #chat-container {
-    background-color: #FF5E55;
+    background-color: black;
+    opacity: 50%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 2px 2px black;
     padding: 15px;
     margin: 20px;
     position: fixed;
     left: 0;
     bottom: 0;
-    border-radius: 10px;
+    border-radius: 15px;
+    color: white;
 }
 
 #chat-wrapper {
