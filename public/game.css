@@ -3,8 +3,12 @@
 
 
 body {
-    background: linear-gradient(-45deg, rgb(127, 136, 235), rgb(66, 57, 235), #23a6d5, #9361ef);
-	background-size: 400% 400%;
+    background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65);
+    /* orange 1 background: linear-gradient(-45deg, #F0A35D, #F0CB5D, #F0BA5D,#F09068, #F0DE65); */
+    /* navy background: linear-gradient(-45deg, rgb(8, 36, 87), rgb(5, 30, 76), rgb(9, 43, 106),rgb(8, 31, 73)); */
+    /* slate background: linear-gradient(-45deg, rgb(58, 58, 59), rgb(27, 27, 28), #141415, #313131);*/
+    /* original red/blue background: linear-gradient(-45deg, rgb(127, 136, 235), rgb(66, 57, 235), #23a6d5, #9361ef);*/
+    background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
     color: white;
     font-family: 'Roboto', sans-serif;
@@ -84,6 +88,8 @@ body {
     height: 3vw;
     background-color: blueviolet;
     margin: 10px;
+    line-height: 3vw;
+    font-size: 1.5em;
 }
 
 #letters-available-wrapper {
@@ -97,6 +103,13 @@ body {
     height: 3.5vw;
     background-color: rgb(8, 36, 87);
     margin: 15px;
+    line-height: 3.5vw;
+    font-size: 1.8em;
+}
+
+.letter-used, .letter-available {
+    text-align: center;
+    vertical-align: middle;
 }
 
 #player-list-container {
@@ -125,7 +138,6 @@ body {
 
 #shuffle-button {
     padding: 10px;
-    background-color: green;
 }
 
 #keybinds-container {
@@ -150,28 +162,68 @@ body {
 #name-input, #chat-input {
     width: 300px;
     height: 30px;
+    margin-right: 2px;
 }
 
 #chat-container {
-    background-color: purple;
-    padding: 10px;
+    background-color: #FF5E55;
+    padding: 15px;
     margin: 10px;
     position: fixed;
     left: 0;
     bottom: 100px;
+    border-radius: 10px;
 }
 
-#chat {
+#chat-wrapper {
     height: 300px;
-    width: 400px;
+    margin: 0 0 10px 0;
     overflow-y: scroll;
     overflow-x:visible;
 }
 
+::-webkit-scrollbar {
+    background: none;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #F0B47E;
+    border-radius: 10px;
+}
+
 .bad {
-    color: red;
+    color: rgb(52, 6, 6);
 }
 
 .good {
-    color: rgb(120, 233, 120);
+    color: rgb(149, 232, 149);
+}
+
+button {
+    padding: 10px 20px 10px 20px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 5px;
+}
+
+button:enabled {
+    cursor: pointer;
+}
+
+input {
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    padding: 3px 3px 3px 8px;
+    border-radius: 5px;
+}
+
+input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+#join {
+    margin-right: 2px;
 }

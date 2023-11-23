@@ -41,7 +41,6 @@ io.on("connection", socket => {
     socket.on("requestJoin", (data) => {
         const name = data.name
         let allowJoin = true
-        console.log9
         game.players.forEach((player) => {
             if (player.name == name) {
                 allowJoin = false
