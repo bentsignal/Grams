@@ -73,13 +73,14 @@ socket.on("updatePlayers", (data) => {
         playerList.innerHTML += `
         <div id="player-${player.name}" class="player">
             <div class="player-pfp">
-                pfp
             </div>
-            <div class="player-name">
-                ${player.name}
-            </div>
-            <div class="player-score">
-                ${player.score}
+            <div class="player-info">
+                <div class="player-name">
+                    ${player.name}
+                </div>
+                <div class="player-score">
+                    Score: ${player.score}
+                </div>
             </div>
         </div>
         `

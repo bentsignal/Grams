@@ -113,31 +113,44 @@ body {
 }
 
 #player-list-container {
-    background-color: green;
-    width: 100px;
+    width: 250px;
     position: fixed;
     top: 0;
     left: 0;
+    margin: 15px;
 }
 
 .player {
-    background-color: blue;
+    background-color: #FF5E55;
     padding: 10px;
     margin: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.player-pfp {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.player-info {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #shuffle-container {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    top: 70px;
+    right: 0;
+    margin: 10px 0 5px 10px;
 }
 
 #shuffle-wrapper {
     padding: 20px;
-}
-
-#shuffle-button {
-    padding: 10px;
 }
 
 #keybinds-container {
@@ -159,8 +172,15 @@ body {
     padding: 20px;
 }
 
-#name-input, #chat-input {
+#chat-input {
     width: 300px;
+}
+
+#name-input {
+    width: 250px;
+}
+
+#name-input, #chat-input {
     height: 30px;
     margin-right: 2px;
 }
@@ -168,15 +188,15 @@ body {
 #chat-container {
     background-color: #FF5E55;
     padding: 15px;
-    margin: 10px;
+    margin: 20px;
     position: fixed;
     left: 0;
-    bottom: 100px;
+    bottom: 0;
     border-radius: 10px;
 }
 
 #chat-wrapper {
-    height: 300px;
+    height: 250px;
     margin: 0 0 10px 0;
     overflow-y: scroll;
     overflow-x:visible;
@@ -201,7 +221,7 @@ body {
 }
 
 button {
-    padding: 10px 20px 10px 20px;
+    padding: 10px 15px 10px 15px;
     border: none;
     font-family: 'Roboto', sans-serif;
     border-radius: 5px;
