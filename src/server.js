@@ -8,7 +8,7 @@ const io = new Server(httpServer)
 
 app.use(express.static("public"))
 
-const PORT = 5001
+const PORT = 5000
 
 httpServer.listen(PORT)
 
