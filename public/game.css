@@ -199,7 +199,7 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
     height: 3vw;
     margin: 10px;
     line-height: 3vw;
-    font-size: 1.5em;
+    font-size: 1.8vw;
 }
 
 #letters-available-wrapper {
@@ -211,9 +211,9 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 .letter-available {
     width: 3.5vw;
     height: 3.5vw;
-    margin: 10px;
+    margin: 15px 7px 15px 7px;
     line-height: 3.5vw;
-    font-size: 2.3em;
+    font-size: 2.3vw;
     color: black;
 }
 
