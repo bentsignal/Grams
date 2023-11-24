@@ -25,6 +25,7 @@ const max = 8
 let game = {
 
     letters: 6,
+    word: "",
     players: []
 
 }

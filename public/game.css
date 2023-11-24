@@ -7,6 +7,11 @@
     --silver: #c3d7dc;
     --good: rgb(125, 253, 125);
     --bad: rgb(245, 89, 89);
+    --red: rgb(235, 105, 78);
+    --blue: rgb(152, 133, 245);
+    --yellow: rgb(254, 234, 131);
+    --purple: rgb(170, 142, 245);
+    --orange: rgb(248, 192, 147);
 }
 
 body {
@@ -177,10 +182,20 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
     justify-content: center;
 }
 
+.empty {
+    background-color: var(--purple);
+    box-shadow: inset 0 0 10px #000000;
+}
+
+.filled, .letter-available {
+    background-color: var(--yellow);
+    box-shadow: 0px 0px 10px 1px #777777;
+    border: 1px solid #c1c1c1;
+}
+
 .letter-used {
     width: 3vw;
     height: 3vw;
-    background-color: blueviolet;
     margin: 10px;
     line-height: 3vw;
     font-size: 1.5em;
@@ -195,10 +210,10 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 .letter-available {
     width: 3.5vw;
     height: 3.5vw;
-    background-color: rgb(8, 36, 87);
     margin: 15px;
     line-height: 3.5vw;
     font-size: 1.8em;
+    color: black;
 }
 
 .letter-used, .letter-available {

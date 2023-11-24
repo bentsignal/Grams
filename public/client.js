@@ -7,12 +7,17 @@ const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
 const chatWrapper = document.getElementById("chat-wrapper")
 const joinErrors = document.getElementById("join-errors")
+const availableWrapper = document.getElementById("letters-available-wrapper")
+const usedWrapper = document.getElementById("letters-used-wrapper")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
 
 let inGame = false
 let messageCount = 0
+let lettersAvailable = ["f", "a", "r", "t", "e", "r"]
+let lettersUsed = []
+let totalLetters = 6
 
 let isAlphanumeric = (str) => {
     return /^[a-zA-Z0-9]+$/.test(str)
@@ -88,7 +93,8 @@ socket.on("updatePlayers", (data) => {
 })
 
 document.addEventListener("keydown", (evt) => {
-    if (evt.keyCode == 13) {
+    console.log(evt)
+    if (evt.key == "Enter") {
         if (chatInput == document.activeElement) {
             sendMessage()
         }
@@ -96,6 +102,12 @@ document.addEventListener("keydown", (evt) => {
             joinErrors.innerHTML = ""
             joinGame()
         }
+    }
+    if (evt.key == "`" || evt.key == "~") {
+        shuffle()
+    }
+    if (lettersAvailable.includes(evt.key.toLowerCase())) {
+        play(evt.key)
     }
 })
 
@@ -159,4 +171,56 @@ socket.on("newMessage", (data) => {
     }
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
+
+const shuffle = () => {
+
+    let currentIndex = letters.length,  randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [letters[currentIndex], letters[randomIndex]] = [
+        letters[randomIndex], letters[currentIndex]];
+    }
+
+    let c = 1
+    letters.forEach((letter) => {
+        document.getElementById(`letters-available-${c}`).innerText = letter
+        c += 1
+    })
+
+}
+
+const play = (key) => {
+    let i = lettersAvailable.indexOf(key)
+    const letter = lettersAvailable.splice(i, 1)
+    lettersUsed.push(letter)
+    availableWrapper.innerHTML = ""
+    i = 1
+    lettersAvailable.forEach((letter) => {
+        availableWrapper.innerHTML += `
+            <p id="letters-available-${i}" class="letter-available">${letter}</p>
+        `
+        i += 1
+    })
+    usedWrapper.innerHTML = ""
+    const played = lettersUsed.length
+    for (i = 1; i <= totalLetters; i++) {
+        if (i <= played) {
+            usedWrapper.innerHTML += `
+                <p id="letter-used-${i}" class="letter-used filled">${lettersUsed[i-1]}</p>
+            `
+        }
+        else {
+            usedWrapper.innerHTML += `
+                <p id="letter-used-${i}" class="letter-used empty"></p>
+            `
+        }
+    }
+}
 
