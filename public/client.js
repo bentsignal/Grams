@@ -93,7 +93,7 @@ socket.on("updatePlayers", (data) => {
 })
 
 document.addEventListener("keydown", (evt) => {
-    console.log(evt)
+    const focusGame = chatInput != document.activeElement && nameField != document.activeElement
     if (evt.key == "Enter") {
         if (chatInput == document.activeElement) {
             sendMessage()
@@ -103,11 +103,16 @@ document.addEventListener("keydown", (evt) => {
             joinGame()
         }
     }
-    if (evt.key == "`" || evt.key == "~") {
+    if ((evt.key == "`" || evt.key == "~") && focusGame && inGame) {
         shuffle()
     }
-    if (lettersAvailable.includes(evt.key.toLowerCase())) {
+    if (lettersAvailable.includes(evt.key.toLowerCase()) && focusGame && inGame) {
         play(evt.key)
+    }
+    if (evt.key == "Backspace" && focusGame && inGame) {
+        if (lettersUsed.length > 0) {
+            removeLetter()
+        }
     }
 })
 
@@ -174,7 +179,7 @@ socket.on("newMessage", (data) => {
 
 const shuffle = () => {
 
-    let currentIndex = letters.length,  randomIndex;
+    let currentIndex = lettersAvailable.length,  randomIndex;
 
     // While there remain elements to shuffle.
     while (currentIndex > 0) {
@@ -184,24 +189,21 @@ const shuffle = () => {
         currentIndex--;
 
         // And swap it with the current element.
-        [letters[currentIndex], letters[randomIndex]] = [
-        letters[randomIndex], letters[currentIndex]];
+        [lettersAvailable[currentIndex], lettersAvailable[randomIndex]] = [
+        lettersAvailable[randomIndex], lettersAvailable[currentIndex]];
     }
 
     let c = 1
-    letters.forEach((letter) => {
+    lettersAvailable.forEach((letter) => {
         document.getElementById(`letters-available-${c}`).innerText = letter
         c += 1
     })
 
 }
 
-const play = (key) => {
-    let i = lettersAvailable.indexOf(key)
-    const letter = lettersAvailable.splice(i, 1)
-    lettersUsed.push(letter)
+const updateDeck = () => {
     availableWrapper.innerHTML = ""
-    i = 1
+    let i = 1
     lettersAvailable.forEach((letter) => {
         availableWrapper.innerHTML += `
             <p id="letters-available-${i}" class="letter-available">${letter}</p>
@@ -223,4 +225,18 @@ const play = (key) => {
         }
     }
 }
+
+const play = (key) => {
+    let i = lettersAvailable.indexOf(key)
+    const letter = lettersAvailable.splice(i, 1)
+    lettersUsed.push(key.toLowerCase())
+    updateDeck()
+}
+
+const removeLetter = () => {
+    const letter = lettersUsed.pop()
+    lettersAvailable.unshift(letter)
+    updateDeck()
+}
+
 

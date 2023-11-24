@@ -191,6 +191,7 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
     background-color: var(--yellow);
     box-shadow: 0px 0px 10px 1px #777777;
     border: 1px solid #c1c1c1;
+    color: black;
 }
 
 .letter-used {
@@ -210,9 +211,9 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 .letter-available {
     width: 3.5vw;
     height: 3.5vw;
-    margin: 15px;
+    margin: 10px;
     line-height: 3.5vw;
-    font-size: 1.8em;
+    font-size: 2.3em;
     color: black;
 }
 
@@ -236,7 +237,7 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 0 2px 2px var(--charcoal);
     padding: 10px;
-    margin: 5px;
+    margin: 0 5px 10px 5px;
     border-radius: 10px;
     display: flex;
     align-items: center;
