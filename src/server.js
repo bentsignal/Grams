@@ -6,6 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 const fs = require("fs")
 
+// start server
 app.use(express.static("public"))
 const PORT = 5000
 httpServer.listen(PORT)
@@ -19,10 +20,10 @@ fs.readFile("src/370k.json", "utf-8", (err, data) => {
     dict = JSON.parse(data)
 })
 
-// game stats
+// game 
+const max = 8
 let game = {
 
-    playerCount: 0,
     letters: 6,
     players: []
 
@@ -33,15 +34,19 @@ io.on("connection", socket => {
     console.log(`user connected with id: ${socket.id}`)
 
     socket.on("requestJoin", (data) => {
+
         const name = data.name
         let allowJoin = true
+
         game.players.forEach((player) => {
+            // usename alrady taken
             if (player.name == name) {
                 allowJoin = false
                 socket.emit("joinDeclined", {
                     message: "Username taken."
                 })
             }
+            // socket already connected
             else if (player.id == socket.id) {
                 allowJoin = false
                 socket.emit("joinDeclined", {
@@ -49,13 +54,24 @@ io.on("connection", socket => {
                 })
             }
         })
+        // max players reached
+        if (game.players.length >= max) {
+            allowJoin = false
+            socket.emit("joinDeclined", {
+                message: "Lobby is currently full."
+            })
+        }
+        // username too long
         if (name.length > 15) {
             allowJoin = false
             socket.emit("joinDeclined", {
                 message: "Username must not exceed 15 characters."
             })
         }
+
+        // join accepted
         if (allowJoin) {
+
             let newPlayer = {
                 name: data.name,
                 id: socket.id,
@@ -65,6 +81,7 @@ io.on("connection", socket => {
                 words: {}
             }
             game.players.push(newPlayer)
+
             socket.emit("joinAccepted")
             io.sockets.emit("updatePlayers", {
                 game: game
@@ -74,7 +91,9 @@ io.on("connection", socket => {
                 type: "good",
                 message: `${data.name} has joined the game.`
             })
+
             console.log(`accepted user ${data.name} with socket id: ${socket.id}`)
+
         }
     })
 
@@ -109,6 +128,7 @@ io.on("connection", socket => {
     })
 
     let playerLeft = (name) => {
+        console.log(`Player ${name} with id ${socket.id} has left the game.`)
         let updatedPlayers = []
         game.players.forEach((player) => {
             if (player.id != socket.id) {
