@@ -1,36 +1,30 @@
 const express = require("express")
 const { createServer } = require("http")
 const { Server } = require("socket.io")
-
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
+const fs = require("fs")
 
 app.use(express.static("public"))
-
 const PORT = 5000
-
 httpServer.listen(PORT)
 
+// load dictionary
+let dict = {}
+fs.readFile("src/370k.json", "utf-8", (err, data) => {
+    if (err) {
+        console.log(`ERROR: Could not read dictionary file: ${err}`)
+    }
+    dict = JSON.parse(data)
+})
+
+// game stats
 let game = {
 
     playerCount: 0,
     letters: 6,
-    players: [],
-    messages: [],
-
-    addPlayer: (name, id) => {
-
-        let newPlayer = {
-            name: name,
-            id: id,
-            score: 0,
-            wins: 0,
-            losses: 0,
-            words: {}
-        } 
-
-    }
+    players: []
 
 }
 
@@ -45,7 +39,7 @@ io.on("connection", socket => {
             if (player.name == name) {
                 allowJoin = false
                 socket.emit("joinDeclined", {
-                    message: "ERROR: Username taken."
+                    message: "Username taken."
                 })
             }
             else if (player.id == socket.id) {
@@ -58,7 +52,7 @@ io.on("connection", socket => {
         if (name.length > 15) {
             allowJoin = false
             socket.emit("joinDeclined", {
-                message: "ERROR: Username must not exceed 15 characters."
+                message: "Username must not exceed 15 characters."
             })
         }
         if (allowJoin) {

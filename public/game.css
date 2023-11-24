@@ -1,6 +1,13 @@
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
 
+:root {
+    --charcoal: rgb(46, 46, 46);
+    --graphite: #555555;
+    --silver: #c3d7dc;
+    --good: rgb(125, 253, 125);
+    --bad: rgb(245, 89, 89);
+}
 
 body {
     background-color: #e493d0;
@@ -208,7 +215,11 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 }
 
 .player {
-    background-color: #FF5E55;
+    background-color: var(--charcoal);
+    opacity: 80%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 2px 2px var(--charcoal);
     padding: 10px;
     margin: 5px;
     border-radius: 10px;
@@ -273,11 +284,11 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 }
 
 #chat-container {
-    background-color: black;
-    opacity: 50%;
+    background-color: var(--charcoal);
+    opacity: 80%;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 0 2px 2px black;
+    box-shadow: 0 0 2px 2px var(--charcoal);
     padding: 15px;
     margin: 20px;
     position: fixed;
@@ -296,20 +307,20 @@ background: linear-gradient(-45deg, #F0B47E, #F0CB5D, #F0BA5D, #FFBF3B, #F0DE65)
 
 ::-webkit-scrollbar {
     background: none;
-    width: 10px;
+    width: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #F0B47E;
+    background: var(--charcoal);
     border-radius: 10px;
 }
 
 .bad {
-    color: rgb(52, 6, 6);
+    color: var(--bad);
 }
 
 .good {
-    color: rgb(149, 232, 149);
+    color: var(--good);
 }
 
 button {
