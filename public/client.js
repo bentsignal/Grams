@@ -108,6 +108,9 @@ document.addEventListener("keydown", (evt) => {
             playWord()
         }
     }
+    if (evt.code == "Space" && focusGame && inGame && lettersUsed > 0) {
+        clearLetters()
+    }
     if ((evt.key == ";" || evt.key == ":") && focusGame && inGame) {
         shuffle()
     }
@@ -267,14 +270,18 @@ const playWord = () => {
     }
 }
 
-socket.on("wordAccept", (data) => {
-    const word = data.word
-    console.log("word accepted")
+const clearLetters = () => {
     lettersUsed.forEach((letter) => {
         lettersAvailable.push(letter)
     })
     lettersUsed = []
     updateDeck()
+}
+
+socket.on("wordAccept", (data) => {
+    const word = data.word
+    console.log("word accepted")
+    clearLetters()
     wordList.innerHTML += `
         <div class="submitted-word">${word}</div>
     `
