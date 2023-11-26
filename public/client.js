@@ -9,6 +9,7 @@ const chatWrapper = document.getElementById("chat-wrapper")
 const joinErrors = document.getElementById("join-errors")
 const availableWrapper = document.getElementById("letters-available-wrapper")
 const usedWrapper = document.getElementById("letters-used-wrapper")
+const start = document.getElementById("start")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
@@ -72,7 +73,7 @@ leave.addEventListener("click", () => {
 })
 
 socket.on("updatePlayers", (data) => {
-    const players = data.game.players
+    const players = data.players
     playerList.innerHTML = ""
     players.forEach((player) => {
         playerList.innerHTML += `
@@ -239,4 +240,22 @@ const removeLetter = () => {
     updateDeck()
 }
 
+socket.on("newLetters", (data) => {
+    const letters = data.letters
+    totalLetters = letters.length
+    lettersAvailable = letters
+    usedWrapper.innerHTML = ""
+    availableWrapper.innerHTML = ""
+    for (let i = 0; i < letters.length; i++) {
+        usedWrapper.innerHTML += `
+            <p id="letter-used-${i+1}" class="letter-used empty"></p>
+        `
+        availableWrapper.innerHTML += `
+            <p id="letters-available-${i+1}" class="letter-available">${letters[i]}</p>
+        `
+    }
+})
 
+start.addEventListener("click", () => {
+    socket.emit("startGame")
+})

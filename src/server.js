@@ -21,18 +21,54 @@ fs.readFile("src/370k.json", "utf-8", (err, data) => {
 })
 
 // game 
-const max = 8
+const max = 7
 let game = {
 
-    letters: 6,
-    word: "",
+    size: 6,
+    letters: [],
     players: []
 
 }
 
+
+const chooseLetters = () => {
+    let letters = []
+    const s = game.size.toString()
+    console.log(`length of word: ${s}`)
+    // choose random letter a-z
+    const l = String.fromCharCode(97 + Math.floor(Math.random() * 26))
+    console.log(`starting letter: ${l}`)
+    // pick word from dictionary of length s starting with letter l
+    if (Object.keys(dict).length === 0) {
+        console.log("ERROR: Could not pick word, dictionary empty.")
+    }
+    else {
+        const length = dict[s][l].length
+        console.log(`number of words len ${s} start ${l}: ${length}`)
+        const w = dict[s][l][Math.floor(Math.random()*length)]
+        console.log(`word choosen: ${w}`)
+        for (let i = 0; i < w.length; i++) {
+            letters.push(w.charAt(i))
+        }
+    }
+    return letters
+}
+
+const startGame = () => {
+    game.letters = chooseLetters()
+}
+
+
 io.on("connection", socket => {
 
     console.log(`user connected with id: ${socket.id}`)
+
+    socket.on("startGame", () => {
+        startGame()
+        io.sockets.emit("newLetters", {
+            letters: game.letters
+        })
+    })
 
     socket.on("requestJoin", (data) => {
 
@@ -85,8 +121,13 @@ io.on("connection", socket => {
 
             socket.emit("joinAccepted")
             io.sockets.emit("updatePlayers", {
-                game: game
+                players: game.players
             })
+            if (game.letters.length > 0) {
+                socket.emit("newLetters", {
+                    letters: game.letters
+                })
+            }
             io.sockets.emit("newMessage", {
                 sender: "Server",
                 type: "good",
@@ -100,7 +141,7 @@ io.on("connection", socket => {
 
     socket.on("requestPlayers", () => {
         socket.emit("updatePlayers", {
-            game: game
+            players: game.players
         })
     })
 
@@ -138,7 +179,7 @@ io.on("connection", socket => {
         })
         game.players = updatedPlayers
         io.sockets.emit("updatePlayers", {
-            game: game
+            players: game.players
         })
         io.sockets.emit("newMessage", {
             sender: "Server",
