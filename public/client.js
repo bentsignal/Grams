@@ -10,6 +10,7 @@ const joinErrors = document.getElementById("join-errors")
 const availableWrapper = document.getElementById("letters-available-wrapper")
 const usedWrapper = document.getElementById("letters-used-wrapper")
 const start = document.getElementById("start")
+const wordList = document.getElementById("word-list")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
@@ -267,12 +268,16 @@ const playWord = () => {
 }
 
 socket.on("wordAccept", (data) => {
+    const word = data.word
     console.log("word accepted")
     lettersUsed.forEach((letter) => {
         lettersAvailable.push(letter)
     })
     lettersUsed = []
     updateDeck()
+    wordList.innerHTML += `
+        <div class="submitted-word">${word}</div>
+    `
 })
 
 socket.on("wordDecline", (data) => {

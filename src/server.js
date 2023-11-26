@@ -50,8 +50,27 @@ const chooseLetters = () => {
     return letters
 }
 
-const checkWord = (word) => {
-    if (word.length <= 3) {
+const inDict = (word) => {
+    const l = word.charAt(0)
+    const s = word.length
+    const words = dict[s][l]
+    return words.includes(word)
+}
+
+const notPlayed = (word, id) => {
+    for (let i = 0; i < game.players.length; i++) {
+        if (game.players[i].words.includes(word)) {
+            return false
+        }
+    }
+    return true
+}
+
+const checkWord = (word, id) => {
+    c1 = word.length <= game.size && word.length > 0
+    c2 = inDict(word)
+    c3 = notPlayed(word, id)
+    if (c1 && c2 && c3) {
         return true
     }
     else {
@@ -120,7 +139,7 @@ io.on("connection", socket => {
                 score: 0,
                 wins: 0,
                 losses: 0,
-                words: {}
+                words: []
             }
             game.players.push(newPlayer)
 
@@ -207,8 +226,16 @@ io.on("connection", socket => {
 
     socket.on("wordSubmit", (data) => {
         const word = data.word
-        if (checkWord(word)) {
-            socket.emit("wordAccept")
+        if (checkWord(word, socket.id)) {
+            socket.emit("wordAccept", {
+                word: word
+            })
+            for (let i = 0; i < game.players.length; i++) {
+                if (game.players[i].id == socket.id) {
+                    game.players[i].words.push(word)
+                    break
+                }
+            }
         }
         else {
             socket.emit("wordDecline")
