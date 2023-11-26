@@ -103,12 +103,15 @@ document.addEventListener("keydown", (evt) => {
             joinErrors.innerHTML = ""
             joinGame()
         }
+        else if (document.body = document.activeElement) {
+            playWord()
+        }
     }
-    if ((evt.key == "`" || evt.key == "~") && focusGame && inGame) {
+    if ((evt.key == ";" || evt.key == ":") && focusGame && inGame) {
         shuffle()
     }
     if (lettersAvailable.includes(evt.key.toLowerCase()) && focusGame && inGame) {
-        play(evt.key)
+        playLetter(evt.key)
     }
     if (evt.key == "Backspace" && focusGame && inGame) {
         if (lettersUsed.length > 0) {
@@ -227,7 +230,7 @@ const updateDeck = () => {
     }
 }
 
-const play = (key) => {
+const playLetter = (key) => {
     let i = lettersAvailable.indexOf(key)
     const letter = lettersAvailable.splice(i, 1)
     lettersUsed.push(key.toLowerCase())
@@ -244,18 +247,34 @@ socket.on("newLetters", (data) => {
     const letters = data.letters
     totalLetters = letters.length
     lettersAvailable = letters
-    usedWrapper.innerHTML = ""
-    availableWrapper.innerHTML = ""
-    for (let i = 0; i < letters.length; i++) {
-        usedWrapper.innerHTML += `
-            <p id="letter-used-${i+1}" class="letter-used empty"></p>
-        `
-        availableWrapper.innerHTML += `
-            <p id="letters-available-${i+1}" class="letter-available">${letters[i]}</p>
-        `
-    }
+    updateDeck()
 })
 
 start.addEventListener("click", () => {
     socket.emit("startGame")
+})
+
+const playWord = () => {
+    if (lettersUsed.length > 0) {
+        let word = ""
+        lettersUsed.forEach((letter) => {
+            word += letter
+        })
+        socket.emit("wordSubmit", {
+            word: word
+        })
+    }
+}
+
+socket.on("wordAccept", (data) => {
+    console.log("word accepted")
+    lettersUsed.forEach((letter) => {
+        lettersAvailable.push(letter)
+    })
+    lettersUsed = []
+    updateDeck()
+})
+
+socket.on("wordDecline", (data) => {
+    console.log(`Word Declined`)
 })

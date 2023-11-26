@@ -24,7 +24,7 @@ fs.readFile("src/370k.json", "utf-8", (err, data) => {
 const max = 7
 let game = {
 
-    size: 6,
+    size: 8,
     letters: [],
     players: []
 
@@ -34,24 +34,29 @@ let game = {
 const chooseLetters = () => {
     let letters = []
     const s = game.size.toString()
-    console.log(`length of word: ${s}`)
     // choose random letter a-z
     const l = String.fromCharCode(97 + Math.floor(Math.random() * 26))
-    console.log(`starting letter: ${l}`)
     // pick word from dictionary of length s starting with letter l
     if (Object.keys(dict).length === 0) {
         console.log("ERROR: Could not pick word, dictionary empty.")
     }
     else {
         const length = dict[s][l].length
-        console.log(`number of words len ${s} start ${l}: ${length}`)
         const w = dict[s][l][Math.floor(Math.random()*length)]
-        console.log(`word choosen: ${w}`)
         for (let i = 0; i < w.length; i++) {
             letters.push(w.charAt(i))
         }
     }
     return letters
+}
+
+const checkWord = (word) => {
+    if (word.length <= 3) {
+        return true
+    }
+    else {
+        return false
+    }
 }
 
 const startGame = () => {
@@ -198,6 +203,16 @@ io.on("connection", socket => {
 
     socket.on("leave", (data) => {
         playerLeft(data.name)
+    })
+
+    socket.on("wordSubmit", (data) => {
+        const word = data.word
+        if (checkWord(word)) {
+            socket.emit("wordAccept")
+        }
+        else {
+            socket.emit("wordDecline")
+        }
     })
 
 })
