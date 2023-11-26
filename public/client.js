@@ -78,7 +78,7 @@ socket.on("updatePlayers", (data) => {
     playerList.innerHTML = ""
     players.forEach((player) => {
         playerList.innerHTML += `
-        <div id="player-${player.name}" class="player">
+        <div id="player-${player.name}" class="player container">
             <div class="player-pfp">
             </div>
             <div class="player-info">
@@ -108,11 +108,12 @@ document.addEventListener("keydown", (evt) => {
             playWord()
         }
     }
-    if (evt.code == "Space" && focusGame && inGame && lettersUsed > 0) {
+    if (evt.key == " " && focusGame && inGame && lettersUsed.length > 0) {
         clearLetters()
     }
     if ((evt.key == ";" || evt.key == ":") && focusGame && inGame) {
-        shuffle()
+        shuffle(lettersAvailable)
+        updateDeck()
     }
     if (lettersAvailable.includes(evt.key.toLowerCase()) && focusGame && inGame) {
         playLetter(evt.key)
@@ -185,9 +186,9 @@ socket.on("newMessage", (data) => {
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
-const shuffle = () => {
+const shuffle = (list) => {
 
-    let currentIndex = lettersAvailable.length,  randomIndex;
+    let currentIndex = list.length,  randomIndex;
 
     // While there remain elements to shuffle.
     while (currentIndex > 0) {
@@ -197,15 +198,9 @@ const shuffle = () => {
         currentIndex--;
 
         // And swap it with the current element.
-        [lettersAvailable[currentIndex], lettersAvailable[randomIndex]] = [
-        lettersAvailable[randomIndex], lettersAvailable[currentIndex]];
+        [list[currentIndex], list[randomIndex]] = [
+        list[randomIndex], list[currentIndex]];
     }
-
-    let c = 1
-    lettersAvailable.forEach((letter) => {
-        document.getElementById(`letters-available-${c}`).innerText = letter
-        c += 1
-    })
 
 }
 

@@ -30,6 +30,23 @@ let game = {
 
 }
 
+const shuffle = (list) => {
+
+    let currentIndex = list.length,  randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [list[currentIndex], list[randomIndex]] = [
+        list[randomIndex], list[currentIndex]];
+    }
+
+}
 
 const chooseLetters = () => {
     let letters = []
@@ -47,6 +64,10 @@ const chooseLetters = () => {
             letters.push(w.charAt(i))
         }
     }
+    console.log(letters)
+    shuffle(letters)
+    console.log(letters)
+
     return letters
 }
 
