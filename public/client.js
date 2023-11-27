@@ -304,6 +304,7 @@ socket.on("wordAccept", (data) => {
 
 socket.on("wordDecline", (data) => {
     clearLetters()
+    declinedAnimation()
 })
 
 const clearBoard = () => {
@@ -311,4 +312,16 @@ const clearBoard = () => {
     myScore.innerText = "Score: 0"
     wordList.innerHTML = ""
     clearLetters()
+}
+
+const declinedAnimation = () => {
+    let empty = document.getElementsByClassName("empty")
+    for (let i = 0; i < empty.length; i++) {
+        empty[i].style.backgroundColor = "red"
+    }
+    setTimeout(() => {
+        for (let i = 0; i < empty.length; i++) {
+            empty[i].style.backgroundColor = "var(--purple)"
+        }
+    }, 500)
 }
