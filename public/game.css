@@ -142,12 +142,43 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
+    display: none;
 }
 
 #user-info-wrapper {
     border-radius: 20px;
-    width: 60%;
     padding: 10px 15px 10px 15px;
+    display: flex;
+}
+
+#pfp-wrapper {
+    padding: 10px;
+}
+
+#pfp {
+    background-color: white;
+    width: 120px;
+    height: 120px;
+    border-radius: 120px;
+}
+
+#user-info {
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#user-info p {
+    margin: 0;
+}
+
+#username {
+    font-size: 28pt;
+}
+
+#wordCount, #myScore {
+    font-size: 14pt;
 }
 
 #word-list-container {

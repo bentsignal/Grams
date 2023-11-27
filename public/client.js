@@ -13,6 +13,8 @@ const start = document.getElementById("start")
 const wordList = document.getElementById("words-wrapper")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
+const userInfo = document.getElementById("user-info-container")
+const username = document.getElementById("username")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
@@ -54,6 +56,8 @@ socket.on("joinAccepted", () => {
     nameInput.disabled = true
     chatInput.disabled = false
     sendChat.disabled = false
+    userInfo.style.display = "flex"
+    username.innerText = nameInput.value
 })
 
 socket.on("joinDeclined", (data) => {
@@ -73,6 +77,7 @@ leave.addEventListener("click", () => {
     chatInput.disabled = true
     sendChat.disabled = true
     inGame = false
+    userInfo.style.display = "none"
     clearBoard()
 })
 
