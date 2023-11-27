@@ -1,6 +1,6 @@
 const join = document.getElementById("join")
 const leave = document.getElementById("leave")
-const nameField = document.getElementById("name-input")
+const nameInput = document.getElementById("name-input")
 const playerList = document.getElementById("player-list-wrapper")
 const chatInput = document.getElementById("chat-input")
 const sendChat = document.getElementById("send-chat")
@@ -33,15 +33,15 @@ socket.on("connect", () => {
 })
 
 join.addEventListener("click", () => {
-    joinErrors.innerHTML = ""
     joinGame()
 })
 
 const joinGame = () => {
-    const name = nameField.value
+    joinErrors.innerHTML = ""
+    const name = nameInput.value
     if (name.length > 0 && isAlphanumeric(name) && !inGame) {
         socket.emit("requestJoin", {
-            name: nameField.value
+            name: nameInput.value
         })
     }
 }
@@ -51,7 +51,7 @@ socket.on("joinAccepted", () => {
     inGame = true
     join.disabled = true
     leave.disabled = false
-    nameField.disabled = true
+    nameInput.disabled = true
     chatInput.disabled = false
     sendChat.disabled = false
 })
@@ -65,11 +65,11 @@ socket.on("joinDeclined", (data) => {
 
 leave.addEventListener("click", () => {
     socket.emit("leave", {
-        name: nameField.value
+        name: nameInput.value
     })
     join.disabled = false
     leave.disabled = true
-    nameField.disabled = false
+    nameInput.disabled = false
     chatInput.disabled = true
     sendChat.disabled = true
     inGame = false
@@ -101,38 +101,45 @@ socket.on("updatePlayers", (data) => {
 })
 
 document.addEventListener("keydown", (evt) => {
-    const focusGame = chatInput != document.activeElement && nameField != document.activeElement
-    if (evt.key == "Enter") {
-        if (chatInput == document.activeElement) {
+    if (document.activeElement == document.body) {
+        // focus game
+        if (inGame) {
+            if (lettersAvailable.includes(evt.key.toLowerCase())) {
+                playLetter(evt.key)
+            }
+            else if (evt.key == "Enter") {
+                playWord()
+            }
+            else if (evt.key == "Backspace") {
+                if (lettersUsed.length > 0) {
+                    removeLetter()
+                }
+            }
+            else if (evt.key == " " && lettersUsed.length > 0) {
+                clearLetters()
+            }
+            else if (evt.key == ";" || evt.key == ":") {
+                shuffle(lettersAvailable)
+                updateDeck()
+            }
+        }
+    }
+    else if (document.activeElement == chatInput) {
+        // chat
+        if (evt.key == "Enter") {
             sendMessage()
         }
-        else if (nameField == document.activeElement) {
-            joinErrors.innerHTML = ""
+    }
+    else if (document.activeElement == nameInput) {
+        // name
+        if (evt.key == "Enter") {
             joinGame()
-        }
-        else if (document.body = document.activeElement) {
-            playWord()
-        }
-    }
-    if (evt.key == " " && focusGame && inGame && lettersUsed.length > 0) {
-        clearLetters()
-    }
-    if ((evt.key == ";" || evt.key == ":") && focusGame && inGame) {
-        shuffle(lettersAvailable)
-        updateDeck()
-    }
-    if (lettersAvailable.includes(evt.key.toLowerCase()) && focusGame && inGame) {
-        playLetter(evt.key)
-    }
-    if (evt.key == "Backspace" && focusGame && inGame) {
-        if (lettersUsed.length > 0) {
-            removeLetter()
         }
     }
 })
 
 const sendMessage = () => {
-    const name = nameField.value
+    const name = nameInput.value
     const message = chatInput.value
     messageCount += 1
     let allowMessage = true
@@ -164,7 +171,7 @@ sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     const sender = data.sender
     const message = data.message
-    const me = nameField.value
+    const me = nameInput.value
     messageCount += 1
     if (sender == "Server") {
         chat.innerHTML += `
