@@ -154,7 +154,7 @@ io.on("connection", socket => {
             })
         }
         // username too long
-        if (name.length > 15) {
+        if (name.length > 20) {
             allowJoin = false
             socket.emit("joinDeclined", {
                 message: "Username must not exceed 15 characters."
