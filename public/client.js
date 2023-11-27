@@ -14,8 +14,8 @@ const wordList = document.getElementById("word-list")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
 
-let socket = io("http://localhost:5000")
-//let socket = io("http://grams.ddns.net")
+//let socket = io("http://localhost:5000")
+let socket = io("http://grams.ddns.net")
 
 let inGame = false
 let messageCount = 0
