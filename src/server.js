@@ -21,21 +21,22 @@ fs.readFile("src/370k.json", "utf-8", (err, data) => {
 })
 
 const wordScore = {
-    1: 1,
-    2: 4, 
-    3: 10,
-    4: 40,
-    5: 120,
-    6: 200,
-    7: 400,
-    8: 1000
+    1: 5,
+    2: 10, 
+    3: 50,
+    4: 100,
+    5: 300,
+    6: 600,
+    7: 1000,
+    8: 2000
 }
 
 // game 
 const max = 7
 let game = {
 
-    size: 8,
+    host: "",
+    size: 6,
     letters: [],
     players: []
 
@@ -257,6 +258,7 @@ io.on("connection", socket => {
             game.players[playerIndex].score += wordScore[word.length]
             socket.emit("wordAccept", {
                 word: word,
+                score: wordScore[word.length],
                 player: game.players[playerIndex]
             })
             io.sockets.emit("updatePlayers", {

@@ -167,6 +167,22 @@ body::after {
     text-align: center;
 }
 
+#word-list {
+    width: 90%;
+    height: 85%;
+    margin: auto;
+    overflow-y: scroll;
+}
+
+.word {
+    display: flex;
+    justify-content: space-between;
+}
+
+.word p {
+    margin: 0;
+}
+
 #letters-used-wrapper {
     display: flex;
     flex-direction: row;

@@ -14,8 +14,8 @@ const wordList = document.getElementById("word-list")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
 
-//let socket = io("http://localhost:5000")
-let socket = io("http://grams.ddns.net")
+let socket = io("http://localhost:5000")
+//let socket = io("http://grams.ddns.net")
 
 let inGame = false
 let messageCount = 0
@@ -289,9 +289,14 @@ const clearLetters = () => {
 socket.on("wordAccept", (data) => {
     const word = data.word
     const me = data.player
+    const score = data.score
+    const length = word.length
     clearLetters()
-    wordList.innerHTML += `
-        <div class="submitted-word">${word}</div>
+    document.getElementById(`words-${length}`).innerHTML += `
+        <div class="word" style="font-size:${10+(length*2)}pt">
+            <p>${word}</p>
+            <p>${score}</p>
+        </div>
     `
     wordCount.innerText = `Words: ${me.words.length}`
     myScore.innerText = `Score: ${me.score}`
