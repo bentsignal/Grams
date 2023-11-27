@@ -261,14 +261,18 @@ const removeLetter = () => {
 }
 
 socket.on("newLetters", (data) => {
-    const letters = data.letters
-    totalLetters = letters.length
-    lettersAvailable = letters
-    updateDeck()
+    if (inGame) {
+        const letters = data.letters
+        totalLetters = letters.length
+        lettersAvailable = letters
+        updateDeck()
+    }
 })
 
 start.addEventListener("click", () => {
-    socket.emit("startGame")
+    if (inGame) {
+        socket.emit("startGame")
+    }
 })
 
 const playWord = () => {
