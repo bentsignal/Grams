@@ -20,6 +20,17 @@ fs.readFile("src/370k.json", "utf-8", (err, data) => {
     dict = JSON.parse(data)
 })
 
+const wordScore = {
+    1: 1,
+    2: 4, 
+    3: 10,
+    4: 40,
+    5: 120,
+    6: 200,
+    7: 400,
+    8: 1000
+}
+
 // game 
 const max = 7
 let game = {
@@ -64,10 +75,8 @@ const chooseLetters = () => {
             letters.push(w.charAt(i))
         }
     }
-    console.log(letters)
-    shuffle(letters)
-    console.log(letters)
 
+    shuffle(letters)
     return letters
 }
 
@@ -78,19 +87,19 @@ const inDict = (word) => {
     return words.includes(word)
 }
 
-const notPlayed = (word, id) => {
+const getPlayerIndex = (id) => {
     for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].words.includes(word)) {
-            return false
+        if (game.players[i].id == id) {
+            return i
         }
     }
-    return true
+    return -1
 }
 
-const checkWord = (word, id) => {
-    c1 = word.length <= game.size && word.length > 0
+const checkWord = (word, playerIndex) => {
+    c1 = word.length <= game.size && word.length >= 1
     c2 = inDict(word)
-    c3 = notPlayed(word, id)
+    c3 = !game.players[playerIndex].words.includes(word)
     if (c1 && c2 && c3) {
         return true
     }
@@ -194,11 +203,6 @@ io.on("connection", socket => {
         const sender = data.sender
         const message = data.message
         let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100)
-        message.split(" ").forEach((word) => {
-            if (word.length > 25) {
-                allowMessage = false
-            } 
-        })
         if (allowMessage) {
             io.sockets.emit("newMessage", {
                 sender: sender,
@@ -247,16 +251,17 @@ io.on("connection", socket => {
 
     socket.on("wordSubmit", (data) => {
         const word = data.word
-        if (checkWord(word, socket.id)) {
+        const playerIndex = getPlayerIndex(socket.id)
+        if (checkWord(word, playerIndex)) {
+            game.players[playerIndex].words.push(word)
+            game.players[playerIndex].score += wordScore[word.length]
             socket.emit("wordAccept", {
-                word: word
+                word: word,
+                player: game.players[playerIndex]
             })
-            for (let i = 0; i < game.players.length; i++) {
-                if (game.players[i].id == socket.id) {
-                    game.players[i].words.push(word)
-                    break
-                }
-            }
+            io.sockets.emit("updatePlayers", {
+                players: game.players
+            })
         }
         else {
             socket.emit("wordDecline")

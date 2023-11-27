@@ -304,11 +304,17 @@ body::after {
 }
 
 #chat-wrapper {
+    width: 370px;
     height: 250px;
     margin: 0 0 10px 0;
     overflow-y: scroll;
-    overflow-x:visible;
+    overflow-wrap: break-word;
 }
+
+#chat {
+    padding: 0 10px 0 0;
+}
+
 
 ::-webkit-scrollbar {
     background: none;
@@ -316,7 +322,7 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--charcoal);
+    background: black;
     border-radius: 10px;
 }
 

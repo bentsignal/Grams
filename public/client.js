@@ -11,6 +11,8 @@ const availableWrapper = document.getElementById("letters-available-wrapper")
 const usedWrapper = document.getElementById("letters-used-wrapper")
 const start = document.getElementById("start")
 const wordList = document.getElementById("word-list")
+const wordCount = document.getElementById("wordCount")
+const myScore = document.getElementById("myScore")
 
 let socket = io("http://localhost:5000")
 //let socket = io("http://grams.ddns.net")
@@ -71,6 +73,7 @@ leave.addEventListener("click", () => {
     chatInput.disabled = true
     sendChat.disabled = true
     inGame = false
+    clearBoard()
 })
 
 socket.on("updatePlayers", (data) => {
@@ -87,6 +90,9 @@ socket.on("updatePlayers", (data) => {
                 </div>
                 <div class="player-score">
                     Score: ${player.score}
+                </div>
+                <div class="player-wins">
+                    Wins: ${player.wins}
                 </div>
             </div>
         </div>
@@ -275,13 +281,22 @@ const clearLetters = () => {
 
 socket.on("wordAccept", (data) => {
     const word = data.word
-    console.log("word accepted")
+    const me = data.player
     clearLetters()
     wordList.innerHTML += `
         <div class="submitted-word">${word}</div>
     `
+    wordCount.innerText = `Words: ${me.words.length}`
+    myScore.innerText = `Score: ${me.score}`
 })
 
 socket.on("wordDecline", (data) => {
-    console.log(`Word Declined`)
+    clearLetters()
 })
+
+const clearBoard = () => {
+    wordCount.innerText = "Words: 0"
+    myScore.innerText = "Score: 0"
+    wordList.innerHTML = ""
+    clearLetters()
+}
