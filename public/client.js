@@ -10,7 +10,7 @@ const joinErrors = document.getElementById("join-errors")
 const availableWrapper = document.getElementById("letters-available-wrapper")
 const usedWrapper = document.getElementById("letters-used-wrapper")
 const start = document.getElementById("start")
-const wordList = document.getElementById("word-list")
+const wordList = document.getElementById("words-wrapper")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
 

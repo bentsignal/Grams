@@ -161,17 +161,25 @@ body::after {
     height: 90%;
     width: 40%;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #word-list-header {
     text-align: center;
 }
 
-#word-list {
-    width: 90%;
-    height: 85%;
-    margin: auto;
+#words-container {
     overflow-y: scroll;
+    width: 95%;
+    height: 100%;
+    padding: 0;
+    margin: auto;
+}
+
+#words-wrapper {
+    width: 90%;
+    margin: auto;
 }
 
 .word {
