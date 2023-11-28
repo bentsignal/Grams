@@ -4,122 +4,19 @@ const { Server } = require("socket.io")
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
-const fs = require("fs")
+const game = require("./game")
 
 // start server
 app.use(express.static("public"))
 const PORT = 5000
 httpServer.listen(PORT)
 
-// load dictionary
-let dict = {}
-fs.readFile("src/370k.json", "utf-8", (err, data) => {
-    if (err) {
-        console.log(`ERROR: Could not read dictionary file: ${err}`)
-    }
-    dict = JSON.parse(data)
-})
-
-const wordScore = {
-    1: 5,
-    2: 10, 
-    3: 50,
-    4: 100,
-    5: 300,
-    6: 600,
-    7: 1000,
-    8: 2000
-}
-
-// game 
-const max = 8
-let game = {
-
-    host: "",
-    size: 6,
-    letters: [],
-    players: []
-
-}
-
-const shuffle = (list) => {
-
-    let currentIndex = list.length,  randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [list[currentIndex], list[randomIndex]] = [
-        list[randomIndex], list[currentIndex]];
-    }
-
-}
-
-const chooseLetters = () => {
-    let letters = []
-    const s = game.size.toString()
-    // choose random letter a-z
-    const l = String.fromCharCode(97 + Math.floor(Math.random() * 26))
-    // pick word from dictionary of length s starting with letter l
-    if (Object.keys(dict).length === 0) {
-        console.log("ERROR: Could not pick word, dictionary empty.")
-    }
-    else {
-        const length = dict[s][l].length
-        const w = dict[s][l][Math.floor(Math.random()*length)]
-        for (let i = 0; i < w.length; i++) {
-            letters.push(w.charAt(i))
-        }
-    }
-
-    shuffle(letters)
-    return letters
-}
-
-const inDict = (word) => {
-    const l = word.charAt(0)
-    const s = word.length
-    const words = dict[s][l]
-    return words.includes(word)
-}
-
-const getPlayerIndex = (id) => {
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].id == id) {
-            return i
-        }
-    }
-    return -1
-}
-
-const checkWord = (word, playerIndex) => {
-    c1 = word.length <= game.size && word.length >= 1
-    c2 = inDict(word)
-    c3 = !game.players[playerIndex].words.includes(word)
-    if (c1 && c2 && c3) {
-        return true
-    }
-    else {
-        return false
-    }
-}
-
-const startGame = () => {
-    game.letters = chooseLetters()
-}
-
-
 io.on("connection", socket => {
 
     console.log(`user connected with id: ${socket.id}`)
 
     socket.on("startGame", () => {
-        startGame()
+        game.startGame()
         io.sockets.emit("newLetters", {
             letters: game.letters
         })
