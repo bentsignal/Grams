@@ -21,7 +21,7 @@ let socket = io("http://localhost:5000")
 
 let inGame = false
 let messageCount = 0
-let lettersAvailable = ["f", "a", "r", "t", "e", "r"]
+let lettersAvailable = []
 let lettersUsed = []
 let totalLetters = 6
 
@@ -224,17 +224,18 @@ const shuffle = (list) => {
 
 const updateDeck = () => {
     availableWrapper.innerHTML = ""
-    let i = 1
-    lettersAvailable.forEach((letter) => {
-        availableWrapper.innerHTML += `
-            <p id="letters-available-${i}" class="letter-available">${letter}</p>
-        `
-        i += 1
-    })
     usedWrapper.innerHTML = ""
-    const played = lettersUsed.length
-    for (i = 1; i <= totalLetters; i++) {
-        if (i <= played) {
+    for (let i = 1; i <= totalLetters; i++) {
+        // letters available
+        let available = ""
+        if (i <= lettersAvailable.length) {
+            available = lettersAvailable[i-1]
+        }
+        availableWrapper.innerHTML += `
+            <p id="letters-available-${i}" class="letter-available">${available}</p>
+        `
+        // letters used
+        if (i <= lettersUsed.length) {
             usedWrapper.innerHTML += `
                 <p id="letter-used-${i}" class="letter-used filled">${lettersUsed[i-1]}</p>
             `
@@ -300,6 +301,7 @@ socket.on("wordAccept", (data) => {
     const me = data.player
     const score = data.score
     const length = word.length
+    console.log(length)
     clearLetters()
     document.getElementById(`words-${length}`).innerHTML += `
         <div class="word" style="font-size:${10+(length*2)}pt">
@@ -321,6 +323,8 @@ const clearBoard = () => {
     myScore.innerText = "Score: 0"
     wordList.innerHTML = ""
     clearLetters()
+    lettersAvailable = []
+    updateDeck()
 }
 
 const declinedAnimation = () => {

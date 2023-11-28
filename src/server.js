@@ -32,7 +32,7 @@ const wordScore = {
 }
 
 // game 
-const max = 7
+const max = 8
 let game = {
 
     host: "",
@@ -236,6 +236,9 @@ io.on("connection", socket => {
             type: "bad",
             message: `${name} has left the game.`
         })
+        if (game.players.length == 0) {
+            game.letters = []
+        }
     }
 
     socket.on("disconnect", () => {
