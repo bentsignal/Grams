@@ -1,7 +1,44 @@
 const fs = require("fs")
 const { shuffle } = require("../public/help")
 
-let game = {
+class Game {
+
+    constructor() {
+        this.host = ""
+        this.wordSize = 6
+        this.letters = []
+        this.players = []
+        this.maxPlayers = 8
+        this.wordScore = {
+            1: 5,
+            2: 10, 
+            3: 50,
+            4: 100,
+            5: 300,
+            6: 600,
+            7: 1000,
+            8: 2000
+        }
+        this.dict = {}
+        this.letters = []
+    }
+
+    init = (dict) => {
+        this.loadDict(dict)
+    }
+
+    loadDict = (fileName) => {
+        fs.readFile(fileName, "utf-8", (err, data) => {
+            if (err) {
+                console.log(`ERROR: Could not read dictionary file: ${err}`)
+            }
+            this.dict = JSON.parse(data)
+        })
+    }
+
+}
+
+const game = {
 
     host: "",
     wordSize: 6,
@@ -21,9 +58,63 @@ let game = {
     dict: {},
     letters: [],
 
+    init: () => {
+        this.loadDict("src/370k.json").bind(this)
+    },
+
     startGame: () => {
-        this.loadDict()
-        this.letters = chooseLetters()
+        this.letters = this.chooseLetters()
+    },
+
+    reset: () => {
+        // reset game info
+        this.letters = [],
+        this.wordSize = 6
+    },
+
+    addPlayer: (name, id) => {
+        this.players.push({
+            name: name,
+            id: id,
+            score: 0,
+            wins: 0,
+            words: []
+        })
+    },
+
+    removePlayer: (id) => {
+        let players = []
+        this.players.forEach((player) => {
+            if (player.id != id) {
+                players.push(player)
+            }
+        })
+        this.players = players
+        if (this.players.length == 0) {
+            game.reset()
+        }
+    },
+
+    isFull: () => {
+        return this.players.length >= this.maxPlayers
+    },
+
+    nameTaken: (name) => {
+        this.players.forEach((player) => {
+            if (player.name == name) {
+                return true
+            }
+        })
+        return false
+    },
+
+    dupConnection: (id) => {
+        this.players.forEach((player) => {
+            if (player.id == id) {
+                return true
+            }
+        })
+        return false
     },
 
     loadDict: (fileName) => {
@@ -86,4 +177,4 @@ let game = {
 
 }
 
-module.exports = game
+module.exports = Game

@@ -4,12 +4,15 @@ const { Server } = require("socket.io")
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
-const game = require("./game")
+const Game = require("./game")
+const cfg = require("./cfg.json")
 
 // start server
 app.use(express.static("public"))
-const PORT = 5000
-httpServer.listen(PORT)
+httpServer.listen(cfg.PORT)
+
+let game = new Game()
+game.init(cfg.DICT)
 
 io.on("connection", socket => {
 
@@ -23,53 +26,31 @@ io.on("connection", socket => {
     })
 
     socket.on("requestJoin", (data) => {
-
-        const name = data.name
-        let allowJoin = true
-
-        game.players.forEach((player) => {
-            // usename alrady taken
-            if (player.name == name) {
-                allowJoin = false
-                socket.emit("joinDeclined", {
-                    message: "Username taken."
-                })
-            }
-            // socket already connected
-            else if (player.id == socket.id) {
-                allowJoin = false
-                socket.emit("joinDeclined", {
-                    message: "ERROR: Already connected to game, refresh page if error persists."
-                })
-            }
-        })
+        if (game.nameTaken(data.name)) {
+            socket.emit("joinDeclined", {
+                message: "Username taken."
+            })
+        }
+        else if (game.dupConnection(socket.id)) {
+            socket.emit("joinDeclined", {
+                message: "ERROR: Already connected to game, refresh page if error persists."
+            })
+        }
         // max players reached
-        if (game.players.length >= max) {
-            allowJoin = false
+        else if (game.isFull()) {
             socket.emit("joinDeclined", {
                 message: "Lobby is currently full."
             })
         }
         // username too long
-        if (name.length > 20) {
-            allowJoin = false
+        else if (name.length > 20) {
             socket.emit("joinDeclined", {
                 message: "Username must not exceed 15 characters."
             })
         }
+        else {
 
-        // join accepted
-        if (allowJoin) {
-
-            let newPlayer = {
-                name: data.name,
-                id: socket.id,
-                score: 0,
-                wins: 0,
-                losses: 0,
-                words: []
-            }
-            game.players.push(newPlayer)
+            game.addPlayer(data.name, socket.id)
 
             socket.emit("joinAccepted")
             io.sockets.emit("updatePlayers", {
@@ -100,8 +81,9 @@ io.on("connection", socket => {
     socket.on("chatSent", (data) => {
         const sender = data.sender
         const message = data.message
-        let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100)
-        if (allowMessage) {
+        const charLim = message.length > 0 && message.length < 400
+        const wordLim = message.split(" ").length < 100
+        if (charLim && wordLim) {
             io.sockets.emit("newMessage", {
                 sender: sender,
                 message: message
@@ -111,20 +93,14 @@ io.on("connection", socket => {
             socket.emit("newMessage", {
                 sender: "Server",
                 type: "bad", 
-                message: "Your message could not be sent."
+                message: "Your message exceeded the maximum length."
             })
         }
     })
 
-    let playerLeft = (name) => {
-        console.log(`Player ${name} with id ${socket.id} has left the game.`)
-        let updatedPlayers = []
-        game.players.forEach((player) => {
-            if (player.id != socket.id) {
-                updatedPlayers.push(player)
-            }
-        })
-        game.players = updatedPlayers
+    let playerLeft = () => {
+        console.log(`Player with id ${socket.id} has left the game.`)
+        game.removePlayer(socket.id)
         io.sockets.emit("updatePlayers", {
             players: game.players
         })
@@ -139,15 +115,11 @@ io.on("connection", socket => {
     }
 
     socket.on("disconnect", () => {
-        game.players.forEach((player) => {
-            if (player.id == socket.id) {
-                playerLeft(player.name)
-            }
-        })
+        playerLeft()
     })
 
     socket.on("leave", (data) => {
-        playerLeft(data.name)
+        playerLeft()
     })
 
     socket.on("wordSubmit", (data) => {

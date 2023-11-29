@@ -16,7 +16,9 @@ const myScore = document.getElementById("myScore")
 const userInfo = document.getElementById("user-info-container")
 const username = document.getElementById("username")
 
-let socket = io("http://localhost:5000")
+const cfg = require("./cfg.json")
+
+let socket = io(cfg.URL)
 //let socket = io("http://grams.ddns.net")
 
 let inGame = false
