@@ -20,7 +20,6 @@ import { isAlphanumeric, shuffle } from "./help.js"
 import { cfg } from "./cfg.js"
 
 let socket = io(cfg.URL)
-//let socket = io("http://grams.ddns.net")
 
 let inGame = false
 let messageCount = 0
