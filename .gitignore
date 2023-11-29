@@ -2,3 +2,4 @@ notes
 node_modules
 */node_modules
 tests
+public/cfg.js
