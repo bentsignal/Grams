@@ -1,5 +1,5 @@
 const cfg = {
-    URL: "http://grams.ddns.net"
+    URL: "http://localhost:5000"
 }
 
 export { cfg } 
