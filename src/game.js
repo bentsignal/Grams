@@ -28,7 +28,7 @@ class Game {
     }
 
     startGame = () => {
-        this.letters = this.chooseLetters()
+        this.chooseLetters()
     }
 
     resetGame = () => {
@@ -73,7 +73,7 @@ class Game {
         return -1
     }
 
-    isFull = () => {
+    full = () => {
         return this.players.length >= this.maxPlayers
     }
 
@@ -86,7 +86,7 @@ class Game {
         return false
     }
 
-    dupConnection = (id) => {
+    duplicate = (id) => {
         this.players.forEach((player) => {
             if (player.id == id) {
                 return true
@@ -128,7 +128,18 @@ class Game {
         }
 
         shuffle(this.letters)
-        return this.letters
+    }
+
+    playWord = (word, id) => {
+        const playerIndex = this.getPlayerIndex(id)
+        if (this.checkWord(word, playerIndex)) {
+            this.players[playerIndex].words.push(word)
+            this.players[playerIndex].score += this.wordScore[word.length]
+            return true
+        }
+        else {
+            return false
+        }
     }
 
     checkWord = (word, playerIndex) => {

@@ -32,21 +32,27 @@ io.on("connection", socket => {
                 message: "Username taken."
             })
         }
-        else if (game.dupConnection(socket.id)) {
+        else if (game.duplicate(socket.id)) {
             socket.emit("joinDeclined", {
                 message: "ERROR: Already connected to game, refresh page if error persists."
             })
         }
         // max players reached
-        else if (game.isFull()) {
+        else if (game.full()) {
             socket.emit("joinDeclined", {
                 message: "Lobby is currently full."
+            })
+        }
+        // bad username
+        else if (!isAlphanumeric(data.name)) {
+            socket.emit("joinDeclined", {
+                message: "Username must be alphanumeric"
             })
         }
         // username too long
         else if (data.name.length > 20) {
             socket.emit("joinDeclined", {
-                message: "Username must not exceed 15 characters."
+                message: "Username must not exceed 20 characters."
             })
         }
         else {
@@ -82,24 +88,31 @@ io.on("connection", socket => {
     socket.on("chatSent", (data) => {
         const sender = data.sender
         const message = data.message
-        const charLim = message.length > 0 && message.length < 400
-        const wordLim = message.split(" ").length < 100
-        if (charLim && wordLim) {
+        const charLim = message.length < 0 || message.length > 400
+        const wordLim = message.split(" ").length > 100
+        if (charLim) {
+            socket.emit("newMessage", {
+                sender: "Server",
+                type: "bad", 
+                message: "Message must be less than 400 characters"
+            })
+        }
+        else if (wordLim) {
+            socket.emit("newMessage", {
+                sender: "Server",
+                type: "bad", 
+                message: "Message must be less than 100 words"
+            })
+        }
+        else {
             io.sockets.emit("newMessage", {
                 sender: sender,
                 message: message
             })
         }
-        else {
-            socket.emit("newMessage", {
-                sender: "Server",
-                type: "bad", 
-                message: "Your message exceeded the maximum length."
-            })
-        }
     })
 
-    let playerLeft = () => {
+    const playerLeft = () => {
         console.log(`Player with id ${socket.id} has left the game.`)
         const name = game.removePlayer(socket.id)
         io.sockets.emit("updatePlayers", {
@@ -119,16 +132,14 @@ io.on("connection", socket => {
         playerLeft()
     })
 
-    socket.on("leave", (data) => {
+    socket.on("leave", () => {
         playerLeft()
     })
 
     socket.on("wordSubmit", (data) => {
         const word = data.word
         const playerIndex = getPlayerIndex(socket.id)
-        if (checkWord(word, playerIndex)) {
-            game.players[playerIndex].words.push(word)
-            game.players[playerIndex].score += wordScore[word.length]
+        if (game.playWord(word, playerIndex)) {
             socket.emit("wordAccept", {
                 word: word,
                 score: wordScore[word.length],
