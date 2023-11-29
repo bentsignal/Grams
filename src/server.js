@@ -6,6 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 const Game = require("./game")
 const cfg = require("./cfg.json")
+const { isAlphanumeric } = require("./help")
 
 // start server
 app.use(express.static("public"))
@@ -43,7 +44,7 @@ io.on("connection", socket => {
             })
         }
         // username too long
-        else if (name.length > 20) {
+        else if (data.name.length > 20) {
             socket.emit("joinDeclined", {
                 message: "Username must not exceed 15 characters."
             })
@@ -100,7 +101,7 @@ io.on("connection", socket => {
 
     let playerLeft = () => {
         console.log(`Player with id ${socket.id} has left the game.`)
-        game.removePlayer(socket.id)
+        const name = game.removePlayer(socket.id)
         io.sockets.emit("updatePlayers", {
             players: game.players
         })

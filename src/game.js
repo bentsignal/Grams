@@ -1,5 +1,5 @@
 const fs = require("fs")
-const { shuffle } = require("../public/help")
+const { shuffle } = require("./help")
 
 class Game {
 
@@ -27,6 +27,74 @@ class Game {
         this.loadDict(dict)
     }
 
+    startGame = () => {
+        this.letters = this.chooseLetters()
+    }
+
+    resetGame = () => {
+        this.letters = [],
+        this.wordSize = 6
+    }
+
+    addPlayer = (name, id) => {
+        this.players.push({
+            name: name,
+            id: id,
+            score: 0,
+            wins: 0,
+            words: []
+        })
+    }
+
+    removePlayer = (id) => {
+        let name = ""
+        let players = []
+        this.players.forEach((player) => {
+            if (player.id != id) {
+                players.push(player)
+            }
+            else {
+                name = player.name
+            }
+        })
+        this.players = players
+        if (this.players.length == 0) {
+            this.resetGame()
+        }
+        return name
+    }
+
+    getPlayerIndex = (id) => {
+        for (let i = 0; i < this.game.players.length; i++) {
+            if (this.game.players[i].id == id) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    isFull = () => {
+        return this.players.length >= this.maxPlayers
+    }
+
+    nameTaken = (name) => {
+        this.players.forEach((player) => {
+            if (player.name == name) {
+                return true
+            }
+        })
+        return false
+    }
+
+    dupConnection = (id) => {
+        this.players.forEach((player) => {
+            if (player.id == id) {
+                return true
+            }
+        })
+        return false
+    }
+
     loadDict = (fileName) => {
         fs.readFile(fileName, "utf-8", (err, data) => {
             if (err) {
@@ -36,105 +104,14 @@ class Game {
         })
     }
 
-}
-
-const game = {
-
-    host: "",
-    wordSize: 6,
-    letters: [],
-    players: [],
-    maxPlayers: 8,
-    wordScore: {
-        1: 5,
-        2: 10, 
-        3: 50,
-        4: 100,
-        5: 300,
-        6: 600,
-        7: 1000,
-        8: 2000
-    },
-    dict: {},
-    letters: [],
-
-    init: () => {
-        this.loadDict("src/370k.json").bind(this)
-    },
-
-    startGame: () => {
-        this.letters = this.chooseLetters()
-    },
-
-    reset: () => {
-        // reset game info
-        this.letters = [],
-        this.wordSize = 6
-    },
-
-    addPlayer: (name, id) => {
-        this.players.push({
-            name: name,
-            id: id,
-            score: 0,
-            wins: 0,
-            words: []
-        })
-    },
-
-    removePlayer: (id) => {
-        let players = []
-        this.players.forEach((player) => {
-            if (player.id != id) {
-                players.push(player)
-            }
-        })
-        this.players = players
-        if (this.players.length == 0) {
-            game.reset()
-        }
-    },
-
-    isFull: () => {
-        return this.players.length >= this.maxPlayers
-    },
-
-    nameTaken: (name) => {
-        this.players.forEach((player) => {
-            if (player.name == name) {
-                return true
-            }
-        })
-        return false
-    },
-
-    dupConnection: (id) => {
-        this.players.forEach((player) => {
-            if (player.id == id) {
-                return true
-            }
-        })
-        return false
-    },
-
-    loadDict: (fileName) => {
-        fs.readFile(fileName, "utf-8", (err, data) => {
-            if (err) {
-                console.log(`ERROR: Could not read dictionary file: ${err}`)
-            }
-            this.dict = JSON.parse(data)
-        })
-    },
-
-    inDict: (word) => {
+    inDict = (word) => {
         const l = word.charAt(0)
         const s = word.length
         const words = this.dict[s][l]
         return words.includes(word)
-    },
+    }
 
-    chooseLetters: () => {
-        let letters = []
+    chooseLetters = () => {
         const size = this.wordSize.toString()
         // choose random letter a-z
         const letter = String.fromCharCode(97 + Math.floor(Math.random() * 26))
@@ -152,18 +129,9 @@ const game = {
 
         shuffle(this.letters)
         return this.letters
-    },
+    }
 
-    getPlayerIndex: (id) => {
-        for (let i = 0; i < this.game.players.length; i++) {
-            if (this.game.players[i].id == id) {
-                return i
-            }
-        }
-        return -1
-    },
-
-    checkWord: (word, playerIndex) => {
+    checkWord = (word, playerIndex) => {
         c1 = word.length <= this.wordSize && word.length >= 1
         c2 = this.inDict(word)
         c3 = !this.players[playerIndex].words.includes(word)

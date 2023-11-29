@@ -20,4 +20,4 @@ const shuffle = (list) => {
 
 }
 
-export { isAlphanumeric, shuffle }
+module.exports = { isAlphanumeric, shuffle }

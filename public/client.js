@@ -16,7 +16,8 @@ const myScore = document.getElementById("myScore")
 const userInfo = document.getElementById("user-info-container")
 const username = document.getElementById("username")
 
-const cfg = require("./cfg.json")
+import { isAlphanumeric, shuffle } from "./help.js"
+import { cfg } from "./cfg.js"
 
 let socket = io(cfg.URL)
 //let socket = io("http://grams.ddns.net")
