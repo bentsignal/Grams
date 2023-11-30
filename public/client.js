@@ -68,9 +68,8 @@ const joinGame = () => {
         joinErrors.innerHTML += `<p class="bad">Already connected to the game</p>`
     }
     else {
-        console.log("yert")
         socket.emit("requestJoin", {
-            name: nameInput.value
+            name: name
         })
     }
 }
@@ -111,21 +110,21 @@ const updatePlayers = () => {
     playerList.innerHTML = ""
     game.players.forEach((player) => {
         playerList.innerHTML += `
-        <div id="player-${player.name}" class="player container">
-            <div class="player-pfp">
+            <div id="player-${player.name}" class="player container">
+                <div class="player-pfp">
+                </div>
+                <div class="player-info">
+                    <div class="player-name">
+                        ${player.name}
+                    </div>
+                    <div class="player-score">
+                        Score: ${player.score}
+                    </div>
+                    <div class="player-wins">
+                        Wins: ${player.wins}
+                    </div>
+                </div>
             </div>
-            <div class="player-info">
-                <div class="player-name">
-                    ${player.name}
-                </div>
-                <div class="player-score">
-                    Score: ${player.score}
-                </div>
-                <div class="player-wins">
-                    Wins: ${player.wins}
-                </div>
-            </div>
-        </div>
         `
     })
 }
@@ -159,7 +158,6 @@ leave.addEventListener("click", () => {
     myScore.innerText = "Score: 0"
     wordList.innerHTML = ""
     game.left()
-    game.players = []
     updatePlayers()
 })
 
@@ -240,8 +238,10 @@ socket.on("joinDeclined", (data) => {
 })
 
 socket.on("updatePlayers", (data) => {
-    game.players = data.players
-    updatePlayers()
+    if (game.inGame) {
+        game.players = data.players
+        updatePlayers()
+    }
 })
 
 sendChat.addEventListener("click", sendMessage)

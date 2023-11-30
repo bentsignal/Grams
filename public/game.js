@@ -21,6 +21,7 @@ class Game {
         this.inGame = false
         this.lettersUsed = []
         this.lettersAvailable = []
+        this.players = []
         this.updateDeck()
     }
 
