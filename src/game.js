@@ -9,6 +9,7 @@ class Game {
         this.letters = []
         this.players = []
         this.maxPlayers = 8
+        this.dict = {}
         this.wordScore = {
             1: 5,
             2: 10, 
@@ -19,8 +20,6 @@ class Game {
             7: 1000,
             8: 2000
         }
-        this.dict = {}
-        this.letters = []
     }
 
     init = (dict) => {

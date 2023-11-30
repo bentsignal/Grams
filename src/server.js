@@ -124,9 +124,6 @@ io.on("connection", socket => {
             type: "bad",
             message: `${name} has left the game.`
         })
-        if (game.players.length == 0) {
-            game.letters = []
-        }
     }
 
     socket.on("disconnect", () => {
@@ -156,4 +153,3 @@ io.on("connection", socket => {
     })
 
 })
-

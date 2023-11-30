@@ -38,7 +38,7 @@ let messageCount = 0
 
 */
 const sendMessage = () => {
-    const name = nameInput.value
+    const name = game.name
     const message = chatInput.value
     let allowMessage = true
     if (allowMessage) {
@@ -107,6 +107,29 @@ const declinedAnimation = () => {
     }, 500)
 }
 
+const updatePlayers = () => {
+    playerList.innerHTML = ""
+    game.players.forEach((player) => {
+        playerList.innerHTML += `
+        <div id="player-${player.name}" class="player container">
+            <div class="player-pfp">
+            </div>
+            <div class="player-info">
+                <div class="player-name">
+                    ${player.name}
+                </div>
+                <div class="player-score">
+                    Score: ${player.score}
+                </div>
+                <div class="player-wins">
+                    Wins: ${player.wins}
+                </div>
+            </div>
+        </div>
+        `
+    })
+}
+
 /*
 
 
@@ -136,6 +159,8 @@ leave.addEventListener("click", () => {
     myScore.innerText = "Score: 0"
     wordList.innerHTML = ""
     game.left()
+    game.players = []
+    updatePlayers()
 })
 
 start.addEventListener("click", () => {
@@ -192,13 +217,12 @@ document.addEventListener("keydown", (evt) => {
 */
 
 socket.on("connect", () => {
-    console.log(`connected with id: ${socket.id}`)
-    socket.emit("requestPlayers")
+    console.log(`connected to server with id: ${socket.id}`)
 })
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
-    game.joined(nameInput.name)
+    game.joined(nameInput.value)
     join.disabled = true
     leave.disabled = false
     nameInput.disabled = true
@@ -206,37 +230,18 @@ socket.on("joinAccepted", () => {
     sendChat.disabled = false
     userInfo.style.display = "flex"
     username.innerText = nameInput.value
+    socket.emit("requestPlayers")
 })
 
 socket.on("joinDeclined", (data) => {
-    const message = data.message
     joinErrors.innerHTML += `
-        <p class="bad">${message}</p>
+        <p class="bad">${data.message}</p>
     `
 })
 
 socket.on("updatePlayers", (data) => {
     game.players = data.players
-    playerList.innerHTML = ""
-    game.players.forEach((player) => {
-        playerList.innerHTML += `
-        <div id="player-${player.name}" class="player container">
-            <div class="player-pfp">
-            </div>
-            <div class="player-info">
-                <div class="player-name">
-                    ${player.name}
-                </div>
-                <div class="player-score">
-                    Score: ${player.score}
-                </div>
-                <div class="player-wins">
-                    Wins: ${player.wins}
-                </div>
-            </div>
-        </div>
-        `
-    })
+    updatePlayers()
 })
 
 sendChat.addEventListener("click", sendMessage)
@@ -244,7 +249,7 @@ sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     const sender = data.sender
     const message = data.message
-    const me = nameInput.value
+    const me = game.name
     messageCount += 1
     if (sender == "Server") {
         chat.innerHTML += `
