@@ -58,7 +58,17 @@ const sendMessage = () => {
 const joinGame = () => {
     joinErrors.innerHTML = ""
     const name = nameInput.value
-    if (name.length > 0 && isAlphanumeric(name) && !game.inGame) {
+    if (name.length == 0) {
+        joinErrors.innerHTML += `<p class="bad">Username must be at least 1 character long</p>`
+    }
+    else if (!isAlphanumeric(name)) {
+        joinErrors.innerHTML += `<p class="bad">Name must be alphanumeric</p>`
+    }
+    else if (game.inGame) {
+        joinErrors.innerHTML += `<p class="bad">Already connected to the game</p>`
+    }
+    else {
+        console.log("yert")
         socket.emit("requestJoin", {
             name: nameInput.value
         })
