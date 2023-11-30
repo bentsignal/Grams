@@ -31,13 +31,18 @@ class Game {
         usedWrapper.innerHTML = ""
         for (let i = 1; i <= this.wordSize; i++) {
             // letters available
-            let available = ""
-            if (i <= this.lettersAvailable.length) {
-                available = this.lettersAvailable[i-1]
+            if (this.inGame) {
+                if (i <= this.lettersAvailable.length) {
+                    availableWrapper.innerHTML += `
+                        <p id="letters-available-${i}" class="letter-available">${this.lettersAvailable[i-1]}</p>
+                    `
+                }
             }
-            availableWrapper.innerHTML += `
-                <p id="letters-available-${i}" class="letter-available">${available}</p>
-            `
+            else { 
+                availableWrapper.innerHTML += `
+                    <p id="letters-available-${i}" class="letter-available"></p>
+                `
+            }
             // letters used
             if (i <= this.lettersUsed.length) {
                 usedWrapper.innerHTML += `

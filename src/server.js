@@ -32,6 +32,7 @@ io.on("connection", socket => {
                 message: "Username taken."
             })
         }
+        // socket already in game
         else if (game.duplicate(socket.id)) {
             socket.emit("joinDeclined", {
                 message: "ERROR: Already connected to game, refresh page if error persists."
@@ -138,11 +139,11 @@ io.on("connection", socket => {
 
     socket.on("wordSubmit", (data) => {
         const word = data.word
-        const playerIndex = getPlayerIndex(socket.id)
-        if (game.playWord(word, playerIndex)) {
+        const playerIndex = game.getPlayerIndex(socket.id)
+        if (game.playWord(word, socket.id)) {
             socket.emit("wordAccept", {
                 word: word,
-                score: wordScore[word.length],
+                score: game.wordScore[word.length],
                 player: game.players[playerIndex]
             })
             io.sockets.emit("updatePlayers", {

@@ -65,8 +65,8 @@ class Game {
     }
 
     getPlayerIndex = (id) => {
-        for (let i = 0; i < this.game.players.length; i++) {
-            if (this.game.players[i].id == id) {
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].id == id) {
                 return i
             }
         }
@@ -143,9 +143,9 @@ class Game {
     }
 
     checkWord = (word, playerIndex) => {
-        c1 = word.length <= this.wordSize && word.length >= 1
-        c2 = this.inDict(word)
-        c3 = !this.players[playerIndex].words.includes(word)
+        const c1 = word.length <= this.wordSize && word.length >= 1
+        const c2 = this.inDict(word)
+        const c3 = !this.players[playerIndex].words.includes(word)
         if (c1 && c2 && c3) {
             return true
         }

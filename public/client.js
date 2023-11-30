@@ -271,7 +271,6 @@ socket.on("wordAccept", (data) => {
     const me = data.player
     const score = data.score
     const length = word.length
-    console.log(length)
     game.clearPlayedLetters()
     document.getElementById(`words-${length}`).innerHTML += `
         <div class="word" style="font-size:${10+(length*2)}pt">
