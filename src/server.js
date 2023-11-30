@@ -4,175 +4,61 @@ const { Server } = require("socket.io")
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
-const fs = require("fs")
+const Game = require("./game")
+const cfg = require("./cfg.json")
+const { isAlphanumeric } = require("./help")
 
 // start server
 app.use(express.static("public"))
-const PORT = 5000
-httpServer.listen(PORT)
+httpServer.listen(cfg.PORT)
 
-// load dictionary
-let dict = {}
-fs.readFile("src/370k.json", "utf-8", (err, data) => {
-    if (err) {
-        console.log(`ERROR: Could not read dictionary file: ${err}`)
-    }
-    dict = JSON.parse(data)
-})
-
-const wordScore = {
-    1: 5,
-    2: 10, 
-    3: 50,
-    4: 100,
-    5: 300,
-    6: 600,
-    7: 1000,
-    8: 2000
-}
-
-// game 
-const max = 8
-let game = {
-
-    host: "",
-    size: 6,
-    letters: [],
-    players: []
-
-}
-
-const shuffle = (list) => {
-
-    let currentIndex = list.length,  randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [list[currentIndex], list[randomIndex]] = [
-        list[randomIndex], list[currentIndex]];
-    }
-
-}
-
-const chooseLetters = () => {
-    let letters = []
-    const s = game.size.toString()
-    // choose random letter a-z
-    const l = String.fromCharCode(97 + Math.floor(Math.random() * 26))
-    // pick word from dictionary of length s starting with letter l
-    if (Object.keys(dict).length === 0) {
-        console.log("ERROR: Could not pick word, dictionary empty.")
-    }
-    else {
-        const length = dict[s][l].length
-        const w = dict[s][l][Math.floor(Math.random()*length)]
-        for (let i = 0; i < w.length; i++) {
-            letters.push(w.charAt(i))
-        }
-    }
-
-    shuffle(letters)
-    return letters
-}
-
-const inDict = (word) => {
-    const l = word.charAt(0)
-    const s = word.length
-    const words = dict[s][l]
-    return words.includes(word)
-}
-
-const getPlayerIndex = (id) => {
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].id == id) {
-            return i
-        }
-    }
-    return -1
-}
-
-const checkWord = (word, playerIndex) => {
-    c1 = word.length <= game.size && word.length >= 1
-    c2 = inDict(word)
-    c3 = !game.players[playerIndex].words.includes(word)
-    if (c1 && c2 && c3) {
-        return true
-    }
-    else {
-        return false
-    }
-}
-
-const startGame = () => {
-    game.letters = chooseLetters()
-}
-
+let game = new Game()
+game.init(cfg.DICT)
 
 io.on("connection", socket => {
 
     console.log(`user connected with id: ${socket.id}`)
 
     socket.on("startGame", () => {
-        startGame()
+        game.startGame()
         io.sockets.emit("newLetters", {
             letters: game.letters
         })
     })
 
     socket.on("requestJoin", (data) => {
-
-        const name = data.name
-        let allowJoin = true
-
-        game.players.forEach((player) => {
-            // usename alrady taken
-            if (player.name == name) {
-                allowJoin = false
-                socket.emit("joinDeclined", {
-                    message: "Username taken."
-                })
-            }
-            // socket already connected
-            else if (player.id == socket.id) {
-                allowJoin = false
-                socket.emit("joinDeclined", {
-                    message: "ERROR: Already connected to game, refresh page if error persists."
-                })
-            }
-        })
+        if (game.nameTaken(data.name)) {
+            socket.emit("joinDeclined", {
+                message: "Username taken."
+            })
+        }
+        // socket already in game
+        else if (game.duplicate(socket.id)) {
+            socket.emit("joinDeclined", {
+                message: "ERROR: Already connected to game, refresh page if error persists."
+            })
+        }
         // max players reached
-        if (game.players.length >= max) {
-            allowJoin = false
+        else if (game.full()) {
             socket.emit("joinDeclined", {
                 message: "Lobby is currently full."
             })
         }
-        // username too long
-        if (name.length > 20) {
-            allowJoin = false
+        // bad username
+        else if (!isAlphanumeric(data.name)) {
             socket.emit("joinDeclined", {
-                message: "Username must not exceed 15 characters."
+                message: "Username must be alphanumeric"
             })
         }
+        // username too long
+        else if (data.name.length > 20) {
+            socket.emit("joinDeclined", {
+                message: "Username must not exceed 20 characters."
+            })
+        }
+        else {
 
-        // join accepted
-        if (allowJoin) {
-
-            let newPlayer = {
-                name: data.name,
-                id: socket.id,
-                score: 0,
-                wins: 0,
-                losses: 0,
-                words: []
-            }
-            game.players.push(newPlayer)
+            game.addPlayer(data.name, socket.id)
 
             socket.emit("joinAccepted")
             io.sockets.emit("updatePlayers", {
@@ -203,31 +89,33 @@ io.on("connection", socket => {
     socket.on("chatSent", (data) => {
         const sender = data.sender
         const message = data.message
-        let allowMessage = (message.length > 0 && message.length < 400 && message.split(" ").length < 100)
-        if (allowMessage) {
+        const charLim = message.length < 0 || message.length > 400
+        const wordLim = message.split(" ").length > 100
+        if (charLim) {
+            socket.emit("newMessage", {
+                sender: "Server",
+                type: "bad", 
+                message: "Message must be less than 400 characters"
+            })
+        }
+        else if (wordLim) {
+            socket.emit("newMessage", {
+                sender: "Server",
+                type: "bad", 
+                message: "Message must be less than 100 words"
+            })
+        }
+        else {
             io.sockets.emit("newMessage", {
                 sender: sender,
                 message: message
             })
         }
-        else {
-            socket.emit("newMessage", {
-                sender: "Server",
-                type: "bad", 
-                message: "Your message could not be sent."
-            })
-        }
     })
 
-    let playerLeft = (name) => {
-        console.log(`Player ${name} with id ${socket.id} has left the game.`)
-        let updatedPlayers = []
-        game.players.forEach((player) => {
-            if (player.id != socket.id) {
-                updatedPlayers.push(player)
-            }
-        })
-        game.players = updatedPlayers
+    const playerLeft = () => {
+        console.log(`Player with id ${socket.id} has left the game.`)
+        const name = game.removePlayer(socket.id)
         io.sockets.emit("updatePlayers", {
             players: game.players
         })
@@ -242,26 +130,20 @@ io.on("connection", socket => {
     }
 
     socket.on("disconnect", () => {
-        game.players.forEach((player) => {
-            if (player.id == socket.id) {
-                playerLeft(player.name)
-            }
-        })
+        playerLeft()
     })
 
-    socket.on("leave", (data) => {
-        playerLeft(data.name)
+    socket.on("leave", () => {
+        playerLeft()
     })
 
     socket.on("wordSubmit", (data) => {
         const word = data.word
-        const playerIndex = getPlayerIndex(socket.id)
-        if (checkWord(word, playerIndex)) {
-            game.players[playerIndex].words.push(word)
-            game.players[playerIndex].score += wordScore[word.length]
+        const playerIndex = game.getPlayerIndex(socket.id)
+        if (game.playWord(word, socket.id)) {
             socket.emit("wordAccept", {
                 word: word,
-                score: wordScore[word.length],
+                score: game.wordScore[word.length],
                 player: game.players[playerIndex]
             })
             io.sockets.emit("updatePlayers", {
