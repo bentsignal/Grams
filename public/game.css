@@ -109,7 +109,7 @@ body::after {
     }
   }
 
-.container {
+.wrapper {
     background-color: var(--charcoal);
     opacity: 80%;
     backdrop-filter: blur(10px);
@@ -416,4 +416,58 @@ input:focus {
 #join {
     margin-right: 2px;
 }
+
+#timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100vw;
+    height: 7vh;
+    top: 0;
+}
+
+#timer-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    height: 80%;
+    border-radius: 25px;
+    color: white;
+    font-size: 18pt;
+}
+
+#controls-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 25vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
+}
+
+#controls-wrapper {
+    padding: 20px;
+}
+
+#controls p {
+    text-align: center;
+    font-size: 18pt;
+    margin: 0;
+    padding: 10px 0 10px 0;
+}
+
+select {
+    padding: 9px 15px 9px 15px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+
 

@@ -15,7 +15,7 @@
         <div id="game-wrapper">
             <h1 id="grams">Grams</h1>
             <div id="user-info-container">
-                <div id="user-info-wrapper" class="container">
+                <div id="user-info-wrapper" class="wrapper"">
                     <div id="pfp-wrapper">
                         <div id="pfp">
                         </div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div id="word-list-container">
-                <div id="word-list-wrapper" class="container">
+                <div id="word-list-wrapper" class="wrapper"">
                     <h2 id="word-list-header">Words</h2>
                     <div id="words-container">
                         <div id="words-wrapper">
@@ -80,8 +80,8 @@
     </div>
     <div id="keybinds-container">
         <div id="keybinds-wrapper">
-            <p><span class="bind container">;</span> or <span class="bind container">:</span> to shuffle letters</p>
-            <p><span class="bind container">Space</span> to clear letters</p>
+            <p><span class="bind wrapper">;</span> or <span class="bind wrapper">:</span> to shuffle letters</p>
+            <p><span class="bind wrapper">Space</span> to clear letters</p>
         </div>
     </div>
     <div id="connection-container">
@@ -91,10 +91,9 @@
             <input id="name-input" placeholder="enter username, then press join" autocomplete="off"/>
             <button id="join">Join</button>
             <button id="leave" disabled>Leave</button>
-            <button id="start">Start</button>
         </div>
     </div>
-    <div id="chat-container" class="container">
+    <div id="chat-container" class="wrapper"">
         <div id="chat-wrapper">
             <div id="chat">
             </div>
@@ -102,6 +101,26 @@
         <div id="chat-input-wrapper">
             <input id="chat-input" autocomplete="off" placeholder="type your message here" disabled>
             <button id="send-chat" disabled>Send</button>
+        </div>
+    </div>
+    <div id="timer-container">
+        <div id="timer-wrapper" class="wrapper"">
+            <div id="timer">
+                1:00
+            </div>
+        </div>
+    </div>
+    <div id="controls-container">
+        <div id="controls-wrapper" class="wrapper">
+            <div id="controls">
+                <p>Game Settings</p>
+                <select id="select-word-size">
+                    <option>6 letters</option>
+                    <option>7 letters</option>
+                    <option>8 letters</option>
+                </select>
+                <button id="start">Start</button>
+            </div>
         </div>
     </div>
     <script type= "module" src="/client.js"></script>

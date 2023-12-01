@@ -6,12 +6,12 @@ const chatInput = document.getElementById("chat-input")
 const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
 const joinErrors = document.getElementById("join-errors")
-const start = document.getElementById("start")
 const wordList = document.getElementById("words-wrapper")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
 const userInfo = document.getElementById("user-info-container")
 const username = document.getElementById("username")
+const timer = document.getElementById("timer")
 
 import { isAlphanumeric } from "./help.js"
 import { cfg } from "./cfg.js"
@@ -20,6 +20,7 @@ import { Game } from "./game.js"
 const socket = io(cfg.URL)
 const game = new Game()
 
+let countdown = 59
 let messageCount = 0
 
 /*
@@ -110,7 +111,7 @@ const updatePlayers = () => {
     playerList.innerHTML = ""
     game.players.forEach((player) => {
         playerList.innerHTML += `
-            <div id="player-${player.name}" class="player container">
+            <div id="player-${player.name}" class="player wrapper">
                 <div class="player-pfp">
                 </div>
                 <div class="player-info">
@@ -128,6 +129,19 @@ const updatePlayers = () => {
         `
     })
 }
+
+const startTimer = setInterval(() => {
+    if (countdown < 0) {
+        clearInterval(startTimer)
+    }
+    else if (countdown < 10) {
+        timer.innerText = `0:${0}${countdown}`
+    }
+    else {
+        timer.innerText = `0:${countdown}`
+    }
+    countdown -= 1
+}, 1000)
 
 const resetWordList = () => {
     wordList.innerHTML = `
@@ -178,12 +192,6 @@ leave.addEventListener("click", () => {
     game.left()
     updatePlayers()
     resetWordList()
-})
-
-start.addEventListener("click", () => {
-    if (game.inGame) {
-        socket.emit("startGame")
-    }
 })
 
 document.addEventListener("keydown", (evt) => {
