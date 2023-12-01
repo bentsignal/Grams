@@ -76,7 +76,7 @@ class Game {
 
     getPlayerIndex = (id) => {
         let index = -1
-        for (i = 0; i < this.players.length; i++) {
+        for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].id == id) {
                 index = i
             }

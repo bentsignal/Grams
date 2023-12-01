@@ -129,6 +129,27 @@ const updatePlayers = () => {
     })
 }
 
+const resetWordList = () => {
+    wordList.innerHTML = `
+        <div id="words-8" class="word-class">
+        </div>
+        <div id="words-7">
+        </div>
+        <div id="words-6">
+        </div>
+        <div id="words-5">
+        </div>
+        <div id="words-4">
+        </div>
+        <div id="words-3">
+        </div>
+        <div id="words-2">
+        </div>
+        <div id="words-1">
+        </div>
+    `
+}
+
 /*
 
 
@@ -154,9 +175,9 @@ leave.addEventListener("click", () => {
     userInfo.style.display = "none"
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
-    wordList.innerHTML = ""
     game.left()
     updatePlayers()
+    resetWordList()
 })
 
 start.addEventListener("click", () => {
@@ -280,6 +301,7 @@ socket.on("newLetters", (data) => {
 })
 
 socket.on("wordAccept", (data) => {
+    console.log("word accept")
     const word = data.word
     const me = data.player
     const score = data.score
