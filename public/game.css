@@ -330,6 +330,7 @@ body::after {
 
 #connection-container {
     position: fixed;
+    z-index: 1;
     bottom: 0;
     right: 0;
     padding: 20px;
@@ -418,7 +419,7 @@ input:focus {
 }
 
 #timer-container {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -439,14 +440,15 @@ input:focus {
 }
 
 #controls-container {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
-    width: 25vw;
+    width: 17vw;
     height: 100vh;
     right: 0;
     top: 0;
+    z-index: 0;
 }
 
 #controls-wrapper {
@@ -457,7 +459,7 @@ input:focus {
     text-align: center;
     font-size: 18pt;
     margin: 0;
-    padding: 10px 0 10px 0;
+    padding: 0 0 10px 0;
 }
 
 select {

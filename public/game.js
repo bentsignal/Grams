@@ -6,6 +6,7 @@ class Game {
         this.name = ""
         this.id = ""
         this.inGame = false
+        this.midGame = false
         this.lettersAvailable = []
         this.lettersUsed = []
         this.wordSize = 6

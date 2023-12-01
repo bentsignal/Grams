@@ -61,6 +61,12 @@ io.on("connection", socket => {
             game.addPlayer(data.name, socket.id)
 
             socket.emit("joinAccepted")
+            if (game.players.length == 1) {
+                game.host = socket.id
+                io.sockets.emit("newHost", {
+                    id: game.host
+                })
+            }
             io.sockets.emit("updatePlayers", {
                 players: game.players
             })
@@ -116,6 +122,20 @@ io.on("connection", socket => {
     const playerLeft = (message) => {
         const name = game.removePlayer(socket.id)
         console.log(`Player ${name} with id ${socket.id} has ${message} the game.`)
+        if (game.host == socket.id) {
+            console.log("host left, choosing new host")
+            if (game.players.length > 0) {
+                game.host = game.players[0].id
+                io.sockets.emit("newHost", {
+                    id: game.host
+                })
+                console.log(`settings ${game.players[0].name} (${game.host}) to be new host`)
+            }
+            else {
+                console.log("no players left, removing host data")
+                game.host = ""
+            }
+        }
         io.sockets.emit("updatePlayers", {
             players: game.players
         })

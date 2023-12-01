@@ -11,7 +11,10 @@ const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
 const userInfo = document.getElementById("user-info-container")
 const username = document.getElementById("username")
+const timerContainer = document.getElementById("timer-container")
 const timer = document.getElementById("timer")
+const start = document.getElementById("start")
+const controls = document.getElementById("controls-container")
 
 import { isAlphanumeric } from "./help.js"
 import { cfg } from "./cfg.js"
@@ -130,19 +133,6 @@ const updatePlayers = () => {
     })
 }
 
-const startTimer = setInterval(() => {
-    if (countdown < 0) {
-        clearInterval(startTimer)
-    }
-    else if (countdown < 10) {
-        timer.innerText = `0:${0}${countdown}`
-    }
-    else {
-        timer.innerText = `0:${countdown}`
-    }
-    countdown -= 1
-}, 1000)
-
 const resetWordList = () => {
     wordList.innerHTML = `
         <div id="words-8" class="word-class">
@@ -162,6 +152,23 @@ const resetWordList = () => {
         <div id="words-1">
         </div>
     `
+}
+
+const startTimer = () => {
+    timerContainer.style.display = "flex"
+    setInterval(() => {
+        if (countdown < 0) {
+            timerContainer.style.display = "none"
+            clearInterval(startTimer)
+        }
+        else if (countdown < 10) {
+            timer.innerText = `0:${0}${countdown}`
+        }
+        else {
+            timer.innerText = `0:${countdown}`
+        }
+        countdown -= 1
+    }, 1000)
 }
 
 /*
@@ -190,9 +197,12 @@ leave.addEventListener("click", () => {
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
     game.left()
+    controls.style.display = "none"
     updatePlayers()
     resetWordList()
 })
+
+start.addEventListener("click", startTimer)
 
 document.addEventListener("keydown", (evt) => {
     if (document.activeElement == document.body) {
@@ -262,6 +272,12 @@ socket.on("joinDeclined", (data) => {
     joinErrors.innerHTML += `
         <p class="bad">${data.message}</p>
     `
+})
+
+socket.on("newHost", (data) => {
+    if (game.inGame && data.id == socket.id) {
+        controls.style.display = "flex"
+    }
 })
 
 socket.on("updatePlayers", (data) => {
