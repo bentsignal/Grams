@@ -132,6 +132,7 @@ class Game {
     }
 
     chooseLetters = () => {
+        this.letters = []
         const size = this.wordSize.toString()
         // choose random letter a-z
         const letter = String.fromCharCode(97 + Math.floor(Math.random() * 26))

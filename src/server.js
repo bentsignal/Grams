@@ -19,13 +19,6 @@ io.on("connection", socket => {
 
     console.log(`user connected with id: ${socket.id}`)
 
-    socket.on("startGame", () => {
-        game.startGame()
-        io.sockets.emit("newLetters", {
-            letters: game.letters
-        })
-    })
-
     socket.on("requestJoin", (data) => {
         if (game.nameTaken(data.name)) {
             socket.emit("joinDeclined", {
@@ -174,6 +167,19 @@ io.on("connection", socket => {
         }
         else {
             socket.emit("wordDecline")
+        }
+    })
+
+    socket.on("requestStart", () => {
+        if (game.host == socket.id) {
+            console.log("host requested start")
+            game.startGame()
+            io.sockets.emit("startGame", {
+                letters: game.letters
+            })
+        }
+        else {
+            console.log("start request by player that is not host")
         }
     })
 

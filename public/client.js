@@ -202,7 +202,9 @@ leave.addEventListener("click", () => {
     resetWordList()
 })
 
-start.addEventListener("click", startTimer)
+start.addEventListener("click", () => {
+    socket.emit("requestStart")
+})
 
 document.addEventListener("keydown", (evt) => {
     if (document.activeElement == document.body) {
@@ -320,8 +322,11 @@ socket.on("newMessage", (data) => {
     document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
-socket.on("newLetters", (data) => {
-    game.newLetters(data.letters)
+socket.on("startGame", (data) => {
+    if (game.inGame) {
+        startTimer()
+        game.newLetters(data.letters)
+    }
 })
 
 socket.on("wordAccept", (data) => {
