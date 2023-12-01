@@ -63,13 +63,30 @@ class Game {
         return name
     }
 
-    getPlayerIndex = (id) => {
+    nameById = (id) => {
+        let name = ""
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].id == id) {
-                return i
+                name = this.players[i].name
+                break
             }
         }
-        return -1
+        return name
+    }
+
+    getPlayerIndex = (id) => {
+        let index = -1
+        for (i = 0; i < this.players.length; i++) {
+            if (this.players[i].id == id) {
+                index = i
+            }
+        }
+        if (index != -1) {
+            return index
+        }
+        else {
+            return -1
+        }
     }
 
     full = () => {
@@ -77,21 +94,25 @@ class Game {
     }
 
     nameTaken = (name) => {
-        this.players.forEach((player) => {
-            if (player.name == name) {
-                return true
+        let found = false
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].name == name) {
+                found = true
+                break
             }
-        })
-        return false
+        }
+        return found
     }
 
-    duplicate = (id) => {
-        this.players.forEach((player) => {
-            if (player.id == id) {
-                return true
+    socketInGame = (id) => {
+        let found = false
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].id == id) {
+                found = true
+                break
             }
-        })
-        return false
+        }
+        return found
     }
 
     loadDict = (fileName) => {

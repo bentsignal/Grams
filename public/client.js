@@ -145,9 +145,7 @@ join.addEventListener("click", () => {
 })
 
 leave.addEventListener("click", () => {
-    socket.emit("leave", {
-        name: nameInput.value
-    })
+    socket.emit("leave")
     join.disabled = false
     leave.disabled = true
     nameInput.disabled = false

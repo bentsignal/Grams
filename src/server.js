@@ -33,7 +33,7 @@ io.on("connection", socket => {
             })
         }
         // socket already in game
-        else if (game.duplicate(socket.id)) {
+        else if (game.socketInGame(socket.id)) {
             socket.emit("joinDeclined", {
                 message: "ERROR: Already connected to game, refresh page if error persists."
             })
@@ -75,7 +75,7 @@ io.on("connection", socket => {
                 message: `${data.name} has joined the game.`
             })
 
-            console.log(`accepted user ${data.name} with socket id: ${socket.id}`)
+            console.log(`User ${data.name} (${socket.id}) has joined the game (${game.players.length}/${game.maxPlayers})`)
 
         }
     })
@@ -113,25 +113,30 @@ io.on("connection", socket => {
         }
     })
 
-    const playerLeft = () => {
-        console.log(`Player with id ${socket.id} has left the game.`)
+    const playerLeft = (message) => {
         const name = game.removePlayer(socket.id)
+        console.log(`Player ${name} with id ${socket.id} has ${message} the game.`)
         io.sockets.emit("updatePlayers", {
             players: game.players
         })
         io.sockets.emit("newMessage", {
             sender: "Server",
             type: "bad",
-            message: `${name} has left the game.`
+            message: `${name} has ${message} the game.`
         })
+
     }
 
     socket.on("disconnect", () => {
-        playerLeft()
+        if (game.socketInGame(socket.id)) {
+            playerLeft("disconnected from")
+        }   
     })
 
     socket.on("leave", () => {
-        playerLeft()
+        if (game.socketInGame(socket.id)) {
+            playerLeft("left")
+        } 
     })
 
     socket.on("wordSubmit", (data) => {
