@@ -38,7 +38,7 @@ class Game {
     }
 
     resetGame = () => {
-        this.letters = [],
+        this.letters = []
         this.wordSize = 6
     }
 

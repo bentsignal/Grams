@@ -160,10 +160,10 @@ const resetWordList = () => {
 const startTimer = () => {
     timerContainer.style.display = "flex"
     let countdown = 59
-    setInterval(() => {
+    const time = setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
-            clearInterval(startTimer)
+            clearInterval(time)
         }
         else if (countdown < 10) {
             timer.innerText = `0:${0}${countdown}`
@@ -203,7 +203,7 @@ leave.addEventListener("click", () => {
     game.left()
     controls.style.display = "none"
     updatePlayers()
-    resetWordList()
+    game.resetWordList()
 })
 
 start.addEventListener("click", () => {
@@ -330,6 +330,7 @@ socket.on("newMessage", (data) => {
 
 socket.on("startGame", (data) => {
     if (game.inGame) {
+        game.reset()
         game.midGame = true
         startTimer()
         game.newLetters(data.letters)
@@ -360,9 +361,7 @@ socket.on("wordDecline", (data) => {
 
 socket.on("gameOver", (data) => {
     console.log("game over")
-    this.resetGame()
-    console.log(data.players)
-
+    game.reset()
 })
 
 

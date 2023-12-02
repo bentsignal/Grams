@@ -193,9 +193,9 @@ io.on("connection", socket => {
 
     const startTimer = (s) => {
         let i = 0
-        setInterval(() => {
+        const timer = setInterval(() => {
             if (i >= s) {
-                clearInterval(startTimer)
+                clearInterval(timer)
                 endGame()
             }
             else {

@@ -30,7 +30,29 @@ class Game {
         this.midGame = false
         this.lettersUsed = []
         this.lettersAvailable = []
+        this.resetWordList()
         this.updateDeck()
+    }
+
+    resetWordList = () => {
+        document.getElementById("words-wrapper").innerHTML = `
+            <div id="words-8" class="word-class">
+            </div>
+            <div id="words-7">
+            </div>
+            <div id="words-6">
+            </div>
+            <div id="words-5">
+            </div>
+            <div id="words-4">
+            </div>
+            <div id="words-3">
+            </div>
+            <div id="words-2">
+            </div>
+            <div id="words-1">
+            </div>
+    `
     }
 
     updateDeck = () => {
@@ -40,7 +62,7 @@ class Game {
         usedWrapper.innerHTML = ""
         for (let i = 1; i <= this.wordSize; i++) {
             // letters available
-            if (this.inGame) {
+            if (this.midGame) {
                 if (i <= this.lettersAvailable.length) {
                     availableWrapper.innerHTML += `
                         <p id="letters-available-${i}" class="letter-available">${this.lettersAvailable[i-1]}</p>
