@@ -5,6 +5,7 @@ class Game {
 
     constructor() {
         this.host = ""
+        this.midGame = false
         this.wordSize = 6
         this.letters = []
         this.players = []
@@ -27,7 +28,13 @@ class Game {
     }
 
     startGame = () => {
+        this.midGame = true
         this.chooseLetters()
+    }
+
+    endGame = () => {
+        this.midGame = false
+        
     }
 
     resetGame = () => {
@@ -173,6 +180,32 @@ class Game {
         else {
             return false
         } 
+    }
+
+    startTimer = (s) => {
+        let i = 0
+        setInterval(() => {
+            if (i >= s) {
+                clearInterval(this.startTimer)
+                this.endGame()
+            }
+            else {
+                i += 1
+            }
+        }, 1000)
+    }
+
+    pickWinner = () => {
+        for (let i = 1; i < this.players.length; i++) {
+            let c = this.players[i]
+            let j
+            for (j = i-1, j >= 0 && this.players[j].score > this.players[i].score; j--;) {
+                this.players[j+1] = this.players[j]
+            }
+            this.players[j+1] = c
+        }
+        this.players.reverse()
+        this.players[0].wins += 1
     }
 
 }

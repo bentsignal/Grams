@@ -155,7 +155,7 @@ io.on("connection", socket => {
     socket.on("wordSubmit", (data) => {
         const word = data.word
         const playerIndex = game.getPlayerIndex(socket.id)
-        if (game.playWord(word, socket.id)) {
+        if (game.midGame && game.playWord(word, socket.id)) {
             socket.emit("wordAccept", {
                 word: word,
                 score: game.wordScore[word.length],
@@ -171,9 +171,10 @@ io.on("connection", socket => {
     })
 
     socket.on("requestStart", () => {
-        if (game.host == socket.id) {
+        if (game.host == socket.id && !game.midGame) {
             console.log("host requested start")
             game.startGame()
+            startTimer(60)
             io.sockets.emit("startGame", {
                 letters: game.letters
             })
@@ -182,5 +183,25 @@ io.on("connection", socket => {
             console.log("start request by player that is not host")
         }
     })
+
+    const startTimer = (s) => {
+        let i = 0
+        setInterval(() => {
+            if (i >= s) {
+                clearInterval(startTimer)
+                endGame()
+            }
+            else {
+                i += 1
+            }
+        }, 1000)
+    }
+
+    const endGame = () => {
+        game.endGame()
+        io.sockets.emit("gameOver", {
+            players: game.players
+        })
+    }
 
 })

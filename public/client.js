@@ -23,7 +23,6 @@ import { Game } from "./game.js"
 const socket = io(cfg.URL)
 const game = new Game()
 
-let countdown = 59
 let messageCount = 0
 
 /*
@@ -156,6 +155,7 @@ const resetWordList = () => {
 
 const startTimer = () => {
     timerContainer.style.display = "flex"
+    let countdown = 59
     setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
@@ -207,6 +207,7 @@ start.addEventListener("click", () => {
 })
 
 document.addEventListener("keydown", (evt) => {
+    console.log(window.performance)
     if (document.activeElement == document.body) {
         // focus game
         if (game.inGame) {
@@ -349,6 +350,11 @@ socket.on("wordAccept", (data) => {
 socket.on("wordDecline", (data) => {
     game.clearPlayedLetters()
     declinedAnimation()
+})
+
+socket.on("gameOver", (data) => {
+    console.log("game over")
+    console.log(data.players)
 })
 
 
