@@ -15,6 +15,7 @@ const timerContainer = document.getElementById("timer-container")
 const timer = document.getElementById("timer")
 const start = document.getElementById("start")
 const controls = document.getElementById("controls-container")
+const gameWrapper = document.getElementById("game-wrapper")
 
 import { isAlphanumeric } from "./help.js"
 import { cfg } from "./cfg.js"
@@ -196,7 +197,7 @@ leave.addEventListener("click", () => {
     nameInput.disabled = false
     chatInput.disabled = true
     sendChat.disabled = true
-    userInfo.style.display = "none"
+    gameWrapper.style.display = "none"
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
     game.left()
@@ -270,7 +271,7 @@ socket.on("joinAccepted", () => {
     nameInput.disabled = true
     chatInput.disabled = false
     sendChat.disabled = false
-    userInfo.style.display = "flex"
+    gameWrapper.style.display = "block"
     username.innerText = nameInput.value
     socket.emit("requestPlayers")
 })
