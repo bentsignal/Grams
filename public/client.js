@@ -26,6 +26,10 @@ const game = new Game()
 
 let messageCount = 0
 
+const bg = new Audio("./sounds/bg.mp3")
+const bad_word_sound = new Audio("./sounds/bad_word.mp3")
+const good_word_sound = new Audio("./sounds/good_word.mp3")
+
 /*
 
 
@@ -172,6 +176,7 @@ join.addEventListener("click", () => {
 
 leave.addEventListener("click", () => {
     socket.emit("leave")
+    bg.pause()
     join.disabled = false
     leave.disabled = true
     nameInput.disabled = false
@@ -246,6 +251,8 @@ socket.on("connect", () => {
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
+    bg.play()
+    bg.loop = true
     game.joined(nameInput.value)
     join.disabled = true
     leave.disabled = false
@@ -253,7 +260,6 @@ socket.on("joinAccepted", () => {
     chatInput.disabled = false
     sendChat.disabled = false
     gameWrapper.style.display = "block"
-    timerContainer.style.display = "flex"
     username.innerText = nameInput.value
     socket.emit("requestPlayers")
 })
@@ -323,6 +329,7 @@ socket.on("startGame", (data) => {
 
 socket.on("wordAccept", (data) => {
     console.log("word accept")
+    good_word_sound.play()
     const word = data.word
     const me = data.player
     const score = data.score
@@ -340,6 +347,7 @@ socket.on("wordAccept", (data) => {
 
 socket.on("wordDecline", (data) => {
     game.clearPlayedLetters()
+    bad_word_sound.play()
     declinedAnimation()
 })
 
