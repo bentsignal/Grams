@@ -170,9 +170,10 @@ io.on("connection", socket => {
         }
     })
 
-    socket.on("requestStart", () => {
+    socket.on("requestStart", (data) => {
         if (game.host == socket.id && !game.midGame) {
             console.log("host requested start")
+            game.wordSize = data.size
             game.startGame()
             startTimer(60)
             io.sockets.emit("startGame", {

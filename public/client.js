@@ -83,11 +83,14 @@ const joinGame = () => {
 
 */
 const playWord = () => {
-    if (game.anyLettersPlayed()) {
+    if (game.midGame && game.anyLettersPlayed()) {
         const word = game.getWord()
         socket.emit("wordSubmit", {
             word: word
         })
+    }
+    else {
+        declinedAnimation()
     }
 }
 
@@ -203,11 +206,12 @@ leave.addEventListener("click", () => {
 })
 
 start.addEventListener("click", () => {
-    socket.emit("requestStart")
+    socket.emit("requestStart", {
+        size: document.getElementById("select-word-size").value
+    })
 })
 
 document.addEventListener("keydown", (evt) => {
-    console.log(window.performance)
     if (document.activeElement == document.body) {
         // focus game
         if (game.inGame) {
@@ -325,6 +329,7 @@ socket.on("newMessage", (data) => {
 
 socket.on("startGame", (data) => {
     if (game.inGame) {
+        game.midGame = true
         startTimer()
         game.newLetters(data.letters)
     }
@@ -354,7 +359,9 @@ socket.on("wordDecline", (data) => {
 
 socket.on("gameOver", (data) => {
     console.log("game over")
+    this.resetGame()
     console.log(data.players)
+
 })
 
 

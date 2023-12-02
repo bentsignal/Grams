@@ -26,6 +26,13 @@ class Game {
         this.updateDeck()
     }
 
+    reset = () => {
+        this.midGame = false
+        this.lettersUsed = []
+        this.lettersAvailable = []
+        this.updateDeck()
+    }
+
     updateDeck = () => {
         const availableWrapper = document.getElementById("letters-available-wrapper")
         const usedWrapper = document.getElementById("letters-used-wrapper")
