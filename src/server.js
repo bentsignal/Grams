@@ -49,6 +49,11 @@ io.on("connection", socket => {
                 message: "Username must not exceed 20 characters."
             })
         }
+        else if (game.midGame) {
+            socket.emit("joinDeclined", {
+                message: "Game currently in progress"
+            })
+        }
         else {
 
             game.addPlayer(data.name, socket.id)
@@ -175,19 +180,22 @@ io.on("connection", socket => {
             console.log("host started game")
             const size = data.size[0]
             if (size >= 6 && size <= 8) {
-                game.wordSize = data.size[0]
+                game.wordSize = size
             }
             else {
                 game.wordSize = 6
             }
             game.startGame()
+            io.sockets.emit("updatePlayers", {
+                players: game.players
+            })
             startTimer(60)
             io.sockets.emit("startGame", {
                 letters: game.letters
             })
         }
         else {
-            console.log("start request by player that is not host")
+            console.log("invalid request to start game")
         }
     })
 

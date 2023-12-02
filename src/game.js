@@ -28,18 +28,23 @@ class Game {
     }
 
     startGame = () => {
+        this.resetGame()
         this.midGame = true
         this.chooseLetters()
     }
 
     endGame = () => {
         this.midGame = false
-        
+        this.gameOver = true
+        this.pickWinner()
     }
 
     resetGame = () => {
         this.letters = []
-        this.wordSize = 6
+        this.players.forEach((player) => {
+            player.words = []
+            player.score = 0
+        })
     }
 
     addPlayer = (name, id) => {
@@ -135,7 +140,12 @@ class Game {
         const l = word.charAt(0)
         const s = word.length
         const words = this.dict[s][l]
-        return words.includes(word)
+        try {
+            return words.includes(word)
+        }
+        catch (error) {
+            return false
+        }
     }
 
     chooseLetters = () => {

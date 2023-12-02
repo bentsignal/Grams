@@ -136,33 +136,13 @@ const updatePlayers = () => {
     })
 }
 
-const resetWordList = () => {
-    wordList.innerHTML = `
-        <div id="words-8" class="word-class">
-        </div>
-        <div id="words-7">
-        </div>
-        <div id="words-6">
-        </div>
-        <div id="words-5">
-        </div>
-        <div id="words-4">
-        </div>
-        <div id="words-3">
-        </div>
-        <div id="words-2">
-        </div>
-        <div id="words-1">
-        </div>
-    `
-}
-
 const startTimer = () => {
     timerContainer.style.display = "flex"
     let countdown = 59
     const time = setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
+            timer.innerText = "1:00"
             clearInterval(time)
         }
         else if (countdown < 10) {
@@ -202,6 +182,7 @@ leave.addEventListener("click", () => {
     myScore.innerText = "Score: 0"
     game.left()
     controls.style.display = "none"
+    timerContainer.style.display = "none"
     updatePlayers()
     game.resetWordList()
 })
@@ -219,7 +200,7 @@ document.addEventListener("keydown", (evt) => {
             if (game.lettersAvailable.includes(evt.key.toLowerCase())) {
                 game.playLetter(evt.key)
             }
-            else if (evt.key == "Enter") {
+            else if (evt.key == "Enter" && game.midGame) {
                 playWord()
             }
             else if (evt.key == "Backspace") {
@@ -272,6 +253,7 @@ socket.on("joinAccepted", () => {
     chatInput.disabled = false
     sendChat.disabled = false
     gameWrapper.style.display = "block"
+    timerContainer.style.display = "flex"
     username.innerText = nameInput.value
     socket.emit("requestPlayers")
 })
@@ -332,6 +314,8 @@ socket.on("startGame", (data) => {
     if (game.inGame) {
         game.reset()
         game.midGame = true
+        wordCount.innerText = "Words: 0"
+        myScore.innerText = "Score: 0"
         startTimer()
         game.newLetters(data.letters)
     }
@@ -361,6 +345,8 @@ socket.on("wordDecline", (data) => {
 
 socket.on("gameOver", (data) => {
     console.log("game over")
+    game.players = data.players
+    updatePlayers()
     game.reset()
 })
 
