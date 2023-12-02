@@ -138,17 +138,31 @@ body::after {
     -webkit-backdrop-filter: blur(10px);
 }
 
+#game-info-container {
+    width: 35vw;
+    max-width: 450px;
+    margin: auto;
+}
+
 #user-info-container {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    display: none;
+}
+
+#game-info-wrapper {
+    margin: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 #user-info-wrapper {
     border-radius: 20px;
     padding: 10px 25px 10px 25px;
     display: flex;
+    justify-content: center;
 }
 
 #pfp-wrapper {
@@ -189,23 +203,21 @@ body::after {
 }
 
 #word-list-wrapper {
-    height: 90%;
-    width: 40%;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
 }
 
 #word-list-header {
     text-align: center;
+    font-size: 24pt;
+    margin: 10px 0;
 }
 
 #words-container {
     overflow-y: scroll;
     width: 95%;
-    height: 80%;
-    padding: 0;
-    margin: auto;
+    margin: 0 auto 10px auto;
+    height: 40vh;
 }
 
 #words-wrapper {
@@ -453,6 +465,7 @@ input:focus {
 
 #controls-wrapper {
     padding: 20px;
+    border-radius: 25px;
 }
 
 #controls p {

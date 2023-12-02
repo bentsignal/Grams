@@ -172,8 +172,14 @@ io.on("connection", socket => {
 
     socket.on("requestStart", (data) => {
         if (game.host == socket.id && !game.midGame) {
-            console.log("host requested start")
-            game.wordSize = data.size
+            console.log("host started game")
+            const size = data.size[0]
+            if (size >= 6 && size <= 8) {
+                game.wordSize = data.size[0]
+            }
+            else {
+                game.wordSize = 6
+            }
             game.startGame()
             startTimer(60)
             io.sockets.emit("startGame", {
