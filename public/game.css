@@ -485,5 +485,7 @@ select {
     position: relative;
 }
 
-
+#results-wrapper {
+    display: none;
+}
 

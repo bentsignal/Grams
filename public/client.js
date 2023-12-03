@@ -16,6 +16,7 @@ const timer = document.getElementById("timer")
 const start = document.getElementById("start")
 const controls = document.getElementById("controls-container")
 const gameWrapper = document.getElementById("game-wrapper")
+const resultsWrapper = document.getElementById("results-wrapper")
 
 import { isAlphanumeric } from "./help.js"
 import { cfg } from "./cfg.js"
@@ -158,6 +159,20 @@ const startTimer = () => {
         }
         countdown -= 1
     }, 1000)
+}
+
+const renderResults = () => {
+    console.log("render results")
+}
+
+const switchToResults = () => {
+    gameWrapper.style.display = "none"
+    resultsWrapper.style.display = "block"
+}
+
+const switchToGame = () => {
+    gameWrapper.style.display = "block"
+    resultsWrapper.style.display = "none"
 }
 
 /*
@@ -324,6 +339,7 @@ socket.on("startGame", (data) => {
         game.midGame = true
         wordCount.innerText = "Words: 0"
         myScore.innerText = "Score: 0"
+        switchToGame()
         startTimer()
         game.newLetters(data.letters)
     }
@@ -354,10 +370,14 @@ socket.on("wordDecline", (data) => {
 })
 
 socket.on("gameOver", (data) => {
-    console.log("game over")
-    game.players = data.players
-    updatePlayers()
-    game.reset()
-    wordCount.innerText = `Words: 0`
-    myScore.innerText = `Score: 0`
+    if (game.inGame) {
+        game.players = data.players
+        updatePlayers()
+        game.reset()
+        wordCount.innerText = `Words: 0`
+        myScore.innerText = `Score: 0`
+        renderResults()
+        switchToResults()
+    }
+    
 })
