@@ -31,6 +31,9 @@ const bg = new Audio("./sounds/bg.mp3")
 let bgVol = 0
 const bad_word_sound = new Audio("./sounds/bad_word.mp3")
 const good_word_sound = new Audio("./sounds/good_word.mp3")
+const win_sound = new Audio("./sounds/win.mp3")
+const lose_sound = new Audio("./sounds/lose.mp3")
+lose_sound.volume = 0.5
 
 /*
 
@@ -367,6 +370,14 @@ socket.on("wordDecline", (data) => {
     game.clearPlayedLetters()
     bad_word_sound.play()
     declinedAnimation()
+})
+
+socket.on("youWon", () => {
+    win_sound.play()
+})
+
+socket.on("youLost", () => {
+    lose_sound.play()
 })
 
 socket.on("gameOver", (data) => {

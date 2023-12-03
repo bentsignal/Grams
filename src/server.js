@@ -220,11 +220,15 @@ io.on("connection", socket => {
         const highScore = game.players[0].score
         game.players.forEach((player) => {
             if (player.score == highScore) {
+                io.to(player.id).emit("youWon")
                 io.sockets.emit("newMessage", {
                     sender: "Server",
                     type: "good",
                     message: `${player.name} has won the game with ${player.score} points!`
                 })
+            }
+            else {
+                io.to(player.id).emit("youLost")
             }
         })
     }
