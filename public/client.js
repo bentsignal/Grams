@@ -27,6 +27,7 @@ const game = new Game()
 let messageCount = 0
 
 const bg = new Audio("./sounds/bg.mp3")
+let bgVol = 0
 const bad_word_sound = new Audio("./sounds/bad_word.mp3")
 const good_word_sound = new Audio("./sounds/good_word.mp3")
 
@@ -252,6 +253,7 @@ socket.on("connect", () => {
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
     bg.play()
+    bg.volume = bgVol
     bg.loop = true
     game.joined(nameInput.value)
     join.disabled = true
@@ -356,6 +358,6 @@ socket.on("gameOver", (data) => {
     game.players = data.players
     updatePlayers()
     game.reset()
+    wordCount.innerText = `Words: 0`
+    myScore.innerText = `Score: 0`
 })
-
-

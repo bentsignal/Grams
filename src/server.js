@@ -217,6 +217,16 @@ io.on("connection", socket => {
         io.sockets.emit("gameOver", {
             players: game.players
         })
+        const highScore = game.players[0].score
+        game.players.forEach((player) => {
+            if (player.score == highScore) {
+                io.sockets.emit("newMessage", {
+                    sender: "Server",
+                    type: "good",
+                    message: `${player.name} has won the game with ${player.score} points!`
+                })
+            }
+        })
     }
 
 })

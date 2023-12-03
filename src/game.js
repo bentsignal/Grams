@@ -206,17 +206,31 @@ class Game {
     }
 
     pickWinner = () => {
-        for (let i = 1; i < this.players.length; i++) {
-            let c = this.players[i]
-            let j
-            for (j = i-1, j >= 0 && this.players[j].score > this.players[i].score; j--;) {
-                this.players[j+1] = this.players[j]
-            }
-            this.players[j+1] = c
+        let i, key, j;
+        for (i = 1; i < this.players.length; i++) 
+        {  
+            key = this.players[i];  
+            j = i - 1;  
+    
+            /* Move elements of arr[0..i-1], that are  
+            greater than key, to one position ahead  
+            of their current position */
+            while (j >= 0 && this.players[j].score > key.score) 
+            {  
+                this.players[j + 1] = this.players[j];  
+                j = j - 1;  
+            }  
+            this.players[j + 1] = key;  
         }
         this.players.reverse()
-        this.players[0].wins += 1
+        const highScore = this.players[0].score
+        this.players.forEach((player) => {
+            if (player.score == highScore) {
+                player.wins += 1
+            }
+        })
     }
+    
 
 }
 
