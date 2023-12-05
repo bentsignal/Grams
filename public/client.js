@@ -28,14 +28,14 @@ const game = new Game()
 
 let messageCount = 0
 
-const music = new Audio("./sounds/bg.mp3")
-const bad_word_sound = new Audio("./sounds/bad_word.mp3")
-const good_word_sound = new Audio("./sounds/good_word.mp3")
+const music = new Audio("./sounds/george_st_shuffle.mp3")
+const bad_word_sound = new Audio("./sounds/bad.mp3")
+const good_word_sound = new Audio("./sounds/good.mp3")
 const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
 
 const volume = {
-    music: 1,
+    music: 0.2,
     sfx: 0.6
 }
 
@@ -65,13 +65,13 @@ const volumeControls = new Popup({
         <div id="sfx-controls-container">
             <div id="sfx-controls-wrapper">
                 <p>SFX</p>
-                <input type="range" min="0" max="100" value=${volume.sfx*100} id="sfx-slider">
+                <input type="range" min="0" max="100" value=${volume.sfx*100} id="sfx-slider" class="volume-slider">
             </div>
         </div>
         <div id="music-controls-container">
             <div id="music-controls-wrapper">
                 <p>Music</p>
-                <input type="range" min="0" max="100" value=${volume.music*100} id="music-slider">
+                <input type="range" min="0" max="100" value=${volume.music*100} id="music-slider" class="volume-slider">
             </div>
         </div>
     `,
@@ -82,6 +82,8 @@ const volumeControls = new Popup({
             volume.sfx = document.getElementById("sfx-slider").value / 100
             win_sound.volume = volume.sfx
             lose_sound.volume = volume.sfx
+            good_word_sound.volume = volume.sfx
+            bad_word_sound.volume = volume.sfx
         })
         
         musicSlider.addEventListener("input", () => {

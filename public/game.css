@@ -413,14 +413,14 @@ button:enabled {
     cursor: pointer;
 }
 
-input[type="text"] {
+#chat-input, #name-input {
     font-family: 'Roboto', sans-serif;
     border: none;
     padding: 3px 3px 3px 8px;
     border-radius: 5px;
 }
 
-input:focus {
+input[type=text]:focus {
     border: none;
     box-shadow: none;
     outline: none;
@@ -498,6 +498,10 @@ select {
     right: 10px;
     width: 40px;
     height: 40px;
+    cursor: pointer;
+}
+
+.volume-slider {
     cursor: pointer;
 }
 
