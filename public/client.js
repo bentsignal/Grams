@@ -17,6 +17,7 @@ const start = document.getElementById("start")
 const controls = document.getElementById("controls-container")
 const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
+const volumeButton = document.getElementById("volume")
 
 import { isAlphanumeric } from "./help.js"
 import { cfg } from "./cfg.js"
@@ -27,13 +28,68 @@ const game = new Game()
 
 let messageCount = 0
 
-const bg = new Audio("./sounds/bg.mp3")
-let bgVol = 0
+const music = new Audio("./sounds/bg.mp3")
 const bad_word_sound = new Audio("./sounds/bad_word.mp3")
 const good_word_sound = new Audio("./sounds/good_word.mp3")
 const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
-lose_sound.volume = 0.5
+
+const volume = {
+    music: 1,
+    sfx: 0.6
+}
+
+lose_sound.volume = volume.sfx
+music.volume = volume.music
+
+const volumeControls = new Popup({
+    id: "volume-controls",
+    title: "Volume",
+    backgroundColor: "var(--charcoal)",
+    titleColor: "white",
+    textColor: "white",
+    closeColor: "white",
+    css: `
+
+        .popup-title {
+            font-size: 24pt;
+            margin-top: 3vh;
+        }
+
+        .popup-content {
+            width: 30vw !important;
+        }
+
+    `,
+    content: `
+        <div id="sfx-controls-container">
+            <div id="sfx-controls-wrapper">
+                <p>SFX</p>
+                <input type="range" min="0" max="100" value=${volume.sfx*100} id="sfx-slider">
+            </div>
+        </div>
+        <div id="music-controls-container">
+            <div id="music-controls-wrapper">
+                <p>Music</p>
+                <input type="range" min="0" max="100" value=${volume.music*100} id="music-slider">
+            </div>
+        </div>
+    `,
+    loadCallback: () => {
+        const sfxSlider = document.getElementById("sfx-slider")
+        const musicSlider = document.getElementById("music-slider")
+        sfxSlider.addEventListener("input", () => {
+            volume.sfx = document.getElementById("sfx-slider").value / 100
+            win_sound.volume = volume.sfx
+            lose_sound.volume = volume.sfx
+        })
+        
+        musicSlider.addEventListener("input", () => {
+            volume.music = document.getElementById("music-slider").value / 100
+            music.volume = volume.music
+        })
+    }
+})
 
 /*
 
@@ -127,8 +183,7 @@ const updatePlayers = () => {
     game.players.forEach((player) => {
         playerList.innerHTML += `
             <div id="player-${player.name}" class="player wrapper">
-                <div class="player-pfp">
-                </div>
+                <img src="images/ben-face-1.jpg" class="pfp-player-list">
                 <div class="player-info">
                     <div class="player-name">
                         ${player.name}
@@ -195,7 +250,7 @@ join.addEventListener("click", () => {
 
 leave.addEventListener("click", () => {
     socket.emit("leave")
-    bg.pause()
+    music.pause()
     join.disabled = false
     leave.disabled = true
     nameInput.disabled = false
@@ -215,6 +270,10 @@ start.addEventListener("click", () => {
     socket.emit("requestStart", {
         size: document.getElementById("select-word-size").value
     })
+})
+
+volumeButton.addEventListener("click", () => {
+    volumeControls.show()
 })
 
 document.addEventListener("keydown", (evt) => {
@@ -270,9 +329,9 @@ socket.on("connect", () => {
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
-    bg.play()
-    bg.volume = bgVol
-    bg.loop = true
+    music.play()
+    music.volume = volume.music
+    music.loop = true
     game.joined(nameInput.value)
     join.disabled = true
     leave.disabled = false

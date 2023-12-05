@@ -170,11 +170,11 @@ body::after {
     padding: 10px;
 }
 
-#pfp {
-    background-color: white;
+.pfp-player-card {
     width: 120px;
     height: 120px;
     border-radius: 120px;
+    cursor: pointer;
 }
 
 #user-info {
@@ -297,11 +297,10 @@ body::after {
     align-items: center;
 }
 
-.player-pfp {
+.pfp-player-list {
     width: 50px;
     height: 50px;
-    background-color: white;
-    border-radius: 25px;
+    border-radius: 50px;
 }
 
 .player-info {
@@ -414,7 +413,7 @@ button:enabled {
     cursor: pointer;
 }
 
-input {
+input[type="text"] {
     font-family: 'Roboto', sans-serif;
     border: none;
     padding: 3px 3px 3px 8px;
@@ -487,5 +486,18 @@ select {
 
 #results-wrapper {
     display: none;
+}
+
+.volume-controls {
+    background: pink;
+}
+
+#volume {
+    position: fixed;
+    bottom: 80px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
