@@ -206,7 +206,7 @@ io.on("connection", socket => {
         if (game.pfpAvailable(pfp)) {
             console.log(`PFP change request approved for user ${user.name}`)
             game.pfpChange(pfp, socket.id)
-            socket.emit("updatePlayers", {
+            io.sockets.emit("updatePlayers", {
                 players: game.players
             })
         }

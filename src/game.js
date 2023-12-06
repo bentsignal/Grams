@@ -62,7 +62,7 @@ class Game {
         this.players.push({
             name: name,
             id: id,
-            pfp: this.pfpChoose(),
+            pfp: this.pfpInit(),
             score: 0,
             wins: 0,
             words: []
@@ -118,22 +118,20 @@ class Game {
         return this.pfp[pfp]
     }
 
-    pfpChoose = () => {
-        let pfp = ""
+    pfpInit = () => {
         for (const [key, value] of Object.entries(this.pfp)) {
             if (value) {
                 this.pfp[key] = false
-                pfp = key
-                break
+                return key
             }
         }
-        return pfp
     }
 
     pfpChange = (pfp, id) => {
         const old = this.players[this.getPlayerIndex(id)].pfp
-        this.pfp[old] = false
-        this.pfp[pfp] = true
+        console.log(old)
+        this.pfp[old] = true
+        this.pfp[pfp] = false
         this.players[this.getPlayerIndex(id)].pfp = pfp
     }
 
