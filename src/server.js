@@ -215,6 +215,25 @@ io.on("connection", socket => {
         }
     })
 
+    socket.on("pfpLoadAvailable", () => {
+        let ben = []
+        let lukas = []
+        for (const [key, value] of Object.entries(game.pfp)) {
+            if (value) {
+                if (key.charAt(0) == "b") {
+                    ben.push(key)
+                }
+                else {
+                    lukas.push(key)
+                }
+            }
+        }
+        socket.emit("pfpAvailable", {
+            ben: ben,
+            lukas: lukas
+        })
+    })
+
     const startTimer = (s) => {
         let i = 0
         const timer = setInterval(() => {

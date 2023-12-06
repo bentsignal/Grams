@@ -102,18 +102,9 @@ const pfpChangePopup = new Popup({
     title: "Change your profile picture",
     content: `
     <div id="pfp-list-wrapper">
-        <div class="pfp-list-row">
-            <img src="images/ben-face-1.jpg" class="pfp-list" id="ben-face-1">
-            <img src="images/ben-face-2.jpg" class="pfp-list" id="ben-face-2">
-            <img src="images/ben-face-3.jpg" class="pfp-list" id="ben-face-3">
-            <img src="images/ben-face-4.jpg" class="pfp-list" id="ben-face-4">
+        <div class="pfp-list-row" id="pfp-list-row-ben">
         </div>
-        <div class="pfp-list-row">
-            <img src="images/lukas-face-1.jpg" class="pfp-list" id="lukas-face-1">
-            <img src="images/lukas-face-2.jpg" class="pfp-list" id="lukas-face-2">
-            <img src="images/lukas-face-3.jpg" class="pfp-list" id="lukas-face-3">
-            <img src="images/lukas-face-4.jpg" class="pfp-list" id="lukas-face-4">
-            <img src="images/lukas-face-5.jpg" class="pfp-list" id="lukas-face-5">
+        <div class="pfp-list-row" id="pfp-list-row-lukas">
         </div>
     </div>
     `,
@@ -138,11 +129,30 @@ const pfpChangePopup = new Popup({
 
     `,
     loadCallback: () => {
-        const pfpOptions = document.getElementsByClassName("pfp-list")
-        Array.from(pfpOptions).forEach((pfp) => {
-            pfp.addEventListener("click", pfpChange)
-        })
+        socket.emit("pfpLoadAvailable")
+        
     }
+})
+
+socket.on("pfpAvailable", (data) => {
+    const ben = data.ben
+    const lukas = data.lukas
+    let id = ""
+    ben.forEach((pfpBen) => {
+        id = pfpBen.replace(".jpg", "")
+        document.getElementById("pfp-list-row-ben").innerHTML += `
+            <img src="images/${pfpBen}" class="pfp-list" id="${id}">
+        `
+    })
+    lukas.forEach((pfpLukas) => {
+        id = pfpLukas.replace(".jpg", "")
+        document.getElementById("pfp-list-row-lukas").innerHTML += `
+            <img src="images/${pfpLukas}" class="pfp-list" id="${id}">
+        `
+    })
+    Array.from(document.getElementsByClassName("pfp-list")).forEach((pfp) => {
+        pfp.addEventListener("click", pfpChange)
+    })
 })
 
 const pfpChange = (event) => {
