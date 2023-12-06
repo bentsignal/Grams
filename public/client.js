@@ -127,17 +127,15 @@ const pfpChangePopup = new Popup({
             -webkit-backdrop-filter: blur(10px);
         }
 
-    `,
-    loadCallback: () => {
-        socket.emit("pfpLoadAvailable")
-        
-    }
+    `
 })
 
 socket.on("pfpAvailable", (data) => {
     const ben = data.ben
     const lukas = data.lukas
     let id = ""
+    document.getElementById("pfp-list-row-ben").innerHTML = ""
+    document.getElementById("pfp-list-row-lukas").innerHTML = ""
     ben.forEach((pfpBen) => {
         id = pfpBen.replace(".jpg", "")
         document.getElementById("pfp-list-row-ben").innerHTML += `
@@ -153,12 +151,12 @@ socket.on("pfpAvailable", (data) => {
     Array.from(document.getElementsByClassName("pfp-list")).forEach((pfp) => {
         pfp.addEventListener("click", pfpChange)
     })
+    pfpChangePopup.show()
 })
 
 const pfpChange = (event) => {
     pfpChangePopup.hide()
     const pfpNew = `${event.target.id}.jpg`
-    console.log("requesting change to ", pfpNew)
     socket.emit("pfpRequestChange", {
         new: pfpNew
     })
@@ -353,7 +351,7 @@ volumeButton.addEventListener("click", () => {
 })
 
 document.getElementById("my-pfp").addEventListener("click", () => {
-    pfpChangePopup.show()
+    socket.emit("pfpLoadAvailable")
 })
 
 document.addEventListener("keydown", (evt) => {
