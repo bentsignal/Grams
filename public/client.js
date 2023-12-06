@@ -147,8 +147,11 @@ const pfpChangePopup = new Popup({
 
 const pfpChange = (event) => {
     pfpChangePopup.hide()
-    const id = event.target.id
-
+    const pfpNew = `${event.target.id}.jpg`
+    console.log("requesting change to ", pfpNew)
+    socket.emit("pfpRequestChange", {
+        new: pfpNew
+    })
 }
 
 /*

@@ -22,15 +22,15 @@ class Game {
             8: 2000
         }
         this.pfp = {
-            "ben-face-1.jpg": false,
-            "ben-face-2.jpg": false,
-            "ben-face-3.jpg": false,
-            "ben-face-4.jpg": false,
-            "lukas-face-1.jpg": false,
-            "lukas-face-2.jpg": false,
-            "lukas-face-3.jpg": false,
-            "lukas-face-4.jpg": false,
-            "lukas-face-5.jpg": false,
+            "ben-face-1.jpg": true,
+            "ben-face-2.jpg": true,
+            "ben-face-3.jpg": true,
+            "ben-face-4.jpg": true,
+            "lukas-face-1.jpg": true,
+            "lukas-face-2.jpg": true,
+            "lukas-face-3.jpg": true,
+            "lukas-face-4.jpg": true,
+            "lukas-face-5.jpg": true,
         }
     }
 
@@ -114,16 +114,27 @@ class Game {
         }
     }
 
+    pfpAvailable = (pfp) => {
+        return this.pfp[pfp]
+    }
+
     pfpChoose = () => {
-        let pfp = "ben-face-1.jpg"
+        let pfp = ""
         for (const [key, value] of Object.entries(this.pfp)) {
-            if (value == false) {
-                this.pfp[key] = true
+            if (value) {
+                this.pfp[key] = false
                 pfp = key
                 break
             }
         }
         return pfp
+    }
+
+    pfpChange = (pfp, id) => {
+        const old = this.players[this.getPlayerIndex(id)].pfp
+        this.pfp[old] = false
+        this.pfp[pfp] = true
+        this.players[this.getPlayerIndex(id)].pfp = pfp
     }
 
     full = () => {

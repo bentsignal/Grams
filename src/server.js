@@ -199,6 +199,22 @@ io.on("connection", socket => {
         }
     })
 
+    socket.on("pfpRequestChange", (data) => {
+        const pfp = data.new
+        const user = game.players[game.getPlayerIndex(socket.id)]
+        console.log(`User ${user.name} requested pfp change from ${user.pfp} to ${pfp}`)
+        if (game.pfpAvailable(pfp)) {
+            console.log(`PFP change request approved for user ${user.name}`)
+            game.pfpChange(pfp, socket.id)
+            socket.emit("updatePlayers", {
+                players: game.players
+            })
+        }
+        else {
+            console.log(`PFP change request denied for user ${user.name} `)
+        }
+    })
+
     const startTimer = (s) => {
         let i = 0
         const timer = setInterval(() => {
