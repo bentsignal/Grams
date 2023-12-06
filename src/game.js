@@ -21,6 +21,17 @@ class Game {
             7: 1000,
             8: 2000
         }
+        this.pfp = {
+            "ben-face-1.jpg": false,
+            "ben-face-2.jpg": false,
+            "ben-face-3.jpg": false,
+            "ben-face-4.jpg": false,
+            "lukas-face-1.jpg": false,
+            "lukas-face-2.jpg": false,
+            "lukas-face-3.jpg": false,
+            "lukas-face-4.jpg": false,
+            "lukas-face-5.jpg": false,
+        }
     }
 
     init = (dict) => {
@@ -51,6 +62,7 @@ class Game {
         this.players.push({
             name: name,
             id: id,
+            pfp: this.pfpChoose(),
             score: 0,
             wins: 0,
             words: []
@@ -66,6 +78,7 @@ class Game {
             }
             else {
                 name = player.name
+                this.pfp[player.pfp] = false
             }
         })
         this.players = players
@@ -99,6 +112,18 @@ class Game {
         else {
             return -1
         }
+    }
+
+    pfpChoose = () => {
+        let pfp = "ben-face-1.jpg"
+        for (const [key, value] of Object.entries(this.pfp)) {
+            if (value == false) {
+                this.pfp[key] = true
+                pfp = key
+                break
+            }
+        }
+        return pfp
     }
 
     full = () => {

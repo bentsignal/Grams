@@ -97,23 +97,23 @@ const volumeControls = new Popup({
     }
 })
 
-const pfpChange = new Popup({
+const pfpChangePopup = new Popup({
     id: "change-pfp",
     title: "Change your profile picture",
     content: `
     <div id="pfp-list-wrapper">
         <div class="pfp-list-row">
-            <img src="images/ben-face-1.jpg" class="pfp-list">
-            <img src="images/ben-face-2.jpg" class="pfp-list">
-            <img src="images/ben-face-3.jpg" class="pfp-list">
-            <img src="images/ben-face-4.jpg" class="pfp-list">
+            <img src="images/ben-face-1.jpg" class="pfp-list" id="ben-face-1">
+            <img src="images/ben-face-2.jpg" class="pfp-list" id="ben-face-2">
+            <img src="images/ben-face-3.jpg" class="pfp-list" id="ben-face-3">
+            <img src="images/ben-face-4.jpg" class="pfp-list" id="ben-face-4">
         </div>
         <div class="pfp-list-row">
-            <img src="images/lukas-face-1.jpg" class="pfp-list">
-            <img src="images/lukas-face-2.jpg" class="pfp-list">
-            <img src="images/lukas-face-3.jpg" class="pfp-list">
-            <img src="images/lukas-face-4.jpg" class="pfp-list">
-            <img src="images/lukas-face-5.jpg" class="pfp-list">
+            <img src="images/lukas-face-1.jpg" class="pfp-list" id="lukas-face-1">
+            <img src="images/lukas-face-2.jpg" class="pfp-list" id="lukas-face-2">
+            <img src="images/lukas-face-3.jpg" class="pfp-list" id="lukas-face-3">
+            <img src="images/lukas-face-4.jpg" class="pfp-list" id="lukas-face-4">
+            <img src="images/lukas-face-5.jpg" class="pfp-list" id="lukas-face-5">
         </div>
     </div>
     `,
@@ -129,7 +129,7 @@ const pfpChange = new Popup({
         }
 
         .popup-content {
-            width: 60vw !important;
+            width: 50vw !important;
             background-color: var(--charcoal);
             opacity: 80%;
             backdrop-filter: blur(20px);
@@ -137,7 +137,19 @@ const pfpChange = new Popup({
         }
 
     `,
+    loadCallback: () => {
+        const pfpOptions = document.getElementsByClassName("pfp-list")
+        Array.from(pfpOptions).forEach((pfp) => {
+            pfp.addEventListener("click", pfpChange)
+        })
+    }
 })
+
+const pfpChange = (event) => {
+    pfpChangePopup.hide()
+    const id = event.target.id
+
+}
 
 /*
 
@@ -229,9 +241,12 @@ const declinedAnimation = () => {
 const updatePlayers = () => {
     playerList.innerHTML = ""
     game.players.forEach((player) => {
+        if (player.id == socket.id) {
+            document.getElementById("my-pfp").src = `images/${player.pfp}`
+        }
         playerList.innerHTML += `
             <div id="player-${player.name}" class="player wrapper">
-                <img src="images/ben-face-1.jpg" class="pfp-player-list">
+                <img src="images/${player.pfp}" class="pfp-player-list">
                 <div class="player-info">
                     <div class="player-name">
                         ${player.name}
@@ -325,7 +340,7 @@ volumeButton.addEventListener("click", () => {
 })
 
 document.getElementById("my-pfp").addEventListener("click", () => {
-    pfpChange.show()
+    pfpChangePopup.show()
 })
 
 document.addEventListener("keydown", (evt) => {
