@@ -35,7 +35,7 @@ const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
 
 const volume = {
-    music: 0.1,
+    music: 0,//0.1,
     sfx: 1
 }
 
@@ -58,6 +58,10 @@ const volumeControls = new Popup({
 
         .popup-content {
             width: 30vw !important;
+            background-color: var(--charcoal);
+            opacity: 80%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
     `,
@@ -91,6 +95,48 @@ const volumeControls = new Popup({
             music.volume = volume.music
         })
     }
+})
+
+const pfpChange = new Popup({
+    id: "change-pfp",
+    title: "Change your profile picture",
+    content: `
+    <div id="pfp-list-wrapper">
+        <div class="pfp-list-row">
+            <img src="images/ben-face-1.jpg" class="pfp-list">
+            <img src="images/ben-face-2.jpg" class="pfp-list">
+            <img src="images/ben-face-3.jpg" class="pfp-list">
+            <img src="images/ben-face-4.jpg" class="pfp-list">
+        </div>
+        <div class="pfp-list-row">
+            <img src="images/lukas-face-1.jpg" class="pfp-list">
+            <img src="images/lukas-face-2.jpg" class="pfp-list">
+            <img src="images/lukas-face-3.jpg" class="pfp-list">
+            <img src="images/lukas-face-4.jpg" class="pfp-list">
+            <img src="images/lukas-face-5.jpg" class="pfp-list">
+        </div>
+    </div>
+    `,
+    backgroundColor: "var(--charcoal)",
+    titleColor: "white",
+    textColor: "white",
+    closeColor: "white",
+    css: `
+
+        .popup-title {
+            font-size: 24pt;
+            margin-top: 3vh;
+        }
+
+        .popup-content {
+            width: 60vw !important;
+            background-color: var(--charcoal);
+            opacity: 80%;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+    `,
 })
 
 /*
@@ -276,6 +322,10 @@ start.addEventListener("click", () => {
 
 volumeButton.addEventListener("click", () => {
     volumeControls.show()
+})
+
+document.getElementById("my-pfp").addEventListener("click", () => {
+    pfpChange.show()
 })
 
 document.addEventListener("keydown", (evt) => {
