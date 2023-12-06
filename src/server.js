@@ -79,6 +79,8 @@ io.on("connection", socket => {
                 message: `${data.name} has joined the game.`
             })
 
+            pfpLoadAvailable()
+
             console.log(`User ${data.name} (${socket.id}) has joined the game (${game.players.length}/${game.maxPlayers})`)
 
         }
@@ -134,6 +136,7 @@ io.on("connection", socket => {
                 game.host = ""
             }
         }
+        pfpLoadAvailable()
         io.sockets.emit("updatePlayers", {
             players: game.players
         })
@@ -142,7 +145,6 @@ io.on("connection", socket => {
             type: "bad",
             message: `${name} has ${message} the game.`
         })
-
     }
 
     socket.on("disconnect", () => {
@@ -209,6 +211,7 @@ io.on("connection", socket => {
             io.sockets.emit("updatePlayers", {
                 players: game.players
             })
+            pfpLoadAvailable()
         }
         else {
             console.log(`PFP change request denied for user ${user.name} `)
@@ -216,6 +219,10 @@ io.on("connection", socket => {
     })
 
     socket.on("pfpLoadAvailable", () => {
+        pfpLoadAvailable()
+    })
+
+    const pfpLoadAvailable = () => {
         let ben = []
         let lukas = []
         for (const [key, value] of Object.entries(game.pfp)) {
@@ -228,11 +235,11 @@ io.on("connection", socket => {
                 }
             }
         }
-        socket.emit("pfpAvailable", {
+        io.sockets.emit("pfpAvailable", {
             ben: ben,
             lukas: lukas
         })
-    })
+    }
 
     const startTimer = (s) => {
         let i = 0

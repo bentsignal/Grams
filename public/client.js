@@ -130,38 +130,6 @@ const pfpChangePopup = new Popup({
     `
 })
 
-socket.on("pfpAvailable", (data) => {
-    const ben = data.ben
-    const lukas = data.lukas
-    let id = ""
-    document.getElementById("pfp-list-row-ben").innerHTML = ""
-    document.getElementById("pfp-list-row-lukas").innerHTML = ""
-    ben.forEach((pfpBen) => {
-        id = pfpBen.replace(".jpg", "")
-        document.getElementById("pfp-list-row-ben").innerHTML += `
-            <img src="images/${pfpBen}" class="pfp-list" id="${id}">
-        `
-    })
-    lukas.forEach((pfpLukas) => {
-        id = pfpLukas.replace(".jpg", "")
-        document.getElementById("pfp-list-row-lukas").innerHTML += `
-            <img src="images/${pfpLukas}" class="pfp-list" id="${id}">
-        `
-    })
-    Array.from(document.getElementsByClassName("pfp-list")).forEach((pfp) => {
-        pfp.addEventListener("click", pfpChange)
-    })
-    pfpChangePopup.show()
-})
-
-const pfpChange = (event) => {
-    pfpChangePopup.hide()
-    const pfpNew = `${event.target.id}.jpg`
-    socket.emit("pfpRequestChange", {
-        new: pfpNew
-    })
-}
-
 /*
 
 
@@ -307,6 +275,14 @@ const switchToGame = () => {
     resultsWrapper.style.display = "none"
 }
 
+const pfpChange = (event) => {
+    pfpChangePopup.hide()
+    const pfpNew = `${event.target.id}.jpg`
+    socket.emit("pfpRequestChange", {
+        new: pfpNew
+    })
+}
+
 /*
 
 
@@ -352,6 +328,7 @@ volumeButton.addEventListener("click", () => {
 
 document.getElementById("my-pfp").addEventListener("click", () => {
     socket.emit("pfpLoadAvailable")
+    pfpChangePopup.show()
 })
 
 document.addEventListener("keydown", (evt) => {
@@ -471,6 +448,29 @@ socket.on("newMessage", (data) => {
         `
     }
     document.getElementById(`message-${messageCount}`).scrollIntoView()
+})
+
+socket.on("pfpAvailable", (data) => {
+    const ben = data.ben
+    const lukas = data.lukas
+    let id = ""
+    document.getElementById("pfp-list-row-ben").innerHTML = ""
+    document.getElementById("pfp-list-row-lukas").innerHTML = ""
+    ben.forEach((pfpBen) => {
+        id = pfpBen.replace(".jpg", "")
+        document.getElementById("pfp-list-row-ben").innerHTML += `
+            <img src="images/${pfpBen}" class="pfp-list" id="${id}">
+        `
+    })
+    lukas.forEach((pfpLukas) => {
+        id = pfpLukas.replace(".jpg", "")
+        document.getElementById("pfp-list-row-lukas").innerHTML += `
+            <img src="images/${pfpLukas}" class="pfp-list" id="${id}">
+        `
+    })
+    Array.from(document.getElementsByClassName("pfp-list")).forEach((pfp) => {
+        pfp.addEventListener("click", pfpChange)
+    })
 })
 
 socket.on("startGame", (data) => {
