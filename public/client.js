@@ -262,7 +262,25 @@ const startTimer = () => {
 }
 
 const renderResults = () => {
-    console.log("render results")
+    resultsWrapper.innerHTML = ""
+    game.players.forEach((player) => {
+        let words = ""
+        player.words.forEach((word) => {
+            words += `
+                <p>${word}</p>
+            `
+        })
+        resultsWrapper.innerHTML += `
+            <div>
+                <div>
+                    ${player.name}
+                </div>
+                <div>
+                    ${words}
+                </div>
+            </div>
+        `
+    })
 }
 
 const switchToResults = () => {
@@ -335,16 +353,16 @@ document.addEventListener("keydown", (evt) => {
     if (document.activeElement == document.body) {
         // focus game
         if (game.inGame) {
-            if (game.lettersAvailable.includes(evt.key.toLowerCase())) {
-                game.playLetter(evt.key)
+            if (evt.key == "Backspace") {
+                if (game.lettersUsed.length > 0) {
+                    game.removeLetter()
+                }
             }
             else if (evt.key == "Enter" && game.midGame) {
                 playWord()
             }
-            else if (evt.key == "Backspace") {
-                if (game.lettersUsed.length > 0) {
-                    game.removeLetter()
-                }
+            else if (game.lettersAvailable.includes(evt.key.toLowerCase())) {
+                game.playLetter(evt.key)
             }
             else if (evt.key == " " && game.lettersUsed.length > 0) {
                 game.clearPlayedLetters()
