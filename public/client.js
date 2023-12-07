@@ -35,7 +35,7 @@ const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
 
 const volume = {
-    music: 0.1,
+    music: 0,//0.1,
     sfx: 1
 }
 
