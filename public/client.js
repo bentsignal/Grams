@@ -262,21 +262,50 @@ const startTimer = () => {
 }
 
 const renderResults = () => {
-    resultsWrapper.innerHTML = ""
+    const resultsContainer = document.getElementById("results-container")
+    if (game.players.length > 2) {
+        resultsWrapper.style.justifyContent = ""
+    }
+    else {
+        resultsWrapper.style.justifyContent = "center"
+    }
+    resultsContainer.innerHTML = ""
     game.players.forEach((player) => {
+        console.log(player)
         let words = ""
         player.words.forEach((word) => {
             words += `
-                <p>${word}</p>
+                <div class="word">
+                    <p style="font-size:${10+(word.length*2)}pt">${word}</p>
+                    <p style="font-size:${10+(word.length*2)}pt">${game.wordScore[word.length]}</p>
+                </div>
             `
         })
-        resultsWrapper.innerHTML += `
-            <div>
-                <div>
-                    ${player.name}
+        resultsContainer.innerHTML += `
+            <div class="player-result wrapper">
+                <div class="player-result-top-w">
+                    <div class="player-result-top-c">
+                        <div class="result-pfp-wrapper">
+                            <img class="result-pfp" src="images/${player.pfp}">
+                        </div>
+                        <div class="result-info-wrapper">
+                            <p class="result-name">${player.name}</p>
+                            <p class="result-word-count">Words: ${player.words.length}</p>
+                            <p class="result-score">Score: ${player.score}</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    ${words}
+                <div class="player-result-bottom-w">
+                    <div class="player-result-bottom-c">
+                        <p>Words</p>
+                        <div class="result-word-list-w">
+                            <div class="result-word-list-c">
+                                <div class="result-words">
+                                    ${words}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         `
@@ -285,7 +314,7 @@ const renderResults = () => {
 
 const switchToResults = () => {
     gameWrapper.style.display = "none"
-    resultsWrapper.style.display = "block"
+    resultsWrapper.style.display = "flex"
 }
 
 const switchToGame = () => {

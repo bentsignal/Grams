@@ -10,6 +10,16 @@ class Game {
         this.lettersAvailable = []
         this.lettersUsed = []
         this.wordSize = 6
+        this.wordScore = {
+            1: 5,
+            2: 10, 
+            3: 50,
+            4: 100,
+            5: 300,
+            6: 600,
+            7: 1000,
+            8: 2000
+        }
         this.players = []
     }
 

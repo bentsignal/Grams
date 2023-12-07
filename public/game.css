@@ -522,10 +522,12 @@ select {
 }
 
 #results-wrapper {
+    display: none;
     padding: 20px;
     width: 50vw;
     height: 60vh;
     overflow-x: scroll;
+    align-items: center;
 }
 
 #results-container {
