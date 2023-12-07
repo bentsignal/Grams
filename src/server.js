@@ -13,7 +13,7 @@ app.use(express.static("public"))
 httpServer.listen(cfg.PORT)
 
 let game = new Game()
-game.init(cfg.DICT)
+game.init(cfg.CHOOSE, cfg.ALLOW)
 
 io.on("connection", socket => {
 

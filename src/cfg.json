@@ -1,4 +1,5 @@
 {
-    "DICT": "src/25k.json",
+    "CHOOSE": "src/25k.json",
+    "ALLOW": "src/370k.json",
     "PORT": 5000
 }

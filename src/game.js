@@ -10,7 +10,8 @@ class Game {
         this.letters = []
         this.players = []
         this.maxPlayers = 8
-        this.dict = {}
+        this.choose = {}
+        this.allow = {}
         this.wordScore = {
             1: 5,
             2: 10, 
@@ -34,8 +35,8 @@ class Game {
         }
     }
 
-    init = (dict) => {
-        this.loadDict(dict)
+    init = (choose, allow) => {
+        this.loadDict(choose, allow)
     }
 
     startGame = () => {
@@ -161,19 +162,25 @@ class Game {
         return found
     }
 
-    loadDict = (fileName) => {
-        fs.readFile(fileName, "utf-8", (err, data) => {
+    loadDict = (choose, allow) => {
+        fs.readFile(choose, "utf-8", (err, data) => {
             if (err) {
                 console.log(`ERROR: Could not read dictionary file: ${err}`)
             }
-            this.dict = JSON.parse(data)
+            this.choose = JSON.parse(data)
+        })
+        fs.readFile(allow, "utf-8", (err, data) => {
+            if (err) {
+                console.log(`ERROR: Could not read dictionary file: ${err}`)
+            }
+            this.allow = JSON.parse(data)
         })
     }
 
     inDict = (word) => {
         const l = word.charAt(0)
         const s = word.length
-        const words = this.dict[s][l]
+        const words = this.allow[s][l]
         try {
             return words.includes(word)
         }
@@ -188,12 +195,12 @@ class Game {
         // choose random letter a-z
         const letter = String.fromCharCode(97 + Math.floor(Math.random() * 26))
         // pick word from dictionary of length s starting with letter l
-        if (Object.keys(this.dict).length === 0) {
+        if (Object.keys(this.choose).length === 0) {
             console.log("ERROR: Could not pick word, dictionary empty.")
         }
         else {
-            const length = this.dict[size][letter].length
-            const word = this.dict[size][letter][Math.floor(Math.random()*length)]
+            const length = this.choose[size][letter].length
+            const word = this.choose[size][letter][Math.floor(Math.random()*length)]
             for (let i = 0; i < word.length; i++) {
                 this.letters.push(word.charAt(i))
             }
