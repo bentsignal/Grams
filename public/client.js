@@ -35,8 +35,8 @@ const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
 
 const volume = {
-    music: 0,//0.1,
-    sfx: 1
+    music: cfg.musicVolume,
+    sfx: cfg.sfxVolume
 }
 
 lose_sound.volume = volume.sfx
@@ -271,7 +271,6 @@ const renderResults = () => {
     }
     resultsContainer.innerHTML = ""
     game.players.forEach((player) => {
-        console.log(player)
         let words = ""
         player.words.forEach((word) => {
             words += `
