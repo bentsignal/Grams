@@ -33,6 +33,7 @@ const bad_word_sound = new Audio("./sounds/bad.mp3")
 const good_word_sound = new Audio("./sounds/good.mp3")
 const win_sound = new Audio("./sounds/win.mp3")
 const lose_sound = new Audio("./sounds/lose.mp3")
+const start_sound = new Audio("./sounds/start.mp3")
 
 const volume = {
     music: cfg.musicVolume,
@@ -242,9 +243,23 @@ const updatePlayers = () => {
     })
 }
 
-const startTimer = () => {
+const startCountdown = (letters) => {
+    start_sound.volume = volume.sfx * 0.15
+    start_sound.play()
+    let countdown = 3
+    const time = setInterval(() => {
+        if (countdown <= 0) {
+            clearInterval(time)
+            startTimer(59)
+            switchToGame()
+            game.newLetters(letters)
+        }
+        countdown -= 1
+    }, 1000)
+}
+
+const startTimer = (countdown) => {
     timerContainer.style.display = "flex"
-    let countdown = 59
     const time = setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
@@ -525,9 +540,7 @@ socket.on("startGame", (data) => {
         game.midGame = true
         wordCount.innerText = "Words: 0"
         myScore.innerText = "Score: 0"
-        switchToGame()
-        startTimer()
-        game.newLetters(data.letters)
+        startCountdown(data.letters)
     }
 })
 
@@ -573,5 +586,9 @@ socket.on("gameOver", (data) => {
         renderResults()
         switchToResults()
     }
-    
+})
+
+socket.on("serverCrash", () => {
+    game = new Game()
+    updatePlayers()
 })

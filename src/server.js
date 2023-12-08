@@ -195,7 +195,7 @@ try {
                     io.sockets.emit("updatePlayers", {
                         players: game.players
                     })
-                    startTimer(60)
+                    startTimer(64)
                     io.sockets.emit("startGame", {
                         letters: game.letters
                     })
