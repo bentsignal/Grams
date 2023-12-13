@@ -1,4 +1,5 @@
 import { shuffle } from "./utils.js"
+import Letter from "./letter.js"
 
 class Game {
     
@@ -62,7 +63,7 @@ class Game {
             </div>
             <div id="words-1">
             </div>
-    `
+        `
     }
 
     updateDeck = () => {
@@ -73,9 +74,9 @@ class Game {
         if (this.inGame && this.midGame) {
             for (let i = 1; i <= this.wordSize; i++) {
                 // letters available
-                if (i <= this.lettersAvailable.length) {
+                if (this.lettersAvailable[i-1].available) {
                     availableWrapper.innerHTML += `
-                        <p id="letters-available-${i}" class="letter-available filled">${this.lettersAvailable[i-1]}</p>
+                        <p id="letters-available-${i}" class="letter-available filled">${this.lettersAvailable[i-1].value}</p>
                     `
                 }
                 else {
@@ -99,8 +100,16 @@ class Game {
     }
 
     removeLetter = () => {
-        const letter = this.lettersUsed.pop()
-        this.lettersAvailable.unshift(letter)
+        const letterRemoved = this.lettersUsed.pop()
+        let found = false
+        console.log(`removing letter ${letterRemoved}`)
+        this.lettersAvailable.forEach((letter) => {
+            if (!found && letter.value == letterRemoved && !letter.available) {
+                console.log(`found the letter`)
+                found = true
+                letter.available = true
+            }
+        })
         this.updateDeck()
     }
 
@@ -115,22 +124,40 @@ class Game {
     newLetters = (letters) => {
         if (this.inGame) {
             this.wordSize = letters.length
-            this.lettersAvailable = letters
+            letters.forEach((letter) => {
+                this.lettersAvailable.push(new Letter(letter))
+            })
             this.lettersUsed = []
             this.updateDeck()
         }
     }
 
     playLetter = (key) => {
-        const index = this.lettersAvailable.indexOf(key)
+        let found = false
+        for (let i = 0; i < this.lettersAvailable.length; i++) {
+            if (!found && this.lettersAvailable[i].value == key) {
+                found = true
+                this.lettersAvailable[i].available = false
+                this.lettersUsed.push(key.toLowerCase())
+                this.updateDeck()
+            }
+        }
+        
+    }
+
+    isLetterAvailable = (key) => {
         /*
 
-            This might be a problem, splice returns a value 
+            for some reason the code is continuing after it should return true
 
         */
-        this.lettersAvailable.splice(index, 1)
-        this.lettersUsed.push(key.toLowerCase())
-        this.updateDeck()
+        let available = false
+        this.lettersAvailable.forEach((letter) => {
+            if (letter.value == key && letter.available) {
+                available = true
+            }
+        })
+        return available
     }
 
     anyLettersPlayed = () => {
@@ -146,15 +173,15 @@ class Game {
     }
     
     shuffleLetters = () => {
-        shuffle(this.lettersAvailable)
+        //shuffle(this.lettersAvailable)
         this.updateDeck()
     }
 
     clearPlayedLetters = () => {
-        this.lettersUsed.forEach((letter) => {
-            this.lettersAvailable.push(letter)
-        })
         this.lettersUsed = []
+        this.lettersAvailable.forEach((letter) => {
+            letter.available = true
+        })
         this.updateDeck()
     }
 

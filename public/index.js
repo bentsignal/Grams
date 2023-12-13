@@ -337,7 +337,7 @@ document.addEventListener("keydown", (evt) => {
             else if (evt.key == "Enter" && game.midGame) {
                 playWord()
             }
-            else if (game.lettersAvailable.includes(evt.key.toLowerCase())) {
+            else if (game.midGame && game.isLetterAvailable(evt.key.toLowerCase())) {
                 game.playLetter(evt.key)
             }
             else if (evt.key == " " && game.lettersUsed.length > 0) {
