@@ -124,9 +124,7 @@ try {
             })
 
             const playerLeft = (message) => {
-                console.log(game.pfp)
                 const name = game.removePlayer(socket.id)
-                console.log(game.pfp)
                 console.log(`Player ${name} with id ${socket.id} has ${message} the game.`)
                 if (game.host == socket.id) {
                     console.log("host left, choosing new host")
@@ -140,6 +138,8 @@ try {
                     else {
                         console.log("no players left, removing host data")
                         game.host = ""
+                        game.endGame()
+                        game.resetGame()
                     }
                 }
                 pfpLoadAvailable()
@@ -265,20 +265,22 @@ try {
                 io.sockets.emit("gameOver", {
                     players: game.players
                 })
-                const highScore = game.players[0].score
-                game.players.forEach((player) => {
-                    if (player.score == highScore) {
-                        io.to(player.id).emit("youWon")
-                        io.sockets.emit("newMessage", {
-                            sender: "Server",
-                            type: "good",
-                            message: `${player.name} has won the game with ${player.score} points!`
-                        })
-                    }
-                    else {
-                        io.to(player.id).emit("youLost")
-                    }
-                })
+                if (game.players.length > 0) {
+                    const highScore = game.players[0].score
+                    game.players.forEach((player) => {
+                        if (player.score == highScore) {
+                            io.to(player.id).emit("youWon")
+                            io.sockets.emit("newMessage", {
+                                sender: "Server",
+                                type: "good",
+                                message: `${player.name} has won the game with ${player.score} points!`
+                            })
+                        }
+                        else {
+                            io.to(player.id).emit("youLost")
+                        }
+                    })
+                }
             }
         }
         catch (error) {
