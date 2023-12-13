@@ -6,7 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 const Game = require("./game")
 const cfg = require("./cfg.json")
-const { isAlphanumeric } = require("./help")
+const { isAlphanumeric } = require("./utils")
 
 // start server
 app.use(express.static("public"))

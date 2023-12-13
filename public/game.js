@@ -1,4 +1,4 @@
-import { shuffle } from "./help.js"
+import { shuffle } from "./utils.js"
 
 class Game {
     
@@ -161,4 +161,4 @@ class Game {
 
 }
 
-export { Game }
+export default Game

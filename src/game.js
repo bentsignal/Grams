@@ -1,5 +1,5 @@
 const fs = require("fs")
-const { shuffle } = require("./help")
+const { shuffle } = require("./utils")
 
 class Game {
 
