@@ -75,13 +75,18 @@ class Game {
             if (this.midGame) {
                 if (i <= this.lettersAvailable.length) {
                     availableWrapper.innerHTML += `
-                        <p id="letters-available-${i}" class="letter-available">${this.lettersAvailable[i-1]}</p>
+                        <p id="letters-available-${i}" class="letter-available filled">${this.lettersAvailable[i-1]}</p>
+                    `
+                }
+                else {
+                    availableWrapper.innerHTML += `
+                        <p id="letters-available-${i}" class="letter-available empty"></p>
                     `
                 }
             }
             else { 
                 availableWrapper.innerHTML += `
-                    <p id="letters-available-${i}" class="letter-available"></p>
+                    <p id="letters-available-${i}" class="letter-available filled"></p>
                 `
             }
             // letters used
