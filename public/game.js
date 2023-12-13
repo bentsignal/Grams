@@ -135,7 +135,7 @@ class Game {
     playLetter = (key) => {
         let found = false
         for (let i = 0; i < this.lettersAvailable.length; i++) {
-            if (!found && this.lettersAvailable[i].value == key) {
+            if (!found && this.lettersAvailable[i].value == key && this.lettersAvailable[i].available) {
                 found = true
                 this.lettersAvailable[i].available = false
                 this.lettersUsed.push(key.toLowerCase())
