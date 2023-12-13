@@ -173,7 +173,7 @@ class Game {
     }
     
     shuffleLetters = () => {
-        //shuffle(this.lettersAvailable)
+        shuffle(this.lettersAvailable)
         this.updateDeck()
     }
 
