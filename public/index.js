@@ -113,6 +113,25 @@ const joinGame = () => {
     }
 }
 
+const leaveGame = () => {
+    socket.emit("leave")
+    sound.music.pause()
+    join.disabled = false
+    leave.disabled = true
+    nameInput.disabled = false
+    chatInput.disabled = true
+    sendChat.disabled = true
+    gameWrapper.style.display = "none"
+    wordCount.innerText = "Words: 0"
+    myScore.innerText = "Score: 0"
+    game.left()
+    controls.style.display = "none"
+    timerContainer.style.display = "none"
+    updatePlayers()
+    game.resetWordList()
+    switchToGame()
+}
+
 /*
 
     Request server check if word being played is valid
@@ -288,21 +307,7 @@ join.addEventListener("click", () => {
 })
 
 leave.addEventListener("click", () => {
-    socket.emit("leave")
-    sound.music.pause()
-    join.disabled = false
-    leave.disabled = true
-    nameInput.disabled = false
-    chatInput.disabled = true
-    sendChat.disabled = true
-    gameWrapper.style.display = "none"
-    wordCount.innerText = "Words: 0"
-    myScore.innerText = "Score: 0"
-    game.left()
-    controls.style.display = "none"
-    timerContainer.style.display = "none"
-    updatePlayers()
-    game.resetWordList()
+    leaveGame()
 })
 
 start.addEventListener("click", () => {

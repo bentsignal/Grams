@@ -124,7 +124,9 @@ try {
             })
 
             const playerLeft = (message) => {
+                console.log(game.pfp)
                 const name = game.removePlayer(socket.id)
+                console.log(game.pfp)
                 console.log(`Player ${name} with id ${socket.id} has ${message} the game.`)
                 if (game.host == socket.id) {
                     console.log("host left, choosing new host")
@@ -133,7 +135,7 @@ try {
                         io.sockets.emit("newHost", {
                             id: game.host
                         })
-                        console.log(`settings ${game.players[0].name} (${game.host}) to be new host`)
+                        console.log(`setting ${game.players[0].name} (${game.host}) to be new host`)
                     }
                     else {
                         console.log("no players left, removing host data")
