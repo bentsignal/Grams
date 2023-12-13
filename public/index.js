@@ -6,10 +6,8 @@ const chatInput = document.getElementById("chat-input")
 const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
 const joinErrors = document.getElementById("join-errors")
-const wordList = document.getElementById("words-wrapper")
 const wordCount = document.getElementById("wordCount")
 const myScore = document.getElementById("myScore")
-const userInfo = document.getElementById("user-info-container")
 const username = document.getElementById("username")
 const timerContainer = document.getElementById("timer-container")
 const timer = document.getElementById("timer")
@@ -19,84 +17,16 @@ const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
 const volumeButton = document.getElementById("volume")
 
-import { isAlphanumeric } from "./help.js"
+import { isAlphanumeric } from "./utils.js"
 import { cfg } from "./cfg.js"
-import { Game } from "./game.js"
+import Game from "./game.js"
+import Sound from "./sound.js"
 
 const socket = io(cfg.URL)
 const game = new Game()
+const sound = new Sound()
 
 let messageCount = 0
-
-const music = new Audio("./sounds/george_st_shuffle.mp3")
-const bad_word_sound = new Audio("./sounds/bad.mp3")
-const good_word_sound = new Audio("./sounds/good.mp3")
-const win_sound = new Audio("./sounds/win.mp3")
-const lose_sound = new Audio("./sounds/lose.mp3")
-const start_sound = new Audio("./sounds/start.mp3")
-
-const volume = {
-    music: cfg.musicVolume,
-    sfx: cfg.sfxVolume
-}
-
-lose_sound.volume = volume.sfx
-music.volume = volume.music
-
-const volumeControls = new Popup({
-    id: "volume-controls",
-    title: "Volume",
-    backgroundColor: "var(--charcoal)",
-    titleColor: "white",
-    textColor: "white",
-    closeColor: "white",
-    css: `
-
-        .popup-title {
-            font-size: 24pt;
-            margin-top: 3vh;
-        }
-
-        .popup-content {
-            width: 30vw !important;
-            background-color: var(--charcoal);
-            opacity: 80%;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-    `,
-    content: `
-        <div id="sfx-controls-container">
-            <div id="sfx-controls-wrapper">
-                <p>SFX</p>
-                <input type="range" min="0" max="100" value=${volume.sfx*100} id="sfx-slider" class="volume-slider">
-            </div>
-        </div>
-        <div id="music-controls-container">
-            <div id="music-controls-wrapper">
-                <p>Music</p>
-                <input type="range" min="0" max="100" value=${volume.music*100} id="music-slider" class="volume-slider">
-            </div>
-        </div>
-    `,
-    loadCallback: () => {
-        const sfxSlider = document.getElementById("sfx-slider")
-        const musicSlider = document.getElementById("music-slider")
-        sfxSlider.addEventListener("input", () => {
-            volume.sfx = document.getElementById("sfx-slider").value / 100
-            win_sound.volume = volume.sfx
-            lose_sound.volume = volume.sfx
-            good_word_sound.volume = volume.sfx
-            bad_word_sound.volume = volume.sfx
-        })
-        
-        musicSlider.addEventListener("input", () => {
-            volume.music = document.getElementById("music-slider").value / 100
-            music.volume = volume.music
-        })
-    }
-})
 
 const pfpChangePopup = new Popup({
     id: "change-pfp",
@@ -183,6 +113,25 @@ const joinGame = () => {
     }
 }
 
+const leaveGame = () => {
+    socket.emit("leave")
+    sound.music.pause()
+    join.disabled = false
+    leave.disabled = true
+    nameInput.disabled = false
+    chatInput.disabled = true
+    sendChat.disabled = true
+    wordCount.innerText = "Words: 0"
+    myScore.innerText = "Score: 0"
+    game.left()
+    controls.style.display = "none"
+    timerContainer.style.display = "none"
+    updatePlayers()
+    game.resetWordList()
+    switchToGame()
+    gameWrapper.style.display = "none"
+}
+
 /*
 
     Request server check if word being played is valid
@@ -244,8 +193,7 @@ const updatePlayers = () => {
 }
 
 const startCountdown = (letters) => {
-    start_sound.volume = volume.sfx * 0.15
-    start_sound.play()
+    sound.start.play()
     let countdown = 3
     const time = setInterval(() => {
         if (countdown <= 0) {
@@ -354,27 +302,12 @@ const pfpChange = (event) => {
 
 */
 
-
 join.addEventListener("click", () => {
     joinGame()
 })
 
 leave.addEventListener("click", () => {
-    socket.emit("leave")
-    music.pause()
-    join.disabled = false
-    leave.disabled = true
-    nameInput.disabled = false
-    chatInput.disabled = true
-    sendChat.disabled = true
-    gameWrapper.style.display = "none"
-    wordCount.innerText = "Words: 0"
-    myScore.innerText = "Score: 0"
-    game.left()
-    controls.style.display = "none"
-    timerContainer.style.display = "none"
-    updatePlayers()
-    game.resetWordList()
+    leaveGame()
 })
 
 start.addEventListener("click", () => {
@@ -384,7 +317,7 @@ start.addEventListener("click", () => {
 })
 
 volumeButton.addEventListener("click", () => {
-    volumeControls.show()
+    sound.controls.show()
 })
 
 document.getElementById("my-pfp").addEventListener("click", () => {
@@ -445,9 +378,7 @@ socket.on("connect", () => {
 
 socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
-    music.play()
-    music.volume = volume.music
-    music.loop = true
+    sound.music.play()
     game.joined(nameInput.value)
     join.disabled = true
     leave.disabled = false
@@ -546,7 +477,7 @@ socket.on("startGame", (data) => {
 
 socket.on("wordAccept", (data) => {
     console.log("word accept")
-    good_word_sound.play()
+    sound.validWord.play()
     const word = data.word
     const me = data.player
     const score = data.score
@@ -564,16 +495,16 @@ socket.on("wordAccept", (data) => {
 
 socket.on("wordDecline", (data) => {
     game.clearPlayedLetters()
-    bad_word_sound.play()
+    sound.invalidWord.play()
     declinedAnimation()
 })
 
 socket.on("youWon", () => {
-    win_sound.play()
+    sound.win.play()
 })
 
 socket.on("youLost", () => {
-    lose_sound.play()
+    sound.lose.play()
 })
 
 socket.on("gameOver", (data) => {

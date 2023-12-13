@@ -1,5 +1,5 @@
 const fs = require("fs")
-const { shuffle } = require("./help")
+const { shuffle } = require("./utils")
 
 class Game {
 
@@ -48,7 +48,9 @@ class Game {
     endGame = () => {
         this.midGame = false
         this.gameOver = true
-        this.pickWinner()
+        if (this.players.length > 0) {
+            this.pickWinner()
+        }
     }
 
     resetGame = () => {
@@ -79,7 +81,7 @@ class Game {
             }
             else {
                 name = player.name
-                this.pfp[player.pfp] = false
+                this.pfp[player.pfp] = true
             }
         })
         this.players = players
@@ -248,8 +250,7 @@ class Game {
 
     pickWinner = () => {
         let i, key, j;
-        for (i = 1; i < this.players.length; i++) 
-        {  
+        for (i = 1; i < this.players.length; i++) {  
             key = this.players[i];  
             j = i - 1;  
     

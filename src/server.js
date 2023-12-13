@@ -6,7 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 const Game = require("./game")
 const cfg = require("./cfg.json")
-const { isAlphanumeric } = require("./help")
+const { isAlphanumeric } = require("./utils")
 
 // start server
 app.use(express.static("public"))
@@ -133,11 +133,13 @@ try {
                         io.sockets.emit("newHost", {
                             id: game.host
                         })
-                        console.log(`settings ${game.players[0].name} (${game.host}) to be new host`)
+                        console.log(`setting ${game.players[0].name} (${game.host}) to be new host`)
                     }
                     else {
                         console.log("no players left, removing host data")
                         game.host = ""
+                        game.endGame()
+                        game.resetGame()
                     }
                 }
                 pfpLoadAvailable()
@@ -263,20 +265,22 @@ try {
                 io.sockets.emit("gameOver", {
                     players: game.players
                 })
-                const highScore = game.players[0].score
-                game.players.forEach((player) => {
-                    if (player.score == highScore) {
-                        io.to(player.id).emit("youWon")
-                        io.sockets.emit("newMessage", {
-                            sender: "Server",
-                            type: "good",
-                            message: `${player.name} has won the game with ${player.score} points!`
-                        })
-                    }
-                    else {
-                        io.to(player.id).emit("youLost")
-                    }
-                })
+                if (game.players.length > 0) {
+                    const highScore = game.players[0].score
+                    game.players.forEach((player) => {
+                        if (player.score == highScore) {
+                            io.to(player.id).emit("youWon")
+                            io.sockets.emit("newMessage", {
+                                sender: "Server",
+                                type: "good",
+                                message: `${player.name} has won the game with ${player.score} points!`
+                            })
+                        }
+                        else {
+                            io.to(player.id).emit("youLost")
+                        }
+                    })
+                }
             }
         }
         catch (error) {
