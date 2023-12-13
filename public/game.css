@@ -128,7 +128,7 @@ body::after {
 #game-wrapper {
     width: 50vw;
     margin: auto;
-    display: block;
+    display: none;
 }
 
 #grams {
@@ -249,7 +249,6 @@ body::after {
 .filled {
     background-color: var(--yellow);
     box-shadow: 0px 0px 10px 1px #777777;
-    border: 1px solid #c1c1c1;
     color: black;
 }
 

@@ -70,9 +70,9 @@ class Game {
         const usedWrapper = document.getElementById("letters-used-wrapper")
         availableWrapper.innerHTML = ""
         usedWrapper.innerHTML = ""
-        for (let i = 1; i <= this.wordSize; i++) {
-            // letters available
-            if (this.midGame) {
+        if (this.inGame && this.midGame) {
+            for (let i = 1; i <= this.wordSize; i++) {
+                // letters available
                 if (i <= this.lettersAvailable.length) {
                     availableWrapper.innerHTML += `
                         <p id="letters-available-${i}" class="letter-available filled">${this.lettersAvailable[i-1]}</p>
@@ -83,22 +83,17 @@ class Game {
                         <p id="letters-available-${i}" class="letter-available empty"></p>
                     `
                 }
-            }
-            else { 
-                availableWrapper.innerHTML += `
-                    <p id="letters-available-${i}" class="letter-available filled"></p>
-                `
-            }
-            // letters used
-            if (i <= this.lettersUsed.length) {
-                usedWrapper.innerHTML += `
-                    <p id="letter-used-${i}" class="letter-used filled">${this.lettersUsed[i-1]}</p>
-                `
-            }
-            else {
-                usedWrapper.innerHTML += `
-                    <p id="letter-used-${i}" class="letter-used empty"></p>
-                `
+                // letters used
+                if (i <= this.lettersUsed.length) {
+                    usedWrapper.innerHTML += `
+                        <p id="letter-used-${i}" class="letter-used filled">${this.lettersUsed[i-1]}</p>
+                    `
+                }
+                else {
+                    usedWrapper.innerHTML += `
+                        <p id="letter-used-${i}" class="letter-used empty"></p>
+                    `
+                }
             }
         }
     }

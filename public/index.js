@@ -121,7 +121,6 @@ const leaveGame = () => {
     nameInput.disabled = false
     chatInput.disabled = true
     sendChat.disabled = true
-    gameWrapper.style.display = "none"
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
     game.left()
@@ -130,6 +129,7 @@ const leaveGame = () => {
     updatePlayers()
     game.resetWordList()
     switchToGame()
+    gameWrapper.style.display = "none"
 }
 
 /*
