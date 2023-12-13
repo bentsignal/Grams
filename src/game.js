@@ -195,7 +195,7 @@ class Game {
         this.letters = []
         const size = this.wordSize.toString()
         // choose random letter a-z
-        const letter = String.fromCharCode(97 + Math.floor(Math.random() * 26))
+        const letter = String.fromCharCode(97 + Math.floor(Math.random() * 25))
         // pick word from dictionary of length s starting with letter l
         if (Object.keys(this.choose).length === 0) {
             console.log("ERROR: Could not pick word, dictionary empty.")
