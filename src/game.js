@@ -201,6 +201,9 @@ class Game {
             console.log("ERROR: Could not pick word, dictionary empty.")
         }
         else {
+            console.log(`wordSize: ${this.wordSize}`)
+            console.log(`size: ${size}`)
+            console.log(`letter: ${letter}`)
             const length = this.choose[size][letter].length
             const word = this.choose[size][letter][Math.floor(Math.random()*length)]
             for (let i = 0; i < word.length; i++) {
