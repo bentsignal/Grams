@@ -34,17 +34,56 @@ const emotePopup = new Popup({
     content: `
         <div id="popup-wrapper">
             <div id="popup-container">
-                <img src="images/ben-face-1.jpg" class="emote-option">
-                <img src="images/ben-face-2.jpg" class="emote-option">
-                <img src="images/ben-face-3.jpg" class="emote-option">
-                <img src="images/ben-face-4.jpg" class="emote-option">
-                <img src="images/ben-emote-1.jpg" class="emote-option">
-                <img src="images/ben-emote-2.jpg" class="emote-option">
-                <img src="images/ben-emote-3.jpg" class="emote-option">
-                <img src="images/ben-emote-4.jpg" class="emote-option">
+                <div class="choose-emote-row">
+                    <img src="images/ben-face-1.jpg" class="emote-option" id="ben-face-1">
+                    <img src="images/ben-face-2.jpg" class="emote-option" id="ben-face-2">
+                    <img src="images/ben-face-3.jpg" class="emote-option" id="ben-face-3">
+                    <img src="images/ben-face-4.jpg" class="emote-option" id="ben-face-4">
+                </div>
+                <div class="choose-emote-row">
+                    <img src="images/ben-emote-1.jpg" class="emote-option" id="ben-emote-1">
+                    <img src="images/ben-emote-2.jpg" class="emote-option" id="ben-emote-2">
+                    <img src="images/ben-emote-3.jpg" class="emote-option" id="ben-emote-3">
+                    <img src="images/ben-emote-4.jpg" class="emote-option" id="ben-emote-4">
+                </div>
+                <div class="choose-emote-row">
+                    <img src="images/lukas-face-1.jpg" class="emote-option" id="lukas-face-1">
+                    <img src="images/lukas-face-2.jpg" class="emote-option" id="lukas-face-2">
+                    <img src="images/lukas-face-3.jpg" class="emote-option" id="lukas-face-3">
+                    <img src="images/lukas-face-4.jpg" class="emote-option" id="lukas-face-4">
+                </div>
             </div>
         </div>
-    `
+    `,
+    backgroundColor: "var(--charcoal)",
+    titleColor: "white",
+    textColor: "white",
+    closeColor: "white",
+    css: `
+
+        .popup-title {
+            font-size: 24pt;
+            margin-top: 3vh;
+        }
+
+        .popup-content {
+            background-color: var(--charcoal);
+            opacity: 80%;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .popup-body p {
+            margin: 0 !important;
+        }
+
+    `,
+    loadCallback: () => {
+        Array.from(document.getElementsByClassName("emote-option")).forEach((emote) => {
+            emote.addEventListener("click", sendEmote)
+        })
+    }
+
 })
 
 const pfpChangePopup = new Popup({
@@ -309,6 +348,12 @@ const pfpChange = (event) => {
     socket.emit("pfpRequestChange", {
         new: pfpNew
     })
+}
+
+const sendEmote = (event) => {
+    emotePopup.hide()
+    const emote = event.target.id
+    console.log(emote)
 }
 
 /*

@@ -606,9 +606,22 @@ select {
 
 #popup-container {
     display: flex;
+    flex-direction: column;
 }
 
 .emote-option {
     width: 150px;
     height: 150px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.choose-emote-row {
+    display: flex;
+    justify-content: center;
+}
+
+.choose-emote-row p {
+    margin: 0;
 }
