@@ -522,6 +522,7 @@ socket.on("newMessage", (data) => {
 
 socket.on("emoteReceived", (data) => {
     if (game.inGame) {
+        sound.emote.play()
         const sender = data.sender
         const emote = data.emote
         messageCount += 1
