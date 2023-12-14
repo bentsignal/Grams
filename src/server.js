@@ -228,6 +228,18 @@ try {
                 pfpLoadAvailable()
             })
 
+            socket.on("emoteSent", (data) => {
+                if (game.socketInGame(socket.id)) {
+                    io.sockets.emit("emoteReceived", {
+                        sender: game.nameById(socket.id),
+                        emote: data.emote
+                    })
+                }
+                else {
+                    console.log("ERROR: emote sent by user not in game")
+                }
+            })
+
             const pfpLoadAvailable = () => {
                 let ben = []
                 let lukas = []

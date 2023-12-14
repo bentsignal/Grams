@@ -593,6 +593,7 @@ select {
 }
 
 #emote-button {
+    display: none;
     height: 60px;
     width: 60px;
     filter: invert(15%) sepia(1%) saturate(0%) hue-rotate(200deg) brightness(103%) contrast(93%);
@@ -624,4 +625,10 @@ select {
 
 .choose-emote-row p {
     margin: 0;
+}
+
+.chat-emote {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
 }

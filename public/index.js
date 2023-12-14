@@ -184,6 +184,7 @@ const leaveGame = () => {
     game.left()
     controls.style.display = "none"
     timerContainer.style.display = "none"
+    document.getElementById("emote-button").style.display = "none"
     updatePlayers()
     game.resetWordList()
     switchToGame()
@@ -351,9 +352,13 @@ const pfpChange = (event) => {
 }
 
 const sendEmote = (event) => {
-    emotePopup.hide()
-    const emote = event.target.id
-    console.log(emote)
+    if (game.inGame) {
+        emotePopup.hide()
+        const emote = event.target.id
+        socket.emit("emoteSent", {
+            emote: emote
+        })
+    }
 }
 
 /*
@@ -427,7 +432,9 @@ document.addEventListener("keydown", (evt) => {
 })
 
 document.getElementById("emote-button").addEventListener('click', () => {
-    emotePopup.show()
+    if (game.inGame) {
+        emotePopup.show()
+    }
 })
 
 /*
@@ -454,6 +461,7 @@ socket.on("joinAccepted", () => {
     chatInput.disabled = false
     sendChat.disabled = false
     gameWrapper.style.display = "block"
+    document.getElementById("emote-button").style.display = "block"
     username.innerText = nameInput.value
     socket.emit("requestPlayers")
 })
@@ -480,34 +488,51 @@ socket.on("updatePlayers", (data) => {
 sendChat.addEventListener("click", sendMessage)
 
 socket.on("newMessage", (data) => {
-    const sender = data.sender
-    const message = data.message
-    const me = game.name
-    messageCount += 1
-    if (sender == "Server") {
-        chat.innerHTML += `
-            <p id="message-${messageCount}">
-                <span class="server-message ${data.type}">${message}</span>
-            </p>
-        `
+    if (game.inGame) {
+        const sender = data.sender
+        const message = data.message
+        const me = game.name
+        messageCount += 1
+        if (sender == "Server") {
+            chat.innerHTML += `
+                <p id="message-${messageCount}">
+                    <span class="server-message ${data.type}">${message}</span>
+                </p>
+            `
+        }
+        else if (sender == me) {
+            chat.innerHTML += `
+                <p id="message-${messageCount}">
+                    <span class="my-message">${me}: </span>
+                    <span class="chat-message">${message}</span>
+                </p>
+            `
+        }
+        else {
+            chat.innerHTML += `
+                <p id="message-${messageCount}">
+                    <span class="chat">${sender}: </span>
+                    <span class="chat-message">${message}</span>
+                </p>
+            `
+        }
+        document.getElementById(`message-${messageCount}`).scrollIntoView()
     }
-    else if (sender == me) {
-        chat.innerHTML += `
-            <p id="message-${messageCount}">
-                <span class="my-message">${me}: </span>
-                <span class="chat-message">${message}</span>
-            </p>
-        `
-    }
-    else {
+})
+
+socket.on("emoteReceived", (data) => {
+    if (game.inGame) {
+        const sender = data.sender
+        const emote = data.emote
+        messageCount += 1
         chat.innerHTML += `
             <p id="message-${messageCount}">
                 <span class="chat">${sender}: </span>
-                <span class="chat-message">${message}</span>
             </p>
+            <img src="images/${emote}.jpg" class="chat-emote">
         `
+        document.getElementById(`message-${messageCount}`).scrollIntoView()
     }
-    document.getElementById(`message-${messageCount}`).scrollIntoView()
 })
 
 socket.on("pfpAvailable", (data) => {
