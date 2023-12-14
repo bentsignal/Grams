@@ -28,6 +28,25 @@ const sound = new Sound()
 
 let messageCount = 0
 
+const emotePopup = new Popup({
+    id:"send-emote",
+    title: "Send emote to chat",
+    content: `
+        <div id="popup-wrapper">
+            <div id="popup-container">
+                <img src="images/ben-face-1.jpg" class="emote-option">
+                <img src="images/ben-face-2.jpg" class="emote-option">
+                <img src="images/ben-face-3.jpg" class="emote-option">
+                <img src="images/ben-face-4.jpg" class="emote-option">
+                <img src="images/ben-emote-1.jpg" class="emote-option">
+                <img src="images/ben-emote-2.jpg" class="emote-option">
+                <img src="images/ben-emote-3.jpg" class="emote-option">
+                <img src="images/ben-emote-4.jpg" class="emote-option">
+            </div>
+        </div>
+    `
+})
+
 const pfpChangePopup = new Popup({
     id: "change-pfp",
     title: "Change your profile picture",
@@ -360,6 +379,10 @@ document.addEventListener("keydown", (evt) => {
             joinGame()
         }
     }
+})
+
+document.getElementById("emote-button").addEventListener('click', () => {
+    emotePopup.show()
 })
 
 /*
