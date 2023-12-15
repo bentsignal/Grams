@@ -41,10 +41,16 @@ try {
                         message: "Lobby is currently full."
                     })
                 }
-                // username too long
-                else if (data.name.length > 20) {
+                // bad username
+                else if (!isAlphanumeric(data.name)) {
                     socket.emit("joinDeclined", {
-                        message: "Username must not exceed 20 characters."
+                        message: "Username must be alphanumeric"
+                    })
+                }
+                // username too long
+                else if (data.name.length > 15) {
+                    socket.emit("joinDeclined", {
+                        message: "Username must not exceed 15 characters."
                     })
                 }
                 else if (game.midGame) {
@@ -269,7 +275,8 @@ try {
             const endGame = () => {
                 game.endGame()
                 io.sockets.emit("gameOver", {
-                    players: game.players
+                    players: game.players,
+                    word: game.word
                 })
                 if (game.players.length > 0) {
                     const highScore = game.players[0].score

@@ -4,8 +4,8 @@ class Sound {
 
         // parent levels
         this.parentLevels = {
-            music: 1,
-            sfx: 1,
+            music: 0,
+            sfx: 0,
         }
 
         // child levels
@@ -62,13 +62,13 @@ class Sound {
     }
 
     initializeVolume = () => {
-        this.music.volume = this.childLevels.music
-        this.invalidWord.volume = this.childLevels.invalidWord
-        this.validWord.volume = this.childLevels.validWord
-        this.win.volume = this.childLevels.win
-        this.lose.volume = this.childLevels.lose
-        this.start.volume = this.childLevels.start
-        this.emote.volume = this.childLevels.emote
+        this.music.volume = this.childLevels.music * this.parentLevels.music
+        this.invalidWord.volume = this.childLevels.invalidWord * this.parentLevels.sfx
+        this.validWord.volume = this.childLevels.validWord * this.parentLevels.sfx
+        this.win.volume = this.childLevels.win * this.parentLevels.sfx
+        this.lose.volume = this.childLevels.lose * this.parentLevels.sfx
+        this.start.volume = this.childLevels.start * this.parentLevels.sfx
+        this.emote.volume = this.childLevels.emote * this.parentLevels.sfx
     }
 
     updateVolume = () => {

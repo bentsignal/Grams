@@ -141,7 +141,7 @@ body::after {
 
 #game-info-container {
     width: 35vw;
-    max-width: 400px;
+    max-width: 450px;
     margin: auto;
 }
 
@@ -190,10 +190,12 @@ body::after {
 
 #username {
     font-size: 28pt;
+    font-weight: 700;
 }
 
 #wordCount, #myScore {
     font-size: 14pt;
+    font-weight: 400;
 }
 
 #word-list-container {
@@ -657,4 +659,11 @@ select {
 
 #pfp-list-wrapper {
     margin: 10px 30px;
+}
+
+p#wordChoosen {
+    position: absolute;
+    top: 16vh;
+    color: var(--charcoal);
+    font-size: 24pt;
 }

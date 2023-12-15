@@ -12,6 +12,7 @@ class Game {
         this.maxPlayers = 8
         this.choose = {}
         this.allow = {}
+        this.word = ""
         this.wordScore = {
             1: 5,
             2: 10, 
@@ -205,9 +206,9 @@ class Game {
             console.log(`size: ${size}`)
             console.log(`letter: ${letter}`)
             const length = this.choose[size][letter].length
-            const word = this.choose[size][letter][Math.floor(Math.random()*length)]
-            for (let i = 0; i < word.length; i++) {
-                this.letters.push(word.charAt(i))
+            this.word = this.choose[size][letter][Math.floor(Math.random()*length)]
+            for (let i = 0; i < this.word.length; i++) {
+                this.letters.push(this.word.charAt(i))
             }
         }
 

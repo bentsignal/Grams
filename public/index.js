@@ -255,7 +255,7 @@ const startTimer = (countdown) => {
     }, 1000)
 }
 
-const renderResults = () => {
+const renderResults = (wordChoosen) => {
     const resultsContainer = document.getElementById("results-container")
     if (game.players.length > 2) {
         resultsWrapper.style.justifyContent = ""
@@ -264,6 +264,7 @@ const renderResults = () => {
         resultsWrapper.style.justifyContent = "center"
     }
     resultsContainer.innerHTML = ""
+    resultsContainer.innerHTML += `<p id="wordChoosen">Word: ${wordChoosen}</p>`
     game.players.forEach((player) => {
         let words = ""
         player.words.forEach((word) => {
@@ -330,6 +331,20 @@ const sendEmote = (event) => {
         socket.emit("emoteSent", {
             emote: emote
         })
+    }
+}
+
+const setUsername = () => {
+    username.innerText = game.name
+    const width = username.clientWidth
+    if (width <= 150) {
+        username.style.fontSize = "28pt"
+    }
+    else if (width > 150 && width <= 220) {
+        username.style.fontSize = "20pt"
+    }
+    else if (width > 220) {
+        username.style.fontSize = "15pt"
     }
 }
 
@@ -434,7 +449,7 @@ socket.on("joinAccepted", () => {
     sendChat.disabled = false
     gameWrapper.style.display = "block"
     document.getElementById("emote-button").style.display = "block"
-    username.innerText = nameInput.value
+    setUsername()
     socket.emit("requestPlayers")
 })
 
@@ -580,7 +595,7 @@ socket.on("gameOver", (data) => {
         game.reset()
         wordCount.innerText = `Words: 0`
         myScore.innerText = `Score: 0`
-        renderResults()
+        renderResults(data.word)
         switchToResults()
     }
 })
