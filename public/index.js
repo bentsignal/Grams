@@ -61,18 +61,6 @@ const emotePopup = new Popup({
     closeColor: "white",
     css: `
 
-        .popup-title {
-            font-size: 24pt;
-            margin-top: 3vh;
-        }
-
-        .popup-content {
-            background-color: var(--charcoal);
-            opacity: 80%;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
         .popup-body p {
             margin: 0 !important;
         }
@@ -100,23 +88,7 @@ const pfpChangePopup = new Popup({
     backgroundColor: "var(--charcoal)",
     titleColor: "white",
     textColor: "white",
-    closeColor: "white",
-    css: `
-
-        .popup-title {
-            font-size: 24pt;
-            margin-top: 3vh;
-        }
-
-        .popup-content {
-            width: 50vw !important;
-            background-color: var(--charcoal);
-            opacity: 80%;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-    `
+    closeColor: "white"
 })
 
 /*

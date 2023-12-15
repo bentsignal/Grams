@@ -40,33 +40,19 @@ class Sound {
             titleColor: "white",
             textColor: "white",
             closeColor: "white",
-            css: `
-        
-                .popup-title {
-                    font-size: 24pt;
-                    margin-top: 3vh;
-                }
-        
-                .popup-content {
-                    width: 30vw !important;
-                    background-color: var(--charcoal);
-                    opacity: 80%;
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                }
-        
-            `,
             content: `
-                <div id="sfx-controls-container">
-                    <div id="sfx-controls-wrapper">
-                        <p>SFX</p>
-                        <input type="range" min="0" max="100" value=${this.parentLevels.sfx*100} id="sfx-slider" class="volume-slider">
+                <div id="volume-controls-wrapper">
+                    <div id="sfx-controls-container">
+                        <div id="sfx-controls-wrapper">
+                            <p>SFX</p>
+                            <input type="range" min="0" max="100" value=${this.parentLevels.sfx*100} id="sfx-slider" class="volume-slider">
+                        </div>
                     </div>
-                </div>
-                <div id="music-controls-container">
-                    <div id="music-controls-wrapper">
-                        <p>Music</p>
-                        <input type="range" min="0" max="100" value=${this.parentLevels.music*100} id="music-slider" class="volume-slider">
+                    <div id="music-controls-container">
+                        <div id="music-controls-wrapper">
+                            <p>Music</p>
+                            <input type="range" min="0" max="100" value=${this.parentLevels.music*100} id="music-slider" class="volume-slider">
+                        </div>
                     </div>
                 </div>
             `,

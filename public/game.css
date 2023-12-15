@@ -507,6 +507,7 @@ select {
 .pfp-list-row {
     display: flex;
     justify-content: center;
+    margin: 10px 0;
 }
 
 .pfp-list-row img {
@@ -631,4 +632,29 @@ select {
     width: 100px;
     height: 100px;
     border-radius: 20px;
+}
+
+.popup-title {
+    font-size: 24pt !important;
+    margin-top: 2.5vh !important;
+}
+
+.popup-content {
+    width: auto !important;
+}
+
+#volume-controls-wrapper {
+    padding: 10px 50px;
+}
+
+#popup-container {
+    padding: 20px 80px;
+}
+
+.popup-close {
+    margin: 5px;
+}
+
+#pfp-list-wrapper {
+    margin: 10px 30px;
 }

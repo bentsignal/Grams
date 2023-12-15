@@ -41,12 +41,6 @@ try {
                         message: "Lobby is currently full."
                     })
                 }
-                // bad username
-                else if (!isAlphanumeric(data.name)) {
-                    socket.emit("joinDeclined", {
-                        message: "Username must be alphanumeric"
-                    })
-                }
                 // username too long
                 else if (data.name.length > 20) {
                     socket.emit("joinDeclined", {
