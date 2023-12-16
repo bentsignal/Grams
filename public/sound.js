@@ -11,8 +11,8 @@ class Sound {
         // child levels
         this.childLevels = {
             music: 0.1,
-            invalidWord: 0,//1,
-            validWord: 0,//1,
+            invalidWord: 1,
+            validWord: 1,
             win: 1,
             lose: 1,
             start: 0.15,
