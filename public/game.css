@@ -15,7 +15,7 @@
 }
 
 body {
-    background-color: black;/*#e493d0;*/
+    background-color: #e493d0;
     background-image: 
         radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
         radial-gradient(closest-side, rgb(152, 133, 245), rgba(243, 11, 164, 0)),
