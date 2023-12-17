@@ -1,5 +1,6 @@
 import { shuffle } from "./utils.js"
 import Letter from "./letter.js"
+import State from "./state.js"
 
 class Game {
     
@@ -7,6 +8,7 @@ class Game {
         this.name = ""
         this.id = ""
         this.inGame = false
+        this.state = new State()
         this.midGame = false
         this.lettersAvailable = []
         this.lettersUsed = []
@@ -102,23 +104,13 @@ class Game {
     removeLetter = () => {
         const letterRemoved = this.lettersUsed.pop()
         let found = false
-        console.log(`removing letter ${letterRemoved}`)
         this.lettersAvailable.forEach((letter) => {
             if (!found && letter.value == letterRemoved && !letter.available) {
-                console.log(`found the letter`)
                 found = true
                 letter.available = true
             }
         })
         this.updateDeck()
-    }
-
-    newWord = (word) => {
-        console.log("newWord")
-    }
-
-    refreshWords = () => {
-        console.log("refreshWords")
     }
 
     newLetters = (letters) => {
@@ -146,11 +138,6 @@ class Game {
     }
 
     isLetterAvailable = (key) => {
-        /*
-
-            for some reason the code is continuing after it should return true
-
-        */
         let available = false
         this.lettersAvailable.forEach((letter) => {
             if (letter.value == key && letter.available) {

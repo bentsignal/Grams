@@ -21,13 +21,11 @@ import { isAlphanumeric } from "./utils.js"
 import { cfg } from "./cfg.js"
 import Game from "./game.js"
 import Sound from "./sound.js"
-import State from "./state.js"
 import Popups from "./popups.js"
 
 const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
-const state = new State()
 
 let messageCount = 0
 
@@ -535,5 +533,5 @@ socket.on("serverCrash", () => {
     updatePlayers()
 })
 
-// declarations with callbacks passed in
+// declarations with callbacks passed by value
 const popups = new Popups(sendEmote)
