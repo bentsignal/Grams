@@ -26,6 +26,17 @@ const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
 
+const States = {
+    home: 0,
+    inGame: 1,
+    preGame: 2,
+    midGame: 3,
+    postGame: 4,
+    spectate: 5,
+}
+
+const state = States.home
+
 let messageCount = 0
 
 const emotePopup = new Popup({
