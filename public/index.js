@@ -21,96 +21,15 @@ import { isAlphanumeric } from "./utils.js"
 import { cfg } from "./cfg.js"
 import Game from "./game.js"
 import Sound from "./sound.js"
+import State from "./state.js"
+import Popups from "./popups.js"
 
 const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
-
-const States = {
-    home: 0,
-    inGame: 1,
-    preGame: 2,
-    midGame: 3,
-    postGame: 4,
-    spectate: 5,
-}
-
-const state = States.home
+const state = new State()
 
 let messageCount = 0
-
-const emotePopup = new Popup({
-    id:"send-emote",
-    title: "Send emote to chat",
-    content: `
-        <div id="popup-wrapper">
-            <div id="popup-container">
-                <div class="choose-emote-row">
-                    <img src="images/ben-face-1.jpg" class="emote-option" id="ben-face-1">
-                    <img src="images/ben-face-2.jpg" class="emote-option" id="ben-face-2">
-                    <img src="images/ben-face-3.jpg" class="emote-option" id="ben-face-3">
-                    <img src="images/ben-face-4.jpg" class="emote-option" id="ben-face-4">
-                </div>
-                <div class="choose-emote-row">
-                    <img src="images/ben-emote-1.jpg" class="emote-option" id="ben-emote-1">
-                    <img src="images/ben-emote-2.jpg" class="emote-option" id="ben-emote-2">
-                    <img src="images/ben-emote-3.jpg" class="emote-option" id="ben-emote-3">
-                    <img src="images/ben-emote-4.jpg" class="emote-option" id="ben-emote-4">
-                </div>
-                <div class="choose-emote-row">
-                    <img src="images/lukas-face-1.jpg" class="emote-option" id="lukas-face-1">
-                    <img src="images/lukas-face-2.jpg" class="emote-option" id="lukas-face-2">
-                    <img src="images/lukas-face-3.jpg" class="emote-option" id="lukas-face-3">
-                    <img src="images/lukas-face-4.jpg" class="emote-option" id="lukas-face-4">
-                </div>
-            </div>
-        </div>
-    `,
-    backgroundColor: "var(--charcoal)",
-    titleColor: "white",
-    textColor: "white",
-    closeColor: "white",
-    css: `
-
-        .popup-body p {
-            margin: 0 !important;
-        }
-
-    `,
-    loadCallback: () => {
-        Array.from(document.getElementsByClassName("emote-option")).forEach((emote) => {
-            emote.addEventListener("click", sendEmote)
-        })
-    }
-
-})
-
-const pfpChangePopup = new Popup({
-    id: "change-pfp",
-    title: "Change your profile picture",
-    content: `
-    <div id="pfp-list-wrapper">
-        <div class="pfp-list-row" id="pfp-list-row-ben">
-        </div>
-        <div class="pfp-list-row" id="pfp-list-row-lukas">
-        </div>
-    </div>
-    `,
-    backgroundColor: "var(--charcoal)",
-    titleColor: "white",
-    textColor: "white",
-    closeColor: "white"
-})
-
-/*
-
-
-
-    Helper functions
-
-
-
-*/
 
 /*
 
@@ -328,21 +247,11 @@ const switchToGame = () => {
 }
 
 const pfpChange = (event) => {
-    pfpChangePopup.hide()
+    popups.pfp.hide()
     const pfpNew = `${event.target.id}.jpg`
     socket.emit("pfpRequestChange", {
         new: pfpNew
     })
-}
-
-const sendEmote = (event) => {
-    if (game.inGame) {
-        emotePopup.hide()
-        const emote = event.target.id
-        socket.emit("emoteSent", {
-            emote: emote
-        })
-    }
 }
 
 const setUsername = () => {
@@ -356,6 +265,16 @@ const setUsername = () => {
     }
     else if (width > 220) {
         username.style.fontSize = "15pt"
+    }
+}
+
+const sendEmote = (event) => {
+    if (game.inGame) {
+        popups.emote.hide()
+        const emote = event.target.id
+        socket.emit("emoteSent", {
+            emote: emote
+        })
     }
 }
 
@@ -389,7 +308,7 @@ volumeButton.addEventListener("click", () => {
 
 document.getElementById("my-pfp").addEventListener("click", () => {
     socket.emit("pfpLoadAvailable")
-    pfpChangePopup.show()
+    popups.pfp.show()
 })
 
 document.addEventListener("keydown", (evt) => {
@@ -431,7 +350,7 @@ document.addEventListener("keydown", (evt) => {
 
 document.getElementById("emote-button").addEventListener('click', () => {
     if (game.inGame) {
-        emotePopup.show()
+        popups.emote.show()
     }
 })
 
@@ -615,3 +534,6 @@ socket.on("serverCrash", () => {
     game = new Game()
     updatePlayers()
 })
+
+// declarations with callbacks passed in
+const popups = new Popups(sendEmote)
