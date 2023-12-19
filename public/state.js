@@ -10,6 +10,7 @@ class State {
 
     constructor() {
         this.current = states.home
+        this.render()
     }
 
     validState = (state) => {
@@ -42,13 +43,13 @@ class State {
 
     render = () => {
         if (this.current == states.home) {
-            console.log("render home")
+            this.renderHome()
         }
         else if (this.current == states.preGame) {
-            console.log("render pre game")
+            this.renderPreGame()
         }
         else if (this.current == states.midGame) {
-            console.log("render mid game")
+            this.renderMidGame()
         }
         else if (this.current == states.postGame) {
             console.log("render post game")
@@ -61,6 +62,46 @@ class State {
         }
     }
 
+    renderHome = () => {
+        // hide
+        document.getElementById("game-container").style.display = "none"
+        document.getElementById("player-list-container").style.display = "none"
+        document.getElementById("keybinds-container").style.display = "none"
+        document.getElementById("chat-container").style.display = "none"
+        document.getElementById("timer-container").style.display = "none"
+        document.getElementById("volume").style.display = "none"
+        document.getElementById("controls-container").style.display = "none"
+        document.getElementById("leave").style.display = "none"
+        document.getElementById("pre-game-container").style.display = "none"
+        // show
+        document.getElementById("home-container").style.display = "flex"
+
+    }
+
+    renderPreGame = () => {
+        // hide
+        document.getElementById("home-container").style.display = "none"
+        document.getElementById("game-container").style.display = "none"
+        // show
+        document.getElementById("player-list-container").style.display = "block"
+        document.getElementById("keybinds-container").style.display = "block"
+        document.getElementById("chat-container").style.display = "block"
+        document.getElementById("leave").style.display = "block"
+        document.getElementById("pre-game-container").style.display = "flex"
+    }
+
+    renderMidGame = () => {
+        //hide
+        document.getElementById("home-container").style.display = "none"
+        document.getElementById("pre-game-container").style.display = "none"
+        //show
+        document.getElementById("game-container").style.display = "flex"
+        document.getElementById("player-list-container").style.display = "block"
+        document.getElementById("keybinds-container").style.display = "block"
+        document.getElementById("chat-container").style.display = "block"
+        document.getElementById("leave").style.display = "block"
+    }
+
 }
 
-export default State
+export {states, State}

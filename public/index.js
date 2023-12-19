@@ -19,6 +19,7 @@ const volumeButton = document.getElementById("volume")
 
 import { isAlphanumeric } from "./utils.js"
 import { cfg } from "./cfg.js"
+import { states } from "./state.js"
 import Game from "./game.js"
 import Sound from "./sound.js"
 import Popups from "./popups.js"
@@ -74,21 +75,12 @@ const joinGame = () => {
 const leaveGame = () => {
     socket.emit("leave")
     sound.music.pause()
-    join.disabled = false
-    leave.disabled = true
-    nameInput.disabled = false
-    chatInput.disabled = true
-    sendChat.disabled = true
+    game.state.changeState(states.home)
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
     game.left()
-    controls.style.display = "none"
-    timerContainer.style.display = "none"
-    document.getElementById("emote-button").style.display = "none"
     updatePlayers()
     game.resetWordList()
-    switchToGame()
-    gameWrapper.style.display = "none"
 }
 
 /*
@@ -158,7 +150,7 @@ const startCountdown = (letters) => {
         if (countdown <= 0) {
             clearInterval(time)
             startTimer(59)
-            switchToGame()
+            game.state.changeState(states.midGame)
             game.newLetters(letters)
         }
         countdown -= 1
@@ -370,13 +362,7 @@ socket.on("joinAccepted", () => {
     console.log("successfully joined the game")
     sound.music.play()
     game.joined(nameInput.value)
-    join.disabled = true
-    leave.disabled = false
-    nameInput.disabled = true
-    chatInput.disabled = false
-    sendChat.disabled = false
-    gameWrapper.style.display = "block"
-    document.getElementById("emote-button").style.display = "block"
+    game.state.changeState(states.preGame)
     setUsername()
     socket.emit("requestPlayers")
 })

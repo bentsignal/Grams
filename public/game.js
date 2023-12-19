@@ -1,6 +1,6 @@
 import { shuffle } from "./utils.js"
 import Letter from "./letter.js"
-import State from "./state.js"
+import {states, State} from "./state.js"
 
 class Game {
     
@@ -29,6 +29,7 @@ class Game {
     joined = (name) => {
         this.inGame = true
         this.name = name
+        this.state.changeState(states.preGame)
     }
 
     left = () => {

@@ -11,6 +11,26 @@
     <title>Grams</title>
 </head>
 <body>
+    <div id="home-container">
+        <div id="home-wrapper">
+            <h1 id="home-header">GRAMS</h1>
+            <div id="connection-container">
+                <div id="join-errors">
+                </div>
+                <div id="connection-wrapper">
+                    <input id="name-input" placeholder="enter name, then press join" autocomplete="off"/>
+                    <button id="join">Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pre-game-container">
+        <div id="pre-game-wrapper">
+            <div id="pre-game-waiting">
+                waiting for host to start the game...
+            </div>
+        </div>
+    </div>
     <div id="game-container">
         <div id="game-wrapper">
             <h1 id="grams">Grams</h1>
@@ -75,15 +95,6 @@
             <p><span class="bind wrapper">Space</span> to clear letters</p>
         </div>
     </div>
-    <div id="connection-container">
-        <div id="join-errors">
-        </div>
-        <div id="connection-wrapper">
-            <input id="name-input" placeholder="enter username, then press join" autocomplete="off"/>
-            <button id="join">Join</button>
-            <button id="leave" disabled>Leave</button>
-        </div>
-    </div>
     <div id="chat-container" class="wrapper"">
         <div id="chat-wrapper">
             <div id="chat">
@@ -115,6 +126,7 @@
             </div>
         </div>
     </div>
+    <img src="icons/leave.svg" id="leave">
     <img src="images/volume.png" id="volume">
     <script src="https://cdn.jsdelivr.net/npm/@simondmc/popup-js@1.4.2/popup.min.js"></script>
     <script type= "module" src="/index.js"></script>

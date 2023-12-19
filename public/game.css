@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
 
 :root {
-    --charcoal: rgb(46, 46, 46);
+    --charcoal: #2e2e2e;
     --graphite: #555555;
     --silver: #c3d7dc;
     --good: rgb(125, 253, 125);
@@ -128,7 +128,7 @@ body::after {
 #game-wrapper {
     width: 50vw;
     margin: auto;
-    display: none;
+    display: block;
 }
 
 #grams {
@@ -326,6 +326,7 @@ body::after {
     top: 0;
     right: 0;
     margin: 10px;
+    display: none;
 }
 
 #keybinds-wrapper {
@@ -342,10 +343,7 @@ body::after {
 }
 
 #connection-container {
-    position: fixed;
     z-index: 1;
-    bottom: 0;
-    right: 0;
     padding: 20px;
 }
 
@@ -370,6 +368,7 @@ body::after {
     bottom: 0;
     border-radius: 15px;
     color: white;
+    display: none;
 }
 
 #chat-wrapper {
@@ -494,6 +493,7 @@ select {
 }
 
 #volume {
+    display: none;
     position: fixed;
     bottom: 80px;
     right: 10px;
@@ -667,4 +667,64 @@ p#wordChoosen {
     top: -70px;
     color: var(--charcoal);
     font-size: 24pt;
+}
+
+#home-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#home-wrapper {
+    width: 70%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#home-header {
+    margin: 0;
+    font-size: 52pt;
+    color: var(--charcoal);
+    opacity: 80%;
+}
+
+#leave {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    filter: invert(8%) sepia(9%) saturate(48%) hue-rotate(314deg) brightness(91%) contrast(75%);
+}
+
+#pre-game-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#pre-game-wrapper {
+    width: 70%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#pre-game-waiting {
+    font-size: 24pt;
+    color: var(--charcoal);
+    opacity: 80%;
 }
