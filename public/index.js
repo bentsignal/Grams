@@ -144,6 +144,7 @@ const updatePlayers = () => {
 }
 
 const startCountdown = (letters) => {
+    game.state.changeState(states.preGame)
     sound.start.play()
     let countdown = 3
     const time = setInterval(() => {

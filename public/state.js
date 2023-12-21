@@ -99,6 +99,7 @@ class State {
         document.getElementById("results-wrapper").style.display = "none"
         //show
         document.getElementById("game-container").style.display = "flex"
+        document.getElementById("game-wrapper").style.display = "block"
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
@@ -109,8 +110,9 @@ class State {
         //hide
         document.getElementById("home-container").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
-        document.getElementById("game-container").style.display = "none"
+        document.getElementById("game-wrapper").style.display = "none"
         //show
+        document.getElementById("game-container").style.display = "flex"
         document.getElementById("results-wrapper").style.display = "flex"
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("keybinds-container").style.display = "block"
