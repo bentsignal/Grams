@@ -157,7 +157,8 @@ const startCountdown = (letters) => {
             startTimer(59)
             game.state.changeState(states.midGame)
             game.newLetters(letters)
-            countdown.style.display = "none"
+            countdownText.innerText = "Ready?"
+            countdownText.style.display = "none"
             message.style.display = "block"
         }
         countdownText.innerText = countdown
