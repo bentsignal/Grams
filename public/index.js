@@ -17,7 +17,7 @@ const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
 const volumeButton = document.getElementById("volume")
 
-import { isAlphanumeric } from "./utils.js"
+import { validName } from "./utils.js"
 import { cfg } from "./cfg.js"
 import { states } from "./state.js"
 import Game from "./game.js"
@@ -59,8 +59,8 @@ const joinGame = () => {
     if (name.length == 0) {
         joinErrors.innerHTML += `<p class="bad">Username must be at least 1 character long</p>`
     }
-    else if (!isAlphanumeric(name)) {
-        joinErrors.innerHTML += `<p class="bad">Name must be alphanumeric</p>`
+    else if (!validName(name)) {
+        joinErrors.innerHTML += `<p class="bad">Username contains illegal characters</p>`
     }
     else if (game.inGame) {
         joinErrors.innerHTML += `<p class="bad">Already connected to the game</p>`

@@ -1,5 +1,5 @@
-const isAlphanumeric = (str) => {
-    return /^[a-zA-Z0-9]+$/.test(str)
+const validName = (str) => {
+    return /^[a-zA-Z0-9_.]+$/.test(str)
 }
 
 const shuffle = (list) => {
@@ -20,4 +20,4 @@ const shuffle = (list) => {
 
 }
 
-module.exports = { isAlphanumeric, shuffle }
+module.exports = { validName, shuffle }

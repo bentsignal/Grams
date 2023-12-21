@@ -6,7 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 const Game = require("./game")
 const cfg = require("./cfg.json")
-const { isAlphanumeric } = require("./utils")
+const { validName } = require("./utils")
 
 // start server
 app.use(express.static("public"))
@@ -32,25 +32,25 @@ try {
                 // socket already in game
                 else if (game.socketInGame(socket.id)) {
                     socket.emit("joinDeclined", {
-                        message: "ERROR: Already connected to game, refresh page if error persists."
+                        message: "ERROR: Already connected to game, refresh page if error persists"
                     })
                 }
                 // max players reached
                 else if (game.full()) {
                     socket.emit("joinDeclined", {
-                        message: "Lobby is currently full."
+                        message: "Lobby is currently full"
                     })
                 }
                 // bad username
-                else if (!isAlphanumeric(data.name)) {
+                else if (!validName(data.name)) {
                     socket.emit("joinDeclined", {
-                        message: "Username must be alphanumeric"
+                        message: "Username contains illegal characters"
                     })
                 }
                 // username too long
                 else if (data.name.length > 15) {
                     socket.emit("joinDeclined", {
-                        message: "Username must not exceed 15 characters."
+                        message: "Username must not exceed 15 characters"
                     })
                 }
                 else if (game.midGame) {
