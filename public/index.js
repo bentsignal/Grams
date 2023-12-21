@@ -145,6 +145,10 @@ const updatePlayers = () => {
 
 const startCountdown = (letters) => {
     game.state.changeState(states.preGame)
+    const message = document.getElementById("pre-game-waiting")
+    const countdownText = document.getElementById("pre-game-countdown")
+    message.style.display = "none"
+    countdownText.style.display = "block"
     sound.start.play()
     let countdown = 3
     const time = setInterval(() => {
@@ -153,7 +157,10 @@ const startCountdown = (letters) => {
             startTimer(59)
             game.state.changeState(states.midGame)
             game.newLetters(letters)
+            countdown.style.display = "none"
+            message.style.display = "block"
         }
+        countdownText.innerText = countdown
         countdown -= 1
     }, 1000)
 }

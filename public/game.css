@@ -728,3 +728,10 @@ p#wordChoosen {
     color: var(--charcoal);
     opacity: 80%;
 }
+
+#pre-game-countdown {
+    display: none;
+    font-size: 64pt;
+    color: var(--charcoal);
+    opacity: 80%;
+}
