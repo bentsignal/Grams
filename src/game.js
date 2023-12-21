@@ -9,7 +9,7 @@ class Game {
         this.wordSize = 6
         this.letters = []
         this.players = []
-        this.maxPlayers = 5
+        this.maxPlayers = 8
         this.choose = {}
         this.allow = {}
         this.word = ""

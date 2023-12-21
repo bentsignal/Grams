@@ -373,7 +373,7 @@ body::after {
 
 #chat-wrapper {
     width: 370px;
-    height: 460px;
+    height: 250px;
     margin: 0 0 10px 0;
     overflow-y: scroll;
     overflow-wrap: break-word;
