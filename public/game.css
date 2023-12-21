@@ -694,15 +694,25 @@ p#wordChoosen {
     opacity: 80%;
 }
 
-#leave {
+.icon {
     display: none;
     position: fixed;
-    bottom: 20px;
-    right: 30px;
+    z-index: 1;
     cursor: pointer;
     width: 50px;
     height: 50px;
     filter: invert(8%) sepia(9%) saturate(48%) hue-rotate(314deg) brightness(91%) contrast(75%);
+    opacity: 90%;
+}
+
+#leave {
+    bottom: 20px;
+    right: 30px;
+}
+
+#settings {
+    top: 20px;
+    right: 30px;
 }
 
 #pre-game-container {

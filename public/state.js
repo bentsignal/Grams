@@ -66,10 +66,10 @@ class State {
         // hide
         document.getElementById("game-container").style.display = "none"
         document.getElementById("player-list-container").style.display = "none"
-        document.getElementById("keybinds-container").style.display = "none"
         document.getElementById("chat-container").style.display = "none"
         document.getElementById("timer-container").style.display = "none"
         document.getElementById("volume").style.display = "none"
+        document.getElementById("settings").style.display = "none"
         document.getElementById("controls-container").style.display = "none"
         document.getElementById("leave").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
@@ -87,9 +87,9 @@ class State {
         document.getElementById("results-wrapper").style.display = "none"
         // show
         document.getElementById("player-list-container").style.display = "block"
-        document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
+        document.getElementById("settings").style.display = "block"
         document.getElementById("pre-game-container").style.display = "flex"
         document.getElementById("emote-button").style.display = "block"
 
@@ -104,9 +104,9 @@ class State {
         document.getElementById("game-container").style.display = "flex"
         document.getElementById("game-wrapper").style.display = "block"
         document.getElementById("player-list-container").style.display = "block"
-        document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
+        document.getElementById("settings").style.display = "block"
         document.getElementById("emote-button").style.display = "block"
     }
 
@@ -119,9 +119,9 @@ class State {
         document.getElementById("game-container").style.display = "flex"
         document.getElementById("results-wrapper").style.display = "flex"
         document.getElementById("player-list-container").style.display = "block"
-        document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
+        document.getElementById("settings").style.display = "block"
         document.getElementById("emote-button").style.display = "block"
     }
 
