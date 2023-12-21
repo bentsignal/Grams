@@ -74,6 +74,7 @@ class State {
         document.getElementById("leave").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
         document.getElementById("results-wrapper").style.display = "none"
+        document.getElementById("emote-button").style.display = "none"
         // show
         document.getElementById("home-container").style.display = "flex"
 
@@ -90,6 +91,8 @@ class State {
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
         document.getElementById("pre-game-container").style.display = "flex"
+        document.getElementById("emote-button").style.display = "block"
+
     }
 
     renderMidGame = () => {
@@ -104,6 +107,7 @@ class State {
         document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
+        document.getElementById("emote-button").style.display = "block"
     }
 
     renderPostGame = () => {
@@ -118,6 +122,7 @@ class State {
         document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
+        document.getElementById("emote-button").style.display = "block"
     }
 
 }
