@@ -193,23 +193,28 @@ class Game {
     }
 
     chooseLetters = () => {
-        this.letters = []
-        const size = this.wordSize.toString()
-        // choose random letter a-z
-        const letter = String.fromCharCode(97 + Math.floor(Math.random() * 25))
-        // pick word from dictionary of length s starting with letter l
-        if (Object.keys(this.choose).length === 0) {
-            console.log("ERROR: Could not pick word, dictionary empty.")
-        }
-        else {
-            const length = this.choose[size][letter].length
-            this.word = this.choose[size][letter][Math.floor(Math.random()*length)]
-            for (let i = 0; i < this.word.length; i++) {
-                this.letters.push(this.word.charAt(i))
+        let good = false
+        while (!good) {
+            try {
+                this.letters = []
+                const size = this.wordSize.toString()
+                // choose random letter a-z
+                const letter = String.fromCharCode(97 + Math.floor(Math.random() * 25))
+                // pick word from dictionary of length s starting with letter l
+                const length = this.choose[size][letter].length
+                this.word = this.choose[size][letter][Math.floor(Math.random()*length)]
+                for (let i = 0; i < this.word.length; i++) {
+                    this.letters.push(this.word.charAt(i))
+                }
+                shuffle(this.letters)
+                good = true
+            }
+            catch (error) {
+                console.log(`ERROR: dictionary error when picking with letter ${letter}`)
+                good = false
             }
         }
-
-        shuffle(this.letters)
+        
     }
 
     playWord = (word, id) => {
