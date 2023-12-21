@@ -168,14 +168,17 @@ try {
             socket.on("wordSubmit", (data) => {
                 const word = data.word
                 const playerIndex = game.getPlayerIndex(socket.id)
+                const player = game.players[playerIndex]
+                const points = game.wordScore[word.length]
                 if (game.midGame && game.playWord(word, socket.id)) {
                     socket.emit("wordAccept", {
                         word: word,
-                        score: game.wordScore[word.length],
+                        points: points,
                         player: game.players[playerIndex]
                     })
-                    io.sockets.emit("updatePlayers", {
-                        players: game.players
+                    io.sockets.emit("updatePlayerScore", {
+                        id: socket.id,
+                        score: player.score
                     })
                 }
                 else {
@@ -214,8 +217,9 @@ try {
                 if (game.pfpAvailable(pfp)) {
                     console.log(`PFP change request approved for user ${user.name}`)
                     game.pfpChange(pfp, socket.id)
-                    io.sockets.emit("updatePlayers", {
-                        players: game.players
+                    io.sockets.emit("updatePlayerPfp", {
+                        id: socket.id,
+                        pfp: pfp
                     })
                     pfpLoadAvailable()
                 }

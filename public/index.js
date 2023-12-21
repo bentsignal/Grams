@@ -79,7 +79,7 @@ const leaveGame = () => {
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
     game.left()
-    updatePlayers()
+    renderPlayerList()
     game.resetWordList()
 }
 
@@ -118,23 +118,23 @@ const declinedAnimation = () => {
     }, 500)
 }
 
-const updatePlayers = () => {
+const renderPlayerList = () => {
     playerList.innerHTML = ""
     game.players.forEach((player) => {
         if (player.id == socket.id) {
             document.getElementById("my-pfp").src = `images/${player.pfp}`
         }
         playerList.innerHTML += `
-            <div id="player-${player.name}" class="player wrapper">
-                <img src="images/${player.pfp}" class="pfp-player-list">
+            <div id="player-${player.id}" class="player wrapper">
+                <img src="images/${player.pfp}" class="pfp-player-list" id="${player.id}-pfp-list">
                 <div class="player-info">
-                    <div class="player-name">
+                    <div class="player-name" id="${player.id}-name-list">
                         ${player.name}
                     </div>
-                    <div class="player-score">
+                    <div class="player-score" id="${player.id}-score-list">
                         Score: ${player.score}
                     </div>
-                    <div class="player-wins">
+                    <div class="player-wins" id="${player.id}-wins-list">
                         Wins: ${player.wins}
                     </div>
                 </div>
@@ -378,7 +378,7 @@ socket.on("joinAccepted", () => {
 
 socket.on("joinDeclined", (data) => {
     joinErrors.innerHTML += `
-        <p class="bad">${data.message}</p>
+        <p class="bad">${data.message}</p> 
     `
 })
 
@@ -391,7 +391,7 @@ socket.on("newHost", (data) => {
 socket.on("updatePlayers", (data) => {
     if (game.inGame) {
         game.players = data.players
-        updatePlayers()
+        renderPlayerList()
     }
 })
 
@@ -469,6 +469,10 @@ socket.on("pfpAvailable", (data) => {
     })
 })
 
+socket.on("updatePlayerPfp", (data) => {
+    document.getElementById(`${data.id}-pfp-list`).src = `images/${data.pfp}`
+})
+
 socket.on("startGame", (data) => {
     if (game.inGame) {
         game.reset()
@@ -484,13 +488,13 @@ socket.on("wordAccept", (data) => {
     sound.validWord.play()
     const word = data.word
     const me = data.player
-    const score = data.score
+    const points = data.points
     const length = word.length
     game.clearPlayedLetters()
     document.getElementById(`words-${length}`).innerHTML += `
         <div class="word" style="font-size:${10+(length*2)}pt">
             <p>${word}</p>
-            <p>${score}</p>
+            <p>${points}</p>
         </div>
     `
     wordCount.innerText = `Words: ${me.words.length}`
@@ -501,6 +505,10 @@ socket.on("wordDecline", (data) => {
     game.clearPlayedLetters()
     sound.invalidWord.play()
     declinedAnimation()
+})
+
+socket.on("updatePlayerScore", (data) => {
+    document.getElementById(`${data.id}-score-list`).innerText = `Score: ${data.score}`
 })
 
 socket.on("youWon", () => {
@@ -514,7 +522,7 @@ socket.on("youLost", () => {
 socket.on("gameOver", (data) => {
     if (game.inGame) {
         game.players = data.players
-        updatePlayers()
+        renderPlayerList()
         game.reset()
         wordCount.innerText = `Words: 0`
         myScore.innerText = `Score: 0`
@@ -526,7 +534,7 @@ socket.on("gameOver", (data) => {
 
 socket.on("serverCrash", () => {
     game = new Game()
-    updatePlayers()
+    renderPlayerList()
 })
 
 // declarations with callbacks passed by value
