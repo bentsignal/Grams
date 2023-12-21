@@ -10,6 +10,7 @@ class Game {
         this.inGame = false
         this.state = new State()
         this.midGame = false
+        this.word = ""
         this.lettersAvailable = []
         this.lettersUsed = []
         this.wordSize = 6

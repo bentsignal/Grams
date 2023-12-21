@@ -52,7 +52,7 @@ class State {
             this.renderMidGame()
         }
         else if (this.current == states.postGame) {
-            console.log("render post game")
+            this.renderPostGame()
         }
         else if (this.current == states.spectate) {
             console.log("render spectate")
@@ -73,6 +73,7 @@ class State {
         document.getElementById("controls-container").style.display = "none"
         document.getElementById("leave").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
+        document.getElementById("results-wrapper").style.display = "none"
         // show
         document.getElementById("home-container").style.display = "flex"
 
@@ -82,6 +83,7 @@ class State {
         // hide
         document.getElementById("home-container").style.display = "none"
         document.getElementById("game-container").style.display = "none"
+        document.getElementById("results-wrapper").style.display = "none"
         // show
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("keybinds-container").style.display = "block"
@@ -94,8 +96,22 @@ class State {
         //hide
         document.getElementById("home-container").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
+        document.getElementById("results-wrapper").style.display = "none"
         //show
         document.getElementById("game-container").style.display = "flex"
+        document.getElementById("player-list-container").style.display = "block"
+        document.getElementById("keybinds-container").style.display = "block"
+        document.getElementById("chat-container").style.display = "block"
+        document.getElementById("leave").style.display = "block"
+    }
+
+    renderPostGame = () => {
+        //hide
+        document.getElementById("home-container").style.display = "none"
+        document.getElementById("pre-game-container").style.display = "none"
+        document.getElementById("game-container").style.display = "none"
+        //show
+        document.getElementById("results-wrapper").style.display = "flex"
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("keybinds-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"

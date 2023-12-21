@@ -175,7 +175,7 @@ const startTimer = (countdown) => {
     }, 1000)
 }
 
-const renderResults = (wordChoosen) => {
+const renderResults = () => {
     const resultsContainer = document.getElementById("results-container")
     if (game.players.length > 2) {
         resultsWrapper.style.justifyContent = ""
@@ -184,7 +184,7 @@ const renderResults = (wordChoosen) => {
         resultsWrapper.style.justifyContent = "center"
     }
     resultsContainer.innerHTML = ""
-    resultsContainer.innerHTML += `<p id="wordChoosen">Word: ${wordChoosen}</p>`
+    resultsContainer.innerHTML += `<p id="wordChoosen">Word: ${game.word}</p>`
     game.players.forEach((player) => {
         let words = ""
         player.words.forEach((word) => {
@@ -509,8 +509,9 @@ socket.on("gameOver", (data) => {
         game.reset()
         wordCount.innerText = `Words: 0`
         myScore.innerText = `Score: 0`
-        renderResults(data.word)
-        switchToResults()
+        game.word = data.word
+        renderResults()
+        game.state.changeState(states.postGame)
     }
 })
 
