@@ -151,6 +151,7 @@ const startCountdown = (letters) => {
     countdownText.style.display = "block"
     sound.start.play()
     let countdown = 3
+    countdownText.innerText = ""
     const time = setInterval(() => {
         if (countdown <= 0) {
             clearInterval(time)
