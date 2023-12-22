@@ -70,7 +70,6 @@ class State {
         document.getElementById("player-list-container").style.display = "none"
         document.getElementById("chat-container").style.display = "none"
         document.getElementById("timer-container").style.display = "none"
-        document.getElementById("volume").style.display = "none"
         document.getElementById("settings-wheel-container").style.display = "none"
         document.getElementById("controls-container").style.display = "none"
         document.getElementById("leave").style.display = "none"

@@ -357,11 +357,13 @@ const settingsWheel = document.getElementById("settings-wheel")
 const settingsWrapper = document.getElementById("settings-wheel-wrapper")
 settingsWheel.addEventListener("click", () => {
     if (game.state.settingsOpen) {
+        volumeButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
+        pfpButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
         settingsWrapper.style.height = "50px"
         settingsWheel.classList.add("counter-clockwise")
         settingsWheel.classList.remove("clockwise")
-        volumeButton.style.opacity = "0%"
-        pfpButton.style.opacity = "0%"
+        volumeButton.style.opacity = "0"
+        pfpButton.style.opacity = "0"
         volumeButton.style.cursor = "default"
         pfpButton.style.cursor = "default"
         volumeButton.style.top = "-50px"
@@ -369,16 +371,19 @@ settingsWheel.addEventListener("click", () => {
         game.state.settingsOpen = false
     }
     else {
+        volumeButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
+        pfpButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
         settingsWrapper.style.height = "175px";
         settingsWheel.classList.remove("counter-clockwise")
         settingsWheel.classList.add("clockwise")
-        volumeButton.style.opacity = "100%"
-        pfpButton.style.opacity = "100%"
+        volumeButton.style.opacity = "1"
+        pfpButton.style.opacity = "1"
         volumeButton.style.cursor = "pointer"
         pfpButton.style.cursor = "pointer"
         volumeButton.style.top = "10px"
         pfpButton.style.top = "20px"
         game.state.settingsOpen = true
+        
     }
 })
 
