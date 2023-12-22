@@ -10,6 +10,8 @@ class State {
 
     constructor() {
         this.current = states.home
+        this.settingsOpen = false
+        this.messageCount = 0
         this.render()
     }
 

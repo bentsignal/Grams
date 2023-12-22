@@ -99,13 +99,13 @@ try {
             socket.on("chatSent", (data) => {
                 const sender = data.sender
                 const message = data.message
-                const charLim = message.length < 0 || message.length > 400
+                const charLim = message.length <= 0 || message.length > 400
                 const wordLim = message.split(" ").length > 100
                 if (charLim) {
                     socket.emit("newMessage", {
                         sender: "Server",
                         type: "bad", 
-                        message: "Message must be less than 400 characters"
+                        message: "Message must be between 0 and 400 characters"
                     })
                 }
                 else if (wordLim) {
@@ -115,6 +115,7 @@ try {
                         message: "Message must be less than 100 words"
                     })
                 }
+
                 else {
                     io.sockets.emit("newMessage", {
                         sender: sender,

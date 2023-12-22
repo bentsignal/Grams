@@ -37,7 +37,7 @@ const sound = new Sound()
 const sendMessage = () => {
     const name = game.name
     const message = chatInput.value
-    let allowMessage = true
+    let allowMessage = checkMessage(message)
     if (allowMessage) {
         socket.emit("chatSent", {
             sender: name,
@@ -45,6 +45,10 @@ const sendMessage = () => {
         })
         chatInput.value = ""
     } 
+}
+
+const checkMessage = (message) => {
+    return true
 }
 
 /*
@@ -294,13 +298,13 @@ start.addEventListener("click", () => {
 })
 
 volumeButton.addEventListener("click", () => {
-    if (settingsOpen) {
+    if (game.state.settingsOpen) {
         sound.controls.show()
     }
 })
 
 pfpButton.addEventListener("click", () => {
-    if (settingsOpen) {
+    if (game.state.settingsOpen) {
         socket.emit("pfpLoadAvailable")
         popups.pfp.show()
     }
@@ -349,11 +353,10 @@ document.getElementById("emote-button").addEventListener('click', () => {
     }
 })
 
-let settingsOpen = false
 const settingsWheel = document.getElementById("settings-wheel")
 const settingsWrapper = document.getElementById("settings-wheel-wrapper")
 settingsWheel.addEventListener("click", () => {
-    if (settingsOpen) {
+    if (game.state.settingsOpen) {
         settingsWrapper.classList.add("collapsed")
         settingsWrapper.classList.remove("expanded")
         settingsWheel.classList.add("counter-clockwise")
@@ -362,7 +365,7 @@ settingsWheel.addEventListener("click", () => {
         volumeButton.classList.remove("visible")
         pfpButton.classList.add("invisible")
         pfpButton.classList.remove("visible")
-        settingsOpen = false
+        game.state.settingsOpen = false
     }
     else {
         settingsWrapper.classList.remove("collapsed")
@@ -373,7 +376,7 @@ settingsWheel.addEventListener("click", () => {
         volumeButton.classList.add("visible")
         pfpButton.classList.remove("invisible")
         pfpButton.classList.add("visible")
-        settingsOpen = true
+        game.state.settingsOpen = true
     }
 })
 
@@ -420,23 +423,22 @@ socket.on("updatePlayers", (data) => {
 })
 
 sendChat.addEventListener("click", sendMessage)
-let messageCount = 0
 socket.on("newMessage", (data) => {
     if (game.inGame) {
         const sender = data.sender
         const message = data.message
         const me = game.name
-        messageCount += 1
+        game.state.messageCount += 1
         if (sender == "Server") {
             chat.innerHTML += `
-                <p id="message-${messageCount}">
+                <p id="message-${game.state.messageCount}">
                     <span class="server-message ${data.type}">${message}</span>
                 </p>
             `
         }
         else if (sender == me) {
             chat.innerHTML += `
-                <p id="message-${messageCount}">
+                <p id="message-${game.state.messageCount}">
                     <span class="my-message">${me}: </span>
                     <span class="chat-message">${message}</span>
                 </p>
@@ -444,13 +446,13 @@ socket.on("newMessage", (data) => {
         }
         else {
             chat.innerHTML += `
-                <p id="message-${messageCount}">
+                <p id="message-${game.state.messageCount}">
                     <span class="chat">${sender}: </span>
                     <span class="chat-message">${message}</span>
                 </p>
             `
         }
-        document.getElementById(`message-${messageCount}`).scrollIntoView()
+        document.getElementById(`message-${game.state.messageCount}`).scrollIntoView()
     }
 })
 
@@ -459,14 +461,14 @@ socket.on("emoteReceived", (data) => {
         sound.emote.play()
         const sender = data.sender
         const emote = data.emote
-        messageCount += 1
+        game.state.messageCount += 1
         chat.innerHTML += `
-            <p id="message-${messageCount}">
+            <p id="message-${game.state.messageCount}">
                 <span class="chat">${sender}: </span>
             </p>
             <img src="images/${emote}.jpg" class="chat-emote">
         `
-        document.getElementById(`message-${messageCount}`).scrollIntoView()
+        document.getElementById(`message-${game.state.messageCount}`).scrollIntoView()
     }
 })
 
