@@ -180,6 +180,9 @@ const startTimer = (countdown) => {
         else {
             timer.innerText = `0:${countdown}`
         }
+        if (countdown == 4) {
+            sound.fiveSeconds.play()
+        }
         countdown -= 1
     }, 1000)
 }
