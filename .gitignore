@@ -4,3 +4,4 @@ node_modules
 tests
 public/cfg.js
 src/logs/*
+design
