@@ -15,7 +15,8 @@ const start = document.getElementById("start")
 const controls = document.getElementById("controls-container")
 const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
-const volumeButton = document.getElementById("volume")
+const volumeButton = document.getElementById("volume-button")
+const pfpButton = document.getElementById("pfp-button")
 
 import { validName } from "./utils.js"
 import { cfg } from "./cfg.js"
@@ -293,12 +294,16 @@ start.addEventListener("click", () => {
 })
 
 volumeButton.addEventListener("click", () => {
-    sound.controls.show()
+    if (settingsOpen) {
+        sound.controls.show()
+    }
 })
 
-document.getElementById("my-pfp").addEventListener("click", () => {
-    socket.emit("pfpLoadAvailable")
-    popups.pfp.show()
+pfpButton.addEventListener("click", () => {
+    if (settingsOpen) {
+        socket.emit("pfpLoadAvailable")
+        popups.pfp.show()
+    }
 })
 
 document.addEventListener("keydown", (evt) => {
@@ -345,16 +350,29 @@ document.getElementById("emote-button").addEventListener('click', () => {
 })
 
 let settingsOpen = false
-const settingsWheel = document.getElementById("settings")
+const settingsWheel = document.getElementById("settings-wheel")
+const settingsWrapper = document.getElementById("settings-wheel-wrapper")
 settingsWheel.addEventListener("click", () => {
     if (settingsOpen) {
+        settingsWrapper.classList.add("collapsed")
+        settingsWrapper.classList.remove("expanded")
         settingsWheel.classList.add("counter-clockwise")
         settingsWheel.classList.remove("clockwise")
+        volumeButton.classList.add("invisible")
+        volumeButton.classList.remove("visible")
+        pfpButton.classList.add("invisible")
+        pfpButton.classList.remove("visible")
         settingsOpen = false
     }
     else {
+        settingsWrapper.classList.remove("collapsed")
+        settingsWrapper.classList.add("expanded")
         settingsWheel.classList.remove("counter-clockwise")
         settingsWheel.classList.add("clockwise")
+        volumeButton.classList.remove("invisible")
+        volumeButton.classList.add("visible")
+        pfpButton.classList.remove("invisible")
+        pfpButton.classList.add("visible")
         settingsOpen = true
     }
 })

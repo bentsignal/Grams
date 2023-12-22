@@ -69,7 +69,7 @@ class State {
         document.getElementById("chat-container").style.display = "none"
         document.getElementById("timer-container").style.display = "none"
         document.getElementById("volume").style.display = "none"
-        document.getElementById("settings").style.display = "none"
+        document.getElementById("settings-wheel-container").style.display = "none"
         document.getElementById("controls-container").style.display = "none"
         document.getElementById("leave").style.display = "none"
         document.getElementById("pre-game-container").style.display = "none"
@@ -89,7 +89,7 @@ class State {
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
-        document.getElementById("settings").style.display = "block"
+        document.getElementById("settings-wheel-container").style.display = "block"
         document.getElementById("pre-game-container").style.display = "flex"
         document.getElementById("emote-button").style.display = "block"
 
@@ -106,7 +106,7 @@ class State {
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
-        document.getElementById("settings").style.display = "block"
+        document.getElementById("settings-wheel-container").style.display = "block"
         document.getElementById("emote-button").style.display = "block"
     }
 
@@ -121,7 +121,7 @@ class State {
         document.getElementById("player-list-container").style.display = "block"
         document.getElementById("chat-container").style.display = "block"
         document.getElementById("leave").style.display = "block"
-        document.getElementById("settings").style.display = "block"
+        document.getElementById("settings-wheel-container").style.display = "block"
         document.getElementById("emote-button").style.display = "block"
     }
 
