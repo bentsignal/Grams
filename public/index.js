@@ -28,8 +28,6 @@ const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
 
-let messageCount = 0
-
 /*
 
     Send message to chat
@@ -238,16 +236,6 @@ const renderResults = () => {
     })
 }
 
-const switchToResults = () => {
-    gameWrapper.style.display = "none"
-    resultsWrapper.style.display = "flex"
-}
-
-const switchToGame = () => {
-    gameWrapper.style.display = "block"
-    resultsWrapper.style.display = "none"
-}
-
 const pfpChange = (event) => {
     popups.pfp.hide()
     const pfpNew = `${event.target.id}.jpg`
@@ -356,6 +344,21 @@ document.getElementById("emote-button").addEventListener('click', () => {
     }
 })
 
+let settingsOpen = false
+const settingsWheel = document.getElementById("settings")
+settingsWheel.addEventListener("click", () => {
+    if (settingsOpen) {
+        settingsWheel.classList.add("counter-clockwise")
+        settingsWheel.classList.remove("clockwise")
+        settingsOpen = false
+    }
+    else {
+        settingsWheel.classList.remove("counter-clockwise")
+        settingsWheel.classList.add("clockwise")
+        settingsOpen = true
+    }
+})
+
 /*
 
 
@@ -399,7 +402,7 @@ socket.on("updatePlayers", (data) => {
 })
 
 sendChat.addEventListener("click", sendMessage)
-
+let messageCount = 0
 socket.on("newMessage", (data) => {
     if (game.inGame) {
         const sender = data.sender

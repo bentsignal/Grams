@@ -713,6 +713,23 @@ p#wordChoosen {
 #settings {
     top: 20px;
     right: 30px;
+    transition: all .5s ease-in-out
+}
+
+.clockwise {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.counter-clockwise {
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
 }
 
 #pre-game-container {
