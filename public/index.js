@@ -504,6 +504,9 @@ socket.on("pfpAvailable", (data) => {
 
 socket.on("updatePlayerPfp", (data) => {
     document.getElementById(`${data.id}-pfp-list`).src = `images/${data.pfp}`
+    if (data.id == socket.id) {
+        document.getElementById("my-pfp").src = `images/${data.pfp}`
+    }
 })
 
 socket.on("startGame", (data) => {
