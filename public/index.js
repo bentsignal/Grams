@@ -357,27 +357,25 @@ const settingsWheel = document.getElementById("settings-wheel")
 const settingsWrapper = document.getElementById("settings-wheel-wrapper")
 settingsWheel.addEventListener("click", () => {
     if (game.state.settingsOpen) {
-        settingsWrapper.classList.add("collapsed")
-        settingsWrapper.classList.remove("expanded")
+        settingsWrapper.style.height = "50px"
         settingsWheel.classList.add("counter-clockwise")
         settingsWheel.classList.remove("clockwise")
-        volumeButton.classList.add("invisible")
-        volumeButton.classList.remove("visible")
-        pfpButton.classList.add("invisible")
-        pfpButton.classList.remove("visible")
+        volumeButton.style.opacity = "0%"
+        pfpButton.style.opacity = "0%"
+        volumeButton.style.cursor = "default"
+        pfpButton.style.cursor = "default"
         volumeButton.style.top = "-50px"
         pfpButton.style.top = "-100px"
         game.state.settingsOpen = false
     }
     else {
-        settingsWrapper.classList.remove("collapsed")
-        settingsWrapper.classList.add("expanded")
+        settingsWrapper.style.height = "175px";
         settingsWheel.classList.remove("counter-clockwise")
         settingsWheel.classList.add("clockwise")
-        volumeButton.classList.remove("invisible")
-        volumeButton.classList.add("visible")
-        pfpButton.classList.remove("invisible")
-        pfpButton.classList.add("visible")
+        volumeButton.style.opacity = "100%"
+        pfpButton.style.opacity = "100%"
+        volumeButton.style.cursor = "pointer"
+        pfpButton.style.cursor = "pointer"
         volumeButton.style.top = "10px"
         pfpButton.style.top = "20px"
         game.state.settingsOpen = true
