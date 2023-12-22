@@ -720,6 +720,7 @@ p#wordChoosen {
 #settings-wheel-wrapper {
     display: flex;
     flex-direction: column;
+    position: relative;
     margin: 15px;
     padding: 10px;
     border-radius: 20px;
@@ -747,17 +748,28 @@ p#wordChoosen {
 }
 
 #volume-button, #settings-wheel, #pfp-button {
-    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(354deg) brightness(102%) contrast(105%); 
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(354deg) brightness(102%) contrast(105%);
+    position: relative;
+    top: 0px;
 }
 
 #volume-button, #pfp-button {
     transition: all .5s ease-in-out;
-    padding-top: 10px;
+    z-index: 1;
 }
 
 #settings-wheel {
     cursor: pointer;
     transition: all .5s ease-in-out;
+    z-index: 2;
+}
+
+#volume-button {
+    top: -50px;
+}
+
+#pfp-button {
+    top:-100px;
 }
 
 .clockwise {

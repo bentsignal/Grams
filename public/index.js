@@ -365,6 +365,8 @@ settingsWheel.addEventListener("click", () => {
         volumeButton.classList.remove("visible")
         pfpButton.classList.add("invisible")
         pfpButton.classList.remove("visible")
+        volumeButton.style.top = "-50px"
+        pfpButton.style.top = "-100px"
         game.state.settingsOpen = false
     }
     else {
@@ -376,6 +378,8 @@ settingsWheel.addEventListener("click", () => {
         volumeButton.classList.add("visible")
         pfpButton.classList.remove("invisible")
         pfpButton.classList.add("visible")
+        volumeButton.style.top = "10px"
+        pfpButton.style.top = "20px"
         game.state.settingsOpen = true
     }
 })
