@@ -812,3 +812,7 @@ p#wordChoosen {
     bottom: -50px;
     width: 100%;
 }
+
+#error-popup-wrapper {
+    padding: 20px 70px;
+}

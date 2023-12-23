@@ -29,6 +29,9 @@ const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
 
+let gameTimer = 0
+let gameCountdown = 0
+
 /*
 
     Send message to chat
@@ -155,9 +158,9 @@ const startCountdown = (letters) => {
     sound.start.play()
     let countdown = 3
     countdownText.innerText = ""
-    const time = setInterval(() => {
+    gameCountdown = setInterval(() => {
         if (countdown <= 0) {
-            clearInterval(time)
+            clearInterval(gameCountdown)
             startTimer(59)
             game.state.changeState(states.midGame)
             game.newLetters(letters)
@@ -171,11 +174,11 @@ const startCountdown = (letters) => {
 
 const startTimer = (countdown) => {
     timerContainer.style.display = "flex"
-    const time = setInterval(() => {
+    gameTimer = setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
             timer.innerText = "1:00"
-            clearInterval(time)
+            clearInterval(gameTimer)
         }
         else if (countdown < 10) {
             timer.innerText = `0:${0}${countdown}`
@@ -398,7 +401,18 @@ settingsWheel.addEventListener("click", () => {
 */
 
 socket.on("connect", () => {
+    popups.error.hide()
     console.log(`connected to server with id: ${socket.id}`)
+})
+
+socket.on("connect_error", (error) => {
+    game.crash()
+    renderPlayerList()
+    clearInterval(gameCountdown)
+    clearInterval(gameTimer)
+    joinErrors.innerHTML =  ""
+    sound.music.pause()
+    popups.lostConnection.show()
 })
 
 socket.on("joinAccepted", () => {

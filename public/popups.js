@@ -1,6 +1,7 @@
 class Popups {
 
     constructor(emoteCallback) {
+        this.errorMessage = ""
         this.emote = new Popup({
             id:"send-emote",
             title: "Send emote to chat",
@@ -56,6 +57,19 @@ class Popups {
                 <div class="pfp-list-row" id="pfp-list-row-lukas">
                 </div>
             </div>
+            `,
+            backgroundColor: "var(--charcoal)",
+            titleColor: "white",
+            textColor: "white",
+            closeColor: "white"
+        })
+        this.lostConnection= new Popup({
+            id: "lostConnection",
+            title: "ERROR",
+            content: `
+                <div id="error-popup-wrapper">
+                    <p>Lost connection to the server.</p>
+                </div>
             `,
             backgroundColor: "var(--charcoal)",
             titleColor: "white",

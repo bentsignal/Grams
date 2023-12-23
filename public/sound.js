@@ -15,7 +15,7 @@ class Sound {
             validWord: 1,
             win: 1,
             lose: 1,
-            start: 0.15,
+            start: 0.08,
             emote: 0.2,
             fiveSeconds: 1
         }

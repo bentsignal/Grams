@@ -49,6 +49,19 @@ class Game {
         this.updateDeck()
     }
 
+    crash = () => {
+        this.reset()
+        this.inGame = false
+        this.players = []
+        this.word = ""
+        this.name = ""
+        this.id = ""
+        this.state = new State()
+        this.state.changeState(states.home)
+        document.getElementById("wordCount").inenrText = "Words: 0"
+        document.getElementById("myScore").innerText = "Score: 0"
+    }
+
     resetWordList = () => {
         document.getElementById("words-wrapper").innerHTML = `
             <div id="words-8" class="word-class">
