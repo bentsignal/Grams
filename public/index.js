@@ -29,7 +29,6 @@ const sound = new Sound()
 
 let gameTimer = 0
 let gameCountdown = 0
-let emoteCountdown = 0
 
 /*
 
@@ -77,14 +76,22 @@ const joinGame = () => {
     }
 }
 
+const clearIntervals = () => {
+    if (gameCountdown != 0) {
+        clearInterval(gameCountdown)
+    }
+    if (gameTimer != 0) {
+        clearInterval(gameTimer)
+    }
+}
+
 const leaveGame = () => {
     socket.emit("leave")
     sound.music.pause()
     game.state.changeState(states.home)
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
-    clearInterval(gameCountdown)
-    clearInterval(gameTimer)
+    clearIntervals()
     game.left()
     renderPlayerList()
     game.resetWordList()
@@ -416,8 +423,7 @@ socket.on("connect", () => {
 socket.on("connect_error", (error) => {
     game.crash()
     renderPlayerList()
-    clearInterval(gameCountdown)
-    clearInterval(gameTimer)
+    clearIntervals()
     joinErrors.innerHTML =  ""
     sound.music.pause()
     popups.lostConnection.show()
