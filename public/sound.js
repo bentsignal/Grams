@@ -4,7 +4,7 @@ class Sound {
 
         // parent levels
         this.parentLevels = {
-            music: 0,//0.5,
+            music: 0.5,
             sfx: 0.8,
         }
 
