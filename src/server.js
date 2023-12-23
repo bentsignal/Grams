@@ -44,7 +44,7 @@ try {
                 // bad username
                 else if (!validName(data.name)) {
                     socket.emit("joinDeclined", {
-                        message: "Username contains illegal characters"
+                        message: "Characters allowed: a-z, A-Z, 0-9, ., and _"
                     })
                 }
                 // username too long
@@ -237,6 +237,7 @@ try {
                 if (game.socketInGame(socket.id)) {
                     io.sockets.emit("emoteReceived", {
                         sender: game.nameById(socket.id),
+                        id: socket.id,
                         emote: data.emote
                     })
                 }

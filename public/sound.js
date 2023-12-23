@@ -16,7 +16,8 @@ class Sound {
             win: 1,
             lose: 1,
             start: 0.08,
-            emote: 0.2,
+            emote: 0.1,
+            chat: 0.1,
             fiveSeconds: 1
         }
 
@@ -27,6 +28,7 @@ class Sound {
         this.win = new Audio("./sounds/win.mp3")
         this.lose = new Audio("./sounds/lose.mp3")
         this.start = new Audio("./sounds/start.mp3")
+        this.chat = new Audio("./sounds/chat.mp3")
         this.emote = new Audio("./sounds/emote.mp3")
         this.fiveSeconds = new Audio("./sounds/5_seconds_left.mp3")
 
@@ -72,6 +74,7 @@ class Sound {
         this.start.volume = this.childLevels.start * this.parentLevels.sfx
         this.emote.volume = this.childLevels.emote * this.parentLevels.sfx
         this.fiveSeconds.volume = this.childLevels.fiveSeconds * this.parentLevels.sfx
+        this.chat.volume = this.childLevels.chat * this.parentLevels.sfx
     }
 
     updateVolume = () => {
@@ -85,6 +88,7 @@ class Sound {
             this.lose.volume = this.parentLevels.sfx * this.childLevels.lose
             this.start.volume = this.parentLevels.sfx * this.childLevels.start
             this.emote.volume = this.parentLevels.sfx * this.childLevels.emote
+            this.chat.volume = this.parentLevels.sfx * this.childLevels.chat
             this.fiveSeconds.volume = this.parentLevels.sfx * this.childLevels.fiveSeconds
         })
         musicSlider.addEventListener("input", () => {

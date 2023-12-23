@@ -31,6 +31,7 @@ const sound = new Sound()
 
 let gameTimer = 0
 let gameCountdown = 0
+let emoteCountdown = 0
 
 /*
 
@@ -66,7 +67,7 @@ const joinGame = () => {
         joinErrors.innerHTML += `<p class="bad">Username must be at least 1 character long</p>`
     }
     else if (!validName(name)) {
-        joinErrors.innerHTML += `<p class="bad">Username contains illegal characters</p>`
+        joinErrors.innerHTML += `<p class="bad">Characters allowed: a-z, A-Z, 0-9, ., and _</p>`
     }
     else if (game.inGame) {
         joinErrors.innerHTML += `<p class="bad">Already connected to the game</p>`
@@ -145,6 +146,11 @@ const renderPlayerList = () => {
                     <div class="player-wins" id="${player.id}-wins-list">
                         Wins: ${player.wins}
                     </div>
+                </div>
+                <div id="${player.id}-emote-wrapper"class="player-emote-wrapper">
+                    <img src="icons/speech-bubble-stroke.svg" class="speech-bubble stroke">
+                    <img src="icons/speech-bubble-fill.svg" class="speech-bubble fill">
+                    <img src="images/ben-emote-2.jpg" class="emote" id="${player.id}-emote">
                 </div>
             </div>
         `
@@ -471,6 +477,7 @@ socket.on("newMessage", (data) => {
             `
         }
         else {
+            sound.chat.play()
             chat.innerHTML += `
                 <p id="message-${game.state.messageCount}">
                     <span class="chat">${sender}: </span>
@@ -485,16 +492,14 @@ socket.on("newMessage", (data) => {
 socket.on("emoteReceived", (data) => {
     if (game.inGame) {
         sound.emote.play()
-        const sender = data.sender
         const emote = data.emote
-        game.state.messageCount += 1
-        chat.innerHTML += `
-            <p id="message-${game.state.messageCount}">
-                <span class="chat">${sender}: </span>
-            </p>
-            <img src="images/${emote}.jpg" class="chat-emote">
-        `
-        document.getElementById(`message-${game.state.messageCount}`).scrollIntoView()
+        const id = data.id
+        const emoteElement = document.getElementById(`${id}-emote`)
+        const emoteWrapper = document.getElementById(`${id}-emote-wrapper`)
+        emoteElement.src = `images/${emote}.jpg`
+        emoteWrapper.classList.remove("three-s-fade")
+        void emoteWrapper.offsetWidth
+        emoteWrapper.classList.add("three-s-fade")
     }
 })
 
