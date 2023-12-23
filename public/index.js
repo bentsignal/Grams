@@ -84,6 +84,8 @@ const leaveGame = () => {
     game.state.changeState(states.home)
     wordCount.innerText = "Words: 0"
     myScore.innerText = "Score: 0"
+    clearInterval(gameCountdown)
+    clearInterval(gameTimer)
     game.left()
     renderPlayerList()
     game.resetWordList()
@@ -174,6 +176,7 @@ const startCountdown = (letters) => {
 
 const startTimer = (countdown) => {
     timerContainer.style.display = "flex"
+    timer.innerText = "1:00"
     gameTimer = setInterval(() => {
         if (countdown < 0) {
             timerContainer.style.display = "none"
@@ -194,15 +197,17 @@ const startTimer = (countdown) => {
 }
 
 const renderResults = () => {
-    const resultsContainer = document.getElementById("results-container")
+    console.log(game.players)
     if (game.players.length > 2) {
         resultsWrapper.style.justifyContent = ""
     }
     else {
         resultsWrapper.style.justifyContent = "center"
     }
-    resultsContainer.innerHTML = ""
-    resultsContainer.innerHTML += `<p id="wordChoosen">Word: ${game.word}</p>`
+    resultsWrapper.innerHTML = `
+        <p id="wordChoosen">Word: ${game.word}</p>
+        <div id="results-container"></div>
+    `
     game.players.forEach((player) => {
         let words = ""
         player.words.forEach((word) => {
@@ -213,7 +218,7 @@ const renderResults = () => {
                 </div>
             `
         })
-        resultsContainer.innerHTML += `
+        document.getElementById("results-container").innerHTML += `
             <div class="player-result wrapper">
                 <div class="player-result-top-w">
                     <div class="player-result-top-c">

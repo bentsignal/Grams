@@ -664,9 +664,12 @@ select {
 
 p#wordChoosen {
     position: absolute;
-    top: -70px;
+    width: 52vw;
+    margin: 0;
+    text-align: center;
+    top: 10vh;
     color: var(--charcoal);
-    font-size: 24pt;
+    font-size: 28pt;
 }
 
 #home-container {
