@@ -32,7 +32,6 @@ class Game {
             "lukas-face-2.jpg": true,
             "lukas-face-3.jpg": true,
             "lukas-face-4.jpg": true,
-            "lukas-face-5.jpg": true,
         }
     }
 

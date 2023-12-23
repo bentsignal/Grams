@@ -454,7 +454,7 @@ body::after {
 
 ::-webkit-scrollbar-thumb {
     background-color: black;
-    opacity: 90%;
+    opacity: .2;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 0 10px rgba(0,0,0,.5);
@@ -593,6 +593,15 @@ select {
     height: 60vh;
     overflow-x: scroll;
     align-items: center;
+}
+
+#results-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--charcoal);
+    opacity: .2;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    border-radius: 10px;
 }
 
 #results-container {
@@ -755,7 +764,7 @@ p#wordChoosen {
 
 #home-header {
     margin: 0;
-    font-size: 52pt;
+    font-size: 72pt;
     color: var(--charcoal);
     opacity: 80%;
 }
@@ -881,4 +890,9 @@ p#wordChoosen {
 
 #error-popup-wrapper {
     padding: 20px 70px;
+}
+
+#home-header-wrapper {
+    display: inline-block;
+    position: relative;
 }
