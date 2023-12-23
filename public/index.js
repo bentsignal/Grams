@@ -67,7 +67,7 @@ const joinGame = () => {
         joinErrors.innerHTML += `<p class="bad">Username must be at least 1 character long</p>`
     }
     else if (!validName(name)) {
-        joinErrors.innerHTML += `<p class="bad">Username contains illegal characters</p>`
+        joinErrors.innerHTML += `<p class="bad">Characters allowed: a-z, A-Z, 0-9, ., and _</p>`
     }
     else if (game.inGame) {
         joinErrors.innerHTML += `<p class="bad">Already connected to the game</p>`
