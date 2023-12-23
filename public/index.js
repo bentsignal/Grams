@@ -477,6 +477,7 @@ socket.on("newMessage", (data) => {
             `
         }
         else {
+            sound.chat.play()
             chat.innerHTML += `
                 <p id="message-${game.state.messageCount}">
                     <span class="chat">${sender}: </span>
@@ -490,6 +491,7 @@ socket.on("newMessage", (data) => {
 
 socket.on("emoteReceived", (data) => {
     if (game.inGame) {
+        sound.emote.play()
         const emote = data.emote
         const id = data.id
         const emoteElement = document.getElementById(`${id}-emote`)
