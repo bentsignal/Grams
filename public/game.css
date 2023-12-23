@@ -283,7 +283,7 @@ body::after {
 }
 
 #player-list-container {
-    width: 250px;
+    width: 280px;
     position: fixed;
     top: 0;
     left: 0;
@@ -296,7 +296,6 @@ body::after {
     border-radius: 10px;
     display: flex;
     align-items: center;
-    display: relative;
     z-index: 1;
 }
 
@@ -316,17 +315,17 @@ body::after {
 }
 
 .three-s-fade {
-    animation: 3s ease-in-out flashEmote
+    animation: 4s ease-in-out flashEmote
 }
 
 .player-emote-wrapper {
     opacity: 0;
     position: absolute;
-    width: 77px;
-    height: 77px;
+    width: 95px;
+    height: 95px;
     z-index: 2;
     top: 0;
-    left: 250px;
+    left: 280px;
 }
 
 .speech-bubble {
@@ -347,25 +346,26 @@ body::after {
 }
 
 .emote {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     position: absolute;
-    top: 10px;
-    left: 12px;
+    top: 13px;
+    left: 18px;
     z-index: 4;
     border-radius: 50px;
 }
 
 .pfp-player-list {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     border-radius: 50px;
 }
 
 .player-info {
-    padding-left: 10px;
+    padding: 0 0 0 10px;
     display: flex;
     flex-direction: column;
+    font-size: 14pt;
 }
 
 #shuffle-container {
