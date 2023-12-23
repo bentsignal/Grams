@@ -31,6 +31,7 @@ const sound = new Sound()
 
 let gameTimer = 0
 let gameCountdown = 0
+let emoteCountdown = 0
 
 /*
 
@@ -146,10 +147,10 @@ const renderPlayerList = () => {
                         Wins: ${player.wins}
                     </div>
                 </div>
-                <div class="player-emote-wrapper">
+                <div id="${player.id}-emote-wrapper"class="player-emote-wrapper">
                     <img src="icons/speech-bubble-stroke.svg" class="speech-bubble stroke">
                     <img src="icons/speech-bubble-fill.svg" class="speech-bubble fill">
-                    <img src="images/ben-emote-2.jpg" class="emote">
+                    <img src="images/ben-emote-2.jpg" class="emote" id="${player.id}-emote">
                 </div>
             </div>
         `
@@ -489,17 +490,14 @@ socket.on("newMessage", (data) => {
 
 socket.on("emoteReceived", (data) => {
     if (game.inGame) {
-        sound.emote.play()
-        const sender = data.sender
         const emote = data.emote
-        game.state.messageCount += 1
-        chat.innerHTML += `
-            <p id="message-${game.state.messageCount}">
-                <span class="chat">${sender}: </span>
-            </p>
-            <img src="images/${emote}.jpg" class="chat-emote">
-        `
-        document.getElementById(`message-${game.state.messageCount}`).scrollIntoView()
+        const id = data.id
+        const emoteElement = document.getElementById(`${id}-emote`)
+        const emoteWrapper = document.getElementById(`${id}-emote-wrapper`)
+        emoteElement.src = `images/${emote}.jpg`
+        emoteWrapper.classList.remove("three-s-fade")
+        void emoteWrapper.offsetWidth
+        emoteWrapper.classList.add("three-s-fade")
     }
 })
 

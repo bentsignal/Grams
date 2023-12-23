@@ -237,6 +237,7 @@ try {
                 if (game.socketInGame(socket.id)) {
                     io.sockets.emit("emoteReceived", {
                         sender: game.nameById(socket.id),
+                        id: socket.id,
                         emote: data.emote
                     })
                 }
