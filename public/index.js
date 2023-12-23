@@ -146,6 +146,11 @@ const renderPlayerList = () => {
                         Wins: ${player.wins}
                     </div>
                 </div>
+                <div class="player-emote-wrapper">
+                    <img src="icons/speech-bubble-stroke.svg" class="speech-bubble stroke">
+                    <img src="icons/speech-bubble-fill.svg" class="speech-bubble fill">
+                    <img src="images/ben-emote-2.jpg" class="emote">
+                </div>
             </div>
         `
     })
