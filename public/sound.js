@@ -96,6 +96,18 @@ class Sound {
             this.music.volume = this.parentLevels.music * this.childLevels.music
         })
     }
+
+    toggleMuteAll = () => {
+        this.music.muted = !this.music.muted
+        this.invalidWord.muted = !this.invalidWord.muted
+        this.validWord.muted = !this.validWord.muted
+        this.win.muted = !this.win.muted
+        this.lose.muted = !this.lose.muted
+        this.start.muted = !this.start.muted
+        this.emote.muted = !this.emote.muted
+        this.fiveSeconds.muted = !this.fiveSeconds.muted
+        this.chat.muted = !this.chat.muted 
+    }
     
 }
 

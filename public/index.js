@@ -339,6 +339,9 @@ document.addEventListener("keydown", (evt) => {
             else if (evt.key == ";" || evt.key == ":") {
                 game.shuffleLetters()
             }
+            else if (evt.key == "1") {
+                sound.toggleMuteAll()
+            }
         }
     }
     else if (document.activeElement == chatInput) {
