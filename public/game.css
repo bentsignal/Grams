@@ -406,11 +406,16 @@ body::after {
 }
 
 #chat-input {
-    width: 300px;
+    width: 360px;
 }
 
 #name-input {
     width: 250px;
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+#name-input:focus, #chat-input:focus {
+    outline: none;
 }
 
 #name-input, #chat-input {

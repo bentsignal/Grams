@@ -1,9 +1,7 @@
-const join = document.getElementById("join")
 const leave = document.getElementById("leave")
 const nameInput = document.getElementById("name-input")
 const playerList = document.getElementById("player-list-wrapper")
 const chatInput = document.getElementById("chat-input")
-const sendChat = document.getElementById("send-chat")
 const chat = document.getElementById("chat")
 const joinErrors = document.getElementById("join-errors")
 const wordCount = document.getElementById("wordCount")
@@ -297,10 +295,6 @@ const sendEmote = (event) => {
 
 */
 
-join.addEventListener("click", () => {
-    joinGame()
-})
-
 leave.addEventListener("click", () => {
     leaveGame()
 })
@@ -454,7 +448,6 @@ socket.on("updatePlayers", (data) => {
     }
 })
 
-sendChat.addEventListener("click", sendMessage)
 socket.on("newMessage", (data) => {
     if (game.inGame) {
         const sender = data.sender
