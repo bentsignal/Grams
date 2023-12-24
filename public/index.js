@@ -23,10 +23,12 @@ import { states } from "./state.js"
 import Game from "./game.js"
 import Sound from "./sound.js"
 import Popups from "./popups.js"
+import Binds from "./binds.js"
 
 const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
+const binds = new Binds()
 
 let gameTimer = 0
 let gameCountdown = 0
@@ -327,7 +329,7 @@ pfpButton.addEventListener("click", () => {
 
 keybindsButton.addEventListener("click", () => {
     if (game.state.settingsOpen) {
-        console.log("show keybinds popup")
+        binds.popup.show()
     }
 })
 
@@ -341,19 +343,30 @@ document.addEventListener("keydown", (evt) => {
                 }
             }
             else if (evt.key == "Enter" && game.midGame) {
-                playWord()
+                playWord() 
             }
             else if (game.midGame && game.isLetterAvailable(evt.key.toLowerCase())) {
                 game.playLetter(evt.key)
             }
-            else if (evt.key == " " && game.lettersUsed.length > 0) {
+            else if (evt.key == binds.clear && game.lettersUsed.length > 0) {
                 game.clearPlayedLetters()
             }
-            else if (evt.key == ";" || evt.key == ":") {
+            else if (evt.key == binds.shuffle) {
                 game.shuffleLetters()
             }
-            else if (evt.key == "1") {
+            else if (evt.key == binds.toggleMuteAll) {
                 sound.toggleMuteAll()
+            }
+            else if (evt.key == binds.emote) {
+                popups.emote.show()
+            }
+            else if (evt.key == binds.chat) {
+                if (document.activeElement != chatInput) {
+                    chatInput.focus()
+                    setTimeout(() => {
+                        chatInput.value = ""
+                    },1)
+                }
             }
         }
     }
@@ -611,4 +624,4 @@ socket.on("serverCrash", () => {
 })
 
 // declarations with callbacks passed by value
-const popups = new Popups(sendEmote)
+const popups = new Popups(sendEmote, leaveGame)
