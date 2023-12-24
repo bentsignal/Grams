@@ -404,7 +404,7 @@ body::after {
 .keybind {
     display: flex;
     justify-content: space-between;
-    width: 27vw;
+    width: 460px;
     margin: 10px 0;
 }
 
