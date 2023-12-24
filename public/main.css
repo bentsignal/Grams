@@ -745,6 +745,7 @@ select {
 
 #volume-controls-wrapper {
     padding: 10px 100px;
+    margin-bottom: 20px;
 }
 
 #popup-container {
@@ -756,7 +757,7 @@ select {
 }
 
 #pfp-list-wrapper {
-    margin: 10px 30px;
+    margin: 10px 30px 30px 30px;
 }
 
 p#wordChoosen {
