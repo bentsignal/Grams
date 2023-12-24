@@ -807,16 +807,18 @@ p#wordChoosen {
     height: 50px;
 }
 
-#volume-button, #settings-wheel, #pfp-button {
+#volume-button, #settings-wheel, #pfp-button, #keybinds-button {
     filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(354deg) brightness(102%) contrast(105%);
     position: relative;
 }
 
-#volume-button, #pfp-button {
+#volume-button, #pfp-button, #keybinds-button {
     cursor: default;
     opacity: 0;
     z-index: 1;
 }
+
+
 
 #volume-button {
     top: -50px;
@@ -824,6 +826,10 @@ p#wordChoosen {
 
 #pfp-button {
     top: -100px;
+}
+
+#keybinds-button {
+    top: -150px;
 }
 
 #settings-wheel {

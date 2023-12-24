@@ -15,6 +15,7 @@ const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
 const volumeButton = document.getElementById("volume-button")
 const pfpButton = document.getElementById("pfp-button")
+const keybindsButton = document.getElementById("keybinds-button")
 
 import { validName } from "./utils.js"
 import { cfg } from "./cfg.js"
@@ -208,7 +209,6 @@ const startTimer = (countdown) => {
 }
 
 const renderResults = () => {
-    console.log(game.players)
     if (game.players.length > 2) {
         resultsWrapper.style.justifyContent = ""
     }
@@ -325,6 +325,12 @@ pfpButton.addEventListener("click", () => {
     }
 })
 
+keybindsButton.addEventListener("click", () => {
+    if (game.state.settingsOpen) {
+        console.log("show keybinds popup")
+    }
+})
+
 document.addEventListener("keydown", (evt) => {
     if (document.activeElement == document.body) {
         // focus game
@@ -377,29 +383,37 @@ settingsWheel.addEventListener("click", () => {
     if (game.state.settingsOpen) {
         volumeButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
         pfpButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
+        keybindsButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
         settingsWrapper.style.height = "50px"
         settingsWheel.classList.add("counter-clockwise")
         settingsWheel.classList.remove("clockwise")
         volumeButton.style.opacity = "0"
         pfpButton.style.opacity = "0"
+        keybindsButton.style.opacity = "0"
         volumeButton.style.cursor = "default"
         pfpButton.style.cursor = "default"
+        keybindsButton.style.cursor = "default"
         volumeButton.style.top = "-50px"
         pfpButton.style.top = "-100px"
+        keybindsButton.style.top = "-150px"
         game.state.settingsOpen = false
     }
     else {
         volumeButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
         pfpButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
-        settingsWrapper.style.height = "175px";
+        keybindsButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
+        settingsWrapper.style.height = "225px";
         settingsWheel.classList.remove("counter-clockwise")
         settingsWheel.classList.add("clockwise")
         volumeButton.style.opacity = "1"
         pfpButton.style.opacity = "1"
+        keybindsButton.style.opacity = "1"
         volumeButton.style.cursor = "pointer"
         pfpButton.style.cursor = "pointer"
+        keybindsButton.style.cursor = "pointer"
         volumeButton.style.top = "10px"
         pfpButton.style.top = "20px"
+        keybindsButton.style.top = "30px"
         game.state.settingsOpen = true
         
     }
@@ -417,7 +431,6 @@ settingsWheel.addEventListener("click", () => {
 
 socket.on("connect", () => {
     popups.error.hide()
-    console.log(`connected to server with id: ${socket.id}`)
 })
 
 socket.on("connect_error", (error) => {
@@ -430,7 +443,6 @@ socket.on("connect_error", (error) => {
 })
 
 socket.on("joinAccepted", () => {
-    console.log("successfully joined the game")
     sound.music.play()
     game.joined(nameInput.value)
     game.state.changeState(states.preGame)
@@ -546,7 +558,6 @@ socket.on("startGame", (data) => {
 })
 
 socket.on("wordAccept", (data) => {
-    console.log("word accept")
     sound.validWord.play()
     const word = data.word
     const me = data.player
