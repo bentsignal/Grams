@@ -908,3 +908,7 @@ p#wordChoosen {
 select:focus {
     outline: none;
 }
+
+#keybinds-popup-wrapper {
+    margin: 20px 50px;
+}

@@ -10,8 +10,18 @@ class Binds {
             title: "Keybinds",
             content: `
                 <div id="keybinds-popup-wrapper">
+                    <div>Press a key to change it</div>
                     <div id="keybinds-popup-container">
-                        <div>Keybinds yer</div>
+                        <div class="keybind" id="mute-keybind">
+                        </div>
+                        <div class="keybind" id="shuffle-keybind">
+                        </div>
+                        <div class="keybind" id="clear-keybind">
+                        </div>
+                        <div class="keybind" id="emote-keybind">
+                        </div>
+                        <div class="keybind" id="chat-keybind">
+                        </div>
                     </div>
                 </div>
             `,
@@ -20,6 +30,7 @@ class Binds {
             textColor: "white",
             closeColor: "white",
         })
+
     }
 }
 
