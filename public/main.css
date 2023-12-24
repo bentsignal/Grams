@@ -393,11 +393,32 @@ body::after {
     font-size: 14pt;
 }
 
+#keybinds-popup-container {
+    padding: 8px 50px;
+}
+
+#keybind-instructions {
+    padding-bottom: 10px;
+}
+
+.keybind {
+    display: flex;
+    justify-content: space-between;
+    width: 27vw;
+    margin: 10px 0;
+}
+
 .bind {
-    color: white;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    cursor: pointer;
+    color: var(--charcoal);
+    background-color: white;
     padding: 4px 8px 4px 8px;
     border-radius: 4px;
     margin: 0 5px 0 5px;
+    min-width: 25px;
 }
 
 #connection-container {
@@ -720,6 +741,8 @@ select {
     width: auto !important;
 }
 
+
+
 #volume-controls-wrapper {
     padding: 10px 100px;
 }
@@ -807,16 +830,18 @@ p#wordChoosen {
     height: 50px;
 }
 
-#volume-button, #settings-wheel, #pfp-button {
+#volume-button, #settings-wheel, #pfp-button, #keybinds-button {
     filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(354deg) brightness(102%) contrast(105%);
     position: relative;
 }
 
-#volume-button, #pfp-button {
+#volume-button, #pfp-button, #keybinds-button {
     cursor: default;
     opacity: 0;
     z-index: 1;
 }
+
+
 
 #volume-button {
     top: -50px;
@@ -824,6 +849,10 @@ p#wordChoosen {
 
 #pfp-button {
     top: -100px;
+}
+
+#keybinds-button {
+    top: -150px;
 }
 
 #settings-wheel {
@@ -901,4 +930,8 @@ p#wordChoosen {
 
 select:focus {
     outline: none;
+}
+
+#keybinds-popup-wrapper {
+    margin: 20px 50px;
 }

@@ -15,6 +15,7 @@ const gameWrapper = document.getElementById("game-wrapper")
 const resultsWrapper = document.getElementById("results-wrapper")
 const volumeButton = document.getElementById("volume-button")
 const pfpButton = document.getElementById("pfp-button")
+const keybindsButton = document.getElementById("keybinds-button")
 
 import { validName } from "./utils.js"
 import { cfg } from "./cfg.js"
@@ -22,10 +23,12 @@ import { states } from "./state.js"
 import Game from "./game.js"
 import Sound from "./sound.js"
 import Popups from "./popups.js"
+import Binds from "./binds.js"
 
 const socket = io(cfg.URL)
 const game = new Game()
 const sound = new Sound()
+const binds = new Binds()
 
 let gameTimer = 0
 let gameCountdown = 0
@@ -208,7 +211,6 @@ const startTimer = (countdown) => {
 }
 
 const renderResults = () => {
-    console.log(game.players)
     if (game.players.length > 2) {
         resultsWrapper.style.justifyContent = ""
     }
@@ -325,8 +327,17 @@ pfpButton.addEventListener("click", () => {
     }
 })
 
+keybindsButton.addEventListener("click", () => {
+    if (game.state.settingsOpen) {
+        binds.popup.show()
+    }
+})
+
 document.addEventListener("keydown", (evt) => {
-    if (document.activeElement == document.body) {
+    if (binds.awaitingBind) {
+        binds.setBind(evt.key)
+    }
+    else if (document.activeElement == document.body) {
         // focus game
         if (game.inGame) {
             if (evt.key == "Backspace") {
@@ -335,19 +346,30 @@ document.addEventListener("keydown", (evt) => {
                 }
             }
             else if (evt.key == "Enter" && game.midGame) {
-                playWord()
+                playWord() 
             }
             else if (game.midGame && game.isLetterAvailable(evt.key.toLowerCase())) {
                 game.playLetter(evt.key)
             }
-            else if (evt.key == " " && game.lettersUsed.length > 0) {
+            else if (evt.key == binds.clear && game.lettersUsed.length > 0) {
                 game.clearPlayedLetters()
             }
-            else if (evt.key == ";" || evt.key == ":") {
+            else if (evt.key == binds.shuffle) {
                 game.shuffleLetters()
             }
-            else if (evt.key == "1") {
+            else if (evt.key == binds.toggleMuteAll) {
                 sound.toggleMuteAll()
+            }
+            else if (evt.key == binds.emote) {
+                popups.emote.show()
+            }
+            else if (evt.key == binds.chat) {
+                if (document.activeElement != chatInput) {
+                    chatInput.focus()
+                    setTimeout(() => {
+                        chatInput.value = ""
+                    },1)
+                }
             }
         }
     }
@@ -377,29 +399,37 @@ settingsWheel.addEventListener("click", () => {
     if (game.state.settingsOpen) {
         volumeButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
         pfpButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
+        keybindsButton.style.transition = "top .5s ease-in-out, opacity .3s ease-in-out"
         settingsWrapper.style.height = "50px"
         settingsWheel.classList.add("counter-clockwise")
         settingsWheel.classList.remove("clockwise")
         volumeButton.style.opacity = "0"
         pfpButton.style.opacity = "0"
+        keybindsButton.style.opacity = "0"
         volumeButton.style.cursor = "default"
         pfpButton.style.cursor = "default"
+        keybindsButton.style.cursor = "default"
         volumeButton.style.top = "-50px"
         pfpButton.style.top = "-100px"
+        keybindsButton.style.top = "-150px"
         game.state.settingsOpen = false
     }
     else {
         volumeButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
         pfpButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
-        settingsWrapper.style.height = "175px";
+        keybindsButton.style.transition = "top .5s ease-in-out, opacity 1s ease-in-out"
+        settingsWrapper.style.height = "225px";
         settingsWheel.classList.remove("counter-clockwise")
         settingsWheel.classList.add("clockwise")
         volumeButton.style.opacity = "1"
         pfpButton.style.opacity = "1"
+        keybindsButton.style.opacity = "1"
         volumeButton.style.cursor = "pointer"
         pfpButton.style.cursor = "pointer"
+        keybindsButton.style.cursor = "pointer"
         volumeButton.style.top = "10px"
         pfpButton.style.top = "20px"
+        keybindsButton.style.top = "30px"
         game.state.settingsOpen = true
         
     }
@@ -417,7 +447,6 @@ settingsWheel.addEventListener("click", () => {
 
 socket.on("connect", () => {
     popups.error.hide()
-    console.log(`connected to server with id: ${socket.id}`)
 })
 
 socket.on("connect_error", (error) => {
@@ -430,7 +459,6 @@ socket.on("connect_error", (error) => {
 })
 
 socket.on("joinAccepted", () => {
-    console.log("successfully joined the game")
     sound.music.play()
     game.joined(nameInput.value)
     game.state.changeState(states.preGame)
@@ -546,7 +574,6 @@ socket.on("startGame", (data) => {
 })
 
 socket.on("wordAccept", (data) => {
-    console.log("word accept")
     sound.validWord.play()
     const word = data.word
     const me = data.player
@@ -600,4 +627,4 @@ socket.on("serverCrash", () => {
 })
 
 // declarations with callbacks passed by value
-const popups = new Popups(sendEmote)
+const popups = new Popups(sendEmote, leaveGame)

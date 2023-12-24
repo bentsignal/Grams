@@ -1,6 +1,6 @@
 class Popups {
 
-    constructor(emoteCallback) {
+    constructor(emoteCallback, leaveCallback) {
         this.errorMessage = ""
         this.emote = new Popup({
             id:"send-emote",
@@ -76,7 +76,25 @@ class Popups {
             textColor: "white",
             closeColor: "white"
         })
+        this.leave = new Popup({
+            id: "leave-popup",
+            title: "Confirmation",
+            content: `
+                <div id="leave-confirmation-wrapper">
+                    <p>Are you sure you want to leave?</p>
+                    <button id="confirm-leave">Leave</button>
+                </div>
+            `,
+            backgroundColor: "var(--charcoal)",
+            titleColor: "white",
+            textColor: "white",
+            closeColor: "white",
+            loadCallback: () => {
+                document.getElementById("confirm-leave").addEventListener("click", leaveCallback)
+            }
+        })
     }
+    
 
 }
 
