@@ -393,8 +393,28 @@ body::after {
     font-size: 14pt;
 }
 
+#keybinds-popup-container {
+    padding: 8px 50px;
+}
+
+#keybind-instructions {
+    padding-bottom: 10px;
+}
+
+.keybind {
+    display: flex;
+    justify-content: space-between;
+    width: 27vw;
+    margin: 10px 0;
+}
+
 .bind {
-    color: white;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    cursor: pointer;
+    color: var(--charcoal);
+    background-color: white;
     padding: 4px 8px 4px 8px;
     border-radius: 4px;
     margin: 0 5px 0 5px;
@@ -719,6 +739,8 @@ select {
 .popup-content {
     width: auto !important;
 }
+
+
 
 #volume-controls-wrapper {
     padding: 10px 100px;
