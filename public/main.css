@@ -418,6 +418,7 @@ body::after {
     padding: 4px 8px 4px 8px;
     border-radius: 4px;
     margin: 0 5px 0 5px;
+    min-width: 25px;
 }
 
 #connection-container {

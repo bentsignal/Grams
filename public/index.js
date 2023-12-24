@@ -334,7 +334,10 @@ keybindsButton.addEventListener("click", () => {
 })
 
 document.addEventListener("keydown", (evt) => {
-    if (document.activeElement == document.body) {
+    if (binds.awaitingBind) {
+        binds.setBind(evt.key)
+    }
+    else if (document.activeElement == document.body) {
         // focus game
         if (game.inGame) {
             if (evt.key == "Backspace") {
