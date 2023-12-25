@@ -1,23 +1,42 @@
 const express = require("express")
-const { createServer } = require("http")
+const { readFileSync } = require("fs")
+const { createServer } = require("https")
 const { Server } = require("socket.io")
-const app = express()
-const httpServer = createServer(app)
-const io = new Server(httpServer)
-const Game = require("./game")
 const cfg = require("./cfg.json")
-const { validName } = require("./utils")
+
+// server init
+const app = express()
+const httpsServer = createServer({
+    key: readFileSync("./src/ssl/server-key.pem"),
+    cert: readFileSync("./src/ssl/server-cert.pem"),
+    requestCert: true,
+    ca: [
+        readFileSync("./src/ssl/client-cert.pem")
+    ]
+}, app)
+const io = new Server(httpsServer)
 
 // start server
 app.use(express.static("public"))
-httpServer.listen(cfg.PORT)
+httpsServer.listen(cfg.PORT)
 
+// game imports
+const Game = require("./game")
+const { validName } = require("./utils")
+
+// game init
 let game = new Game()
 game.init(cfg.CHOOSE, cfg.ALLOW)
 
 try {
 
+    io.engine.on("connection", rawSocket => {
+        rawSocket.peerCertificate = rawSocket.request.client.getPeerCertificate()
+    })
+
     io.on("connection", socket => {
+
+        console.log(socket.conn.peerCertificate)
 
         try {
 
