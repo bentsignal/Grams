@@ -925,8 +925,17 @@ p#wordChoosen {
 }
 
 #home-header-wrapper {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;;
     position: relative;
+}
+
+#home-logo {
+    width: 400px;
+    height: auto;
+    filter: invert(14%) sepia(0%) saturate(1503%) hue-rotate(200deg) brightness(94%) contrast(87%);
 }
 
 select:focus {
