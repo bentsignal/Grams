@@ -5,5 +5,5 @@ tests
 public/cfg.js
 src/logs/*
 design
-src/ssl/*.pem
-public/ssl/*.pem
+src/ssl/*
+!src/ssl/README.md

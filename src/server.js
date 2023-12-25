@@ -7,12 +7,8 @@ const cfg = require("./cfg.json")
 // server init
 const app = express()
 const httpsServer = createServer({
-    key: readFileSync("./src/ssl/server-key.pem"),
-    cert: readFileSync("./src/ssl/server-cert.pem"),
-    requestCert: true,
-    ca: [
-        readFileSync("./src/ssl/client-cert.pem")
-    ]
+    key: readFileSync("./src/ssl/private.key"),
+    cert: readFileSync("./src/ssl/certificate.crt")
 }, app)
 const io = new Server(httpsServer)
 
@@ -35,8 +31,6 @@ try {
     })
 
     io.on("connection", socket => {
-
-        console.log(socket.conn.peerCertificate)
 
         try {
 

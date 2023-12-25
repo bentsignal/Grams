@@ -20,19 +20,12 @@ const keybindsButton = document.getElementById("keybinds-button")
 import { validName } from "./utils.js"
 import { cfg } from "./cfg.js"
 import { states } from "./state.js"
-import { readFileSync } from "fs"
 import Game from "./game.js"
 import Sound from "./sound.js"
 import Popups from "./popups.js"
 import Binds from "./binds.js"
 
-const socket = io(cfg.URL, {
-    key: readFileSync("./public/ssl/client-key.pem"),
-    cert: readFileSync("./public/ssl/client-cert.pem"),
-    ca: [
-        readFileSync("./public/ssl/server-cert.pem")
-    ]
-})
+const socket = io(cfg.URL, {secure: true})
 const game = new Game()
 const sound = new Sound()
 const binds = new Binds()
