@@ -25,7 +25,7 @@ import Sound from "./sound.js"
 import Popups from "./popups.js"
 import Binds from "./binds.js"
 
-const socket = io(cfg.URL)
+const socket = io(cfg.URL, {secure: true})
 const game = new Game()
 const sound = new Sound()
 const binds = new Binds()
