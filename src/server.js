@@ -151,7 +151,7 @@ try {
                         console.log(`setting ${game.players[0].name} (${game.host}) to be new host`)
                     }
                     else {
-                        console.log("no players left, resettings game")
+                        console.log("no players left, resetting game")
                         game.host = ""
                         game.endGame()
                         game.resetGame()

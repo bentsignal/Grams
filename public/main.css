@@ -19,6 +19,7 @@
 }
 
 body {
+    margin: 0;
     color: white;
     font-family: 'Roboto', sans-serif;
 }
@@ -389,7 +390,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #1d060a;
+    background-color: #111111;
     opacity: .2;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
