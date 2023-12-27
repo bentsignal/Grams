@@ -529,6 +529,7 @@ select {
     width: 50vw;
     height: 60vh;
     overflow-x: scroll;
+    overflow-y: hidden;
     align-items: center;
 }
 
