@@ -2,117 +2,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
 
 :root {
-    --charcoal: #4d141e;
+    --burn: #4d141e;
+    --charcoal: #2e2e2e;
     --graphite: #555555;
     --silver: #c3d7dc;
     --good: rgb(125, 253, 125);
     --bad: rgb(245, 89, 89);
     --red: rgb(235, 105, 78);
-    --blue: rgb(152, 133, 245);
+    --blue: rgb(121, 183, 255);
     --yellow: rgb(254, 234, 131);
     --purple: rgb(170, 142, 245);
     --orange: rgb(248, 192, 147);
-    --main-filter: invert(6%) sepia(49%) saturate(4142%) hue-rotate(333deg) brightness(103%) contrast(92%);
+    --burn-filter: invert(6%) sepia(49%) saturate(4142%) hue-rotate(333deg) brightness(103%) contrast(92%);
+    --charcoal-filter: invert(13%) sepia(3%) saturate(7%) hue-rotate(13deg) brightness(94%) contrast(84%);
+    --white-filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
 }
 
 body {
-    background-color: #e493d0;
-    background-image: 
-        radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
-        radial-gradient(closest-side, rgb(213, 133, 245), rgba(243, 11, 164, 0)),
-        radial-gradient(closest-side, rgba(254, 234, 131, 1), rgba(254, 234, 131, 0)),
-        radial-gradient(closest-side, rgb(245, 142, 164), rgba(170, 142, 245, 0)),
-        radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
-    background-size: 
-        130vmax 130vmax,
-        80vmax 80vmax,
-        90vmax 90vmax,
-        110vmax 110vmax,
-        90vmax 90vmax;
-    background-position:
-        -80vmax -80vmax,
-        60vmax -30vmax,
-        10vmax 10vmax,
-        -30vmax -10vmax,
-        50vmax 50vmax;
-    background-repeat: no-repeat;
-    animation: 10s movement linear infinite;
     color: white;
     font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
 }
-
-body::after {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-@keyframes movement {
-    0%, 100% {
-      background-size: 
-        130vmax 130vmax,
-        80vmax 80vmax,
-        90vmax 90vmax,
-        110vmax 110vmax,
-        90vmax 90vmax;
-      background-position:
-        -80vmax -80vmax,
-        60vmax -30vmax,
-        10vmax 10vmax,
-        -30vmax -10vmax,
-        50vmax 50vmax;
-    }
-    25% {
-      background-size: 
-        100vmax 100vmax,
-        90vmax 90vmax,
-        100vmax 100vmax,
-        90vmax 90vmax,
-        60vmax 60vmax;
-      background-position:
-        -60vmax -90vmax,
-        50vmax -40vmax,
-        0vmax -20vmax,
-        -40vmax -20vmax,
-        40vmax 60vmax;
-    }
-    50% {
-      background-size: 
-        80vmax 80vmax,
-        110vmax 110vmax,
-        80vmax 80vmax,
-        60vmax 60vmax,
-        80vmax 80vmax;
-      background-position:
-        -50vmax -70vmax,
-        40vmax -30vmax,
-        10vmax 0vmax,
-        20vmax 10vmax,
-        30vmax 70vmax;
-    }
-    75% {
-      background-size: 
-        90vmax 90vmax,
-        90vmax 90vmax,
-        100vmax 100vmax,
-        90vmax 90vmax,
-        70vmax 70vmax;
-      background-position:
-        -50vmax -40vmax,
-        50vmax -30vmax,
-        20vmax 0vmax,
-        -10vmax 10vmax,
-        40vmax 60vmax;
-    }
-  }
 
 .wrapper {
     background-color: var(--charcoal);
-    opacity: 80%;
+    opacity: 100%;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 0 10px rgba(0,0,0,.5);
@@ -121,7 +34,7 @@ body::after {
 #game-container {
     width: 100vw;
     height: 100vh;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 }
@@ -154,6 +67,7 @@ body::after {
 }
 
 #game-info-wrapper {
+    opacity: 90%;
     margin: 20px;
     border-radius: 20px;
     display: flex;
@@ -245,14 +159,14 @@ body::after {
 }
 
 .empty {
-    background-color: var(--graphite);
+    background-color: white;
     box-shadow: inset 0 0 10px #000000;
 }
 
 .filled {
-    background-color: var(--white);
-    box-shadow: 0px 0px 10px 1px #777777;
-    color: black;
+    background-color: var(--charcoal);
+    box-shadow: 0px 0px 10px 1px var(--charcoal);
+    color: white;
 }
 
 .letter-used {
@@ -275,7 +189,7 @@ body::after {
     margin: 15px 7px 15px 7px;
     line-height: 3.5vw;
     font-size: 2.3vw;
-    color: black;
+    color: white;
 }
 
 .letter-used, .letter-available {
@@ -343,7 +257,7 @@ body::after {
 
 .stroke {
     z-index: 5;
-    filter: var(--main-filter);
+    filter: var(--charcoal-filter);
 }
 
 .emote {
@@ -694,8 +608,7 @@ select {
     display: none;
     height: 60px;
     width: 60px;
-    filter: var(--main-filter);
-    /*filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(196deg) brightness(108%) contrast(100%);*/
+    filter: var(--white-filter);
     position: absolute;
     right: -70px;
     bottom: 0px;
@@ -767,7 +680,8 @@ p#wordChoosen {
     margin: 0;
     text-align: center;
     top: 10vh;
-    color: var(--charcoal);
+    color: white;
+    text-shadow: 1px 1px 2px black;
     font-size: 28pt;
 }
 
@@ -800,7 +714,7 @@ p#wordChoosen {
     z-index: 1;
     width: 50px;
     height: 50px;
-    filter: var(--main-filter);
+    filter: var(--white-filter);
     opacity: 90%;
 }
 
@@ -833,7 +747,7 @@ p#wordChoosen {
 }
 
 #volume-button, #settings-wheel, #pfp-button, #keybinds-button {
-    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(354deg) brightness(102%) contrast(105%);
+    filter: var(--white-filter);
     position: relative;
 }
 
@@ -899,14 +813,14 @@ p#wordChoosen {
 
 #pre-game-waiting {
     font-size: 24pt;
-    color: var(--charcoal);
+    color: white;
     opacity: 80%;
 }
 
 #pre-game-countdown {
     display: none;
     font-size: 64pt;
-    color: var(--charcoal);
+    color: white;
     opacity: 80%;
 }
 
@@ -936,7 +850,7 @@ p#wordChoosen {
 #home-logo {
     width: 400px;
     height: auto;
-    filter: var(--main-filter);
+    filter: var(--white-filter);
 }
 
 select:focus {

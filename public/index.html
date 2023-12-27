@@ -8,10 +8,61 @@
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="world.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.png">
     <title>Grams</title>
 </head>
 <body>
+    <div id="world">
+        <div id="fill">
+        </div>
+        <div id="sunrise" class="sky">
+        </div>
+        <div id="day" class="sky">
+        </div>
+        <div id="sunset" class="sky">
+        </div>
+        <div id="night" class="sky">
+        </div>
+        <div id="orbit-wrapper">
+            <div id="orbit">
+                <div id="sun" class="orbital">
+                </div>
+                <div id="moon" class="orbital">
+                </div>
+            </div>
+        </div>
+        <div id="mountains-wrapper">
+            <div id="mountains-container">
+                <div id="mountains-close" class="range">
+                    <div class="mountain" id="m-c-1"></div>
+                    <div class="mountain" id="m-c-2"></div>
+                    <div class="mountain" id="m-c-3"></div>
+                </div>
+                <div id="mountains-mid" class="range">
+                    <div class="mountain" id="m-m-1"></div>
+                    <div class="mountain" id="m-m-2"></div>
+                    <div class="mountain" id="m-m-3"></div>
+                    <div class="mountain" id="m-m-4"></div>
+                </div>
+                <div id="mountains-far" class="range">
+                    <div class="mountain" id="m-f-1"></div>
+                    <div class="mountain" id="m-f-2"></div>
+                    <div class="mountain" id="m-f-3"></div>
+                    <div class="mountain" id="m-f-4"></div>
+                    <div class="mountain" id="m-f-5"></div>
+                </div>
+                <div id="mountains-super-far" class="range">
+                    <div class="mountain" id="m-sf-1"></div>
+                    <div class="mountain" id="m-sf-2"></div>
+                    <div class="mountain" id="m-sf-3"></div>
+                    <div class="mountain" id="m-sf-4"></div>
+                </div>
+            </div>
+        </div>
+        <div id="stars-wrapper">
+        </div>
+    </div>
     <div id="home-container">
         <div id="home-wrapper">
             <div id="home-header-wrapper">
@@ -140,6 +191,7 @@
     <img src="icons/leave.svg" id="leave" class="icon">
     <script src="https://cdn.jsdelivr.net/npm/@simondmc/popup-js@1.4.2/popup.min.js"></script>
     <script type= "module" src="/index.js"></script>
+    <script type="text/javascript" src="world.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </body>
 </html>
