@@ -708,7 +708,7 @@ p#wordChoosen {
     margin: 0;
     font-size: 72pt;
     color: var(--charcoal);
-    opacity: 80%;
+    opacity: 100%;
 }
 
 .icon {
@@ -716,7 +716,6 @@ p#wordChoosen {
     width: 50px;
     height: 50px;
     filter: var(--white-filter);
-    opacity: 90%;
 }
 
 #leave {
@@ -742,7 +741,6 @@ p#wordChoosen {
     padding: 10px;
     border-radius: 20px;
     background: var(--charcoal);
-    opacity: 80%;
     transition: all .5s ease-in-out;
     height: 50px;
 }
@@ -815,14 +813,12 @@ p#wordChoosen {
 #pre-game-waiting {
     font-size: 24pt;
     color: white;
-    opacity: 80%;
 }
 
 #pre-game-countdown {
     display: none;
     font-size: 64pt;
     color: white;
-    opacity: 80%;
 }
 
 #connection-wrapper {
