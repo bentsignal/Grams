@@ -22,6 +22,7 @@ const { validName } = require("./utils")
 
 // game init
 let game = new Game()
+let timer = 0
 game.init(cfg.CHOOSE, cfg.ALLOW)
 
 try {
@@ -150,10 +151,13 @@ try {
                         console.log(`setting ${game.players[0].name} (${game.host}) to be new host`)
                     }
                     else {
-                        console.log("no players left, removing host data")
+                        console.log("no players left, resetting game")
                         game.host = ""
                         game.endGame()
                         game.resetGame()
+                        if (timer != 0) {
+                            clearInterval(timer)
+                        }
                     }
                 }
                 pfpLoadAvailable()
@@ -280,7 +284,7 @@ try {
 
             const startTimer = (s) => {
                 let i = 0
-                const timer = setInterval(() => {
+                timer = setInterval(() => {
                     if (i >= s) {
                         clearInterval(timer)
                         endGame()

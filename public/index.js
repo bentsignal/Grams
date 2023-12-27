@@ -130,7 +130,7 @@ const declinedAnimation = () => {
     }
     setTimeout(() => {
         for (let i = 0; i < empty.length; i++) {
-            empty[i].style.backgroundColor = "var(--purple)"
+            empty[i].style.backgroundColor = "white"
         }
     }, 500)
 }
