@@ -16,7 +16,7 @@
   </a>
 
   <h3 align="center">Grams</h3>
-  <a href="https://www.grams.live" target="_blank"><h4 align="center" style="margin-bottom:20px;">grams.live</h4></a>
+  <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank">grams.live</a></h4>
 
   <p align="center">
     Created by Shawn Rodgers</a>
