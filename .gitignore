@@ -12,3 +12,6 @@ dockerfile
 fly.toml
 .github
 .dockerignore
+public/sounds
+public/images
+public/assets
