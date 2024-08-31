@@ -1,20 +1,22 @@
 const express = require("express")
 const { readFileSync } = require("fs")
-const { createServer } = require("https")
+const { createServer } = require("http")
 const { Server } = require("socket.io")
 const cfg = require("./cfg.json")
 
 // server init
 const app = express()
-const httpsServer = createServer({
-    key: readFileSync("./src/ssl/private.key"),
-    cert: readFileSync("./src/ssl/certificate.crt")
-}, app)
-const io = new Server(httpsServer)
+const httpServer = createServer(
+    // {
+    //     key: readFileSync("./src/ssl/private.key"),
+    //     cert: readFileSync("./src/ssl/certificate.crt")
+    // }, 
+    app)
+const io = new Server(httpServer)
 
 // start server
 app.use(express.static("public"))
-httpsServer.listen(cfg.PORT)
+httpServer.listen(cfg.PORT)
 
 // game imports
 const Game = require("./game")
@@ -27,9 +29,9 @@ game.init(cfg.CHOOSE, cfg.ALLOW)
 
 try {
 
-    io.engine.on("connection", rawSocket => {
-        rawSocket.peerCertificate = rawSocket.request.client.getPeerCertificate()
-    })
+    // io.engine.on("connection", rawSocket => {
+    //     rawSocket.peerCertificate = rawSocket.request.client.getPeerCertificate()
+    // })
 
     io.on("connection", socket => {
 

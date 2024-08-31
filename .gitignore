@@ -7,3 +7,8 @@ src/logs/*
 design
 src/ssl/*
 !src/ssl/README.md
+.dockerimage
+dockerfile
+fly.toml
+.github
+.dockerignore
