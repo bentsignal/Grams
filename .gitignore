@@ -13,5 +13,5 @@ fly.toml
 .github
 .dockerignore
 public/sounds
-public/images
+public/icons
 public/assets
