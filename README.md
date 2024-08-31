@@ -42,14 +42,14 @@ This is not a very serious project. I thought of it while talking with the two p
 
 ## Demo
 
-You can view a video demo of the project <a href="" target="_blank">here</a>.
+To try the game out for yourself: 
 
-The demo is split into 3 time stamped chapters
-* Overview 
-* Technical details
-* Gameplay
-
-
+* Navigate to <a href="https://www.grams.live" target="_blank">grams.live</a>
+* Type in a username and hit enter on your keyboard
+* If you would like to play with a friend, have them do the same. Or play a solo game.
+* On the center right, hit play whenever you are ready
+* When the countdown completes, start creating words based on the letters at the bottom of your screen
+* Enjoy!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
