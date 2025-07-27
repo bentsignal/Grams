@@ -15,7 +15,7 @@
     <img src="images/home.png" alt="Logo" width="500px">
   </a>
 
-  <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank" disabled>grams.live (down for the foreseeable future)</a></h4>
+  <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank" disabled><span style="text-decoration: strike-through">grams.live</span> (down for the foreseeable future)</a></h4>
 </div>
 
 <h2>Table of Contents</h2>
@@ -84,7 +84,7 @@ me@bentsignal.com
 [contributors-shield]: https://img.shields.io/github/contributors/bentsignal/Grams.svg?style=for-the-badge
 [contributors-url]: https://github.com/bentsignal/Grams/graphs/contributors
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/bentsignal/Grams/LICENSE.txt
+[license-url]: https://github.com/bentsignal/Grams/LICENSE
 [forks-shield]: https://img.shields.io/github/forks/bentsignal/Grams.svg?style=for-the-badge
 [forks-url]: https://github.com/bentsignal/Grams/network/members
 [stars-shield]: https://img.shields.io/github/stars/bentsignal/Grams.svg?style=for-the-badge
