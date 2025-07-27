@@ -16,6 +16,7 @@
   </a>
 
   <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank">grams.live</a></h4>
+</div>
 
 <h2>About the Project</h2>
 
