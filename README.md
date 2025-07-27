@@ -15,15 +15,7 @@
     <img src="images/home.png" alt="Logo" width="500px">
   </a>
 
-  <h3 align="center">Grams</h3>
   <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank">grams.live</a></h4>
-
-  <p align="center">
-    Created by Shawn Rodgers</a>
-    <br />
-    <br />
-  </p>
-</div>
 
 <h2>About the Project</h2>
 
@@ -61,13 +53,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-### Shawn
+me@bentsignal.com
 
-Mail - me@directedbyshawn.com
+[bentsignal.com](https://www.bentsignal.com)
 
-Website - [directedbyshawn.com](https://www.directedbyshawn.com)
-
-LinkedIn - [linkedin.com/in/directedbyshawn](https://www.linkedin.com/in/directedbyshawn)
+[linkedin.com/in/bentsignal](https://www.linkedin.com/in/bentsignal)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -81,7 +71,7 @@ LinkedIn - [linkedin.com/in/directedbyshawn](https://www.linkedin.com/in/directe
 
 
 ### Credit
-* Emote & Profile Picture Illustration: Ben Holzman
+* Character design & illustration: Ben Holzman
     - <a href="https://benholzman3.wixsite.com/bennett-holzman" target="_blank">Website</a>
     - <a href="mailto://benholzman@comcast.net" target="_blank">Email</a>
     - <a href="https://www.instagram.com/nett_" target="_blank">Instagram</a>
@@ -92,15 +82,15 @@ LinkedIn - [linkedin.com/in/directedbyshawn](https://www.linkedin.com/in/directe
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/directedbyshawn/Grams.svg?style=for-the-badge
-[contributors-url]: https://github.com/directedbyshawn/Grams/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/bentsignal/Grams.svg?style=for-the-badge
+[contributors-url]: https://github.com/bentsignal/Grams/graphs/contributors
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/directedbyshawn/Grams/LICENSE.txt
-[forks-shield]: https://img.shields.io/github/forks/directedbyshawn/Grams.svg?style=for-the-badge
-[forks-url]: https://github.com/directedbyshawn/Grams/network/members
-[stars-shield]: https://img.shields.io/github/stars/directedbyshawn/Grams.svg?style=for-the-badge
-[stars-url]: https://github.com/directedbyshawn/Grams/stargazers
-[issues-shield]: https://img.shields.io/github/issues/directedbyshawn/Grams.svg?style=for-the-badge
-[issues-url]: https://github.com/directedbyshawn/Grams/issues
+[license-url]: https://github.com/bentsignal/Grams/LICENSE.txt
+[forks-shield]: https://img.shields.io/github/forks/bentsignal/Grams.svg?style=for-the-badge
+[forks-url]: https://github.com/bentsignal/Grams/network/members
+[stars-shield]: https://img.shields.io/github/stars/bentsignal/Grams.svg?style=for-the-badge
+[stars-url]: https://github.com/bentsignal/Grams/stargazers
+[issues-shield]: https://img.shields.io/github/issues/bentsignal/Grams.svg?style=for-the-badge
+[issues-url]: https://github.com/bentsignal/Grams/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/directedbyshawn
+[linkedin-url]: https://linkedin.com/in/bentsignal
