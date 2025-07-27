@@ -8,7 +8,7 @@
     <img src="images/home.png" alt="Logo" width="500px">
   </a>
 
-  <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank" disabled><span style="text-decoration: line-through">grams.live</span> (down for the foreseeable future)</a></h4>
+  <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank" disabled><strike>grams.live</strike> (down for the foreseeable future)</a></h4>
 </div>
 
 <h2>Table of Contents</h2>
