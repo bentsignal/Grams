@@ -18,7 +18,15 @@
   <h4 align="center" style="margin-bottom:20px;"><a href="https://www.grams.live" target="_blank">grams.live</a></h4>
 </div>
 
-<h2>About the Project</h2>
+<h2>Table of Contents</h2>
+
+- [Overview](#overview)
+- [Demo](#demo)
+- [License[#license]
+- [Contact](#contact)
+- [Credits](#credits)
+
+<h2>Overview</h2>
 
 <br />
 <div align="center">
@@ -62,23 +70,13 @@ me@bentsignal.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Resources & Credit
-
-### Dependencies
-* [node.js](https://nodejs.org)
-* [express.js](https://expressjs.com/)
-* [socket.io](https://socket.io/)
-* [popup-js](https://popup.js.org/)
-
-
-### Credit
+## Credits
 * Character design & illustration: Ben Holzman
     - <a href="https://benholzman3.wixsite.com/bennett-holzman" target="_blank">Website</a>
     - <a href="mailto://benholzman@comcast.net" target="_blank">Email</a>
     - <a href="https://www.instagram.com/nett_" target="_blank">Instagram</a>
 * Music: <a href="https://www.youtube.com/watch?v=f2XLCNaxnzE" target="_blank">George Street Shuffle - Kevin Macleod</a>
 * Icons: <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
